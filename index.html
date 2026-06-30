@@ -1,1 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CastAmplify | The Global Creator Infrastructure Company</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* THEME ENGINE */
+        :root { --tr: cubic-bezier(0.25, 0.1, 0.25, 1); }
+        [data-theme="dark"] { --bg: #050505; --bg2: #0a0a0a; --tx: #ededed; --tx2: #888; --bd: rgba(255,255,255,0.08); --ac: #5046e5; --sc: #10b981; }
+        [data-theme="light"] { --bg: #ffffff; --bg2: #f4f4f5; --tx: #111111; --tx2: #666666; --bd: rgba(0,0,0,0.08); --ac: #5046e5; --sc: #059669; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tx); -webkit-font-smoothing: antialiased; transition: background 0.3s, color 0.3s; line-height: 1.6; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+        header { position: fixed; top: 0; width: 100%; background: rgba(5,5,5,0.9); backdrop-filter: blur(20px); z-index: 1000; border-bottom: 1px solid var(--bd); transition: background 0.3s; }
+        [data-theme="light"] header { background: rgba(255,255,255,0.9); }
+        nav { max-width: 1100px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+        .logo { font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .logo-icon { width: 24px; height: 24px; background: var(--ac); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-size: 11px; font-weight: 800; }
+        .nav-right { display: flex; gap: 12px; align-items: center; }
+        .btn-theme, .btn-nav { border: 1px solid var(--bd); background: transparent; color: var(--tx); padding: 8px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s; }
+        .btn-nav { background: var(--tx); color: var(--bg); border: none; }
+        section { padding: 120px 24px; border-bottom: 1px solid var(--bd); transition: background 0.3s; }
+        .label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--ac); margin-bottom: 16px; display: block; }
+        h1 { font-size: clamp(36px, 6vw, 64px); font-weight: 800; line-height: 1.05; letter-spacing: -2px; margin-bottom: 24px; }
+        h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; }
+        .sub { font-size: 18px; color: var(--tx2); max-width: 600px; margin-bottom: 40px; }
+        .grid { display: grid; gap: 24px; }
+        .g4 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+        .card { background: var(--bg2); border: 1px solid var(--bd); border-radius: 16px; padding: 32px; transition: transform 0.2s, background 0.3s; }
+        .card:hover { transform: translateY(-4px); }
+        .card h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+        .card p { font-size: 14px; color: var(--tx2); }
+        .stats { display: grid; grid-template-columns: repeat(5, 1fr); max-width: 1000px; margin: 80px auto 0; border-top: 1px solid var(--bd); border-bottom: 1px solid var(--bd); }
+        .stat { padding: 24px; text-align: center; border-right: 1px solid var(--bd); }
+        .stat:last-child { border-right: none; }
+        .stat-num { font-size: 32px; font-weight: 800; letter-spacing: -1px; }
+        .stat-lab { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--tx2); margin-top: 4px; }
+        .phase { border-left: 4px solid var(--ac); padding-left: 24px; margin-bottom: 48px; }
+        .phase h4 { font-size: 16px; font-weight: 700; color: var(--ac); margin-bottom: 8px; }
+        .phase p { font-size: 14px; color: var(--tx2); }
+        footer { padding: 3rem 24px; text-align: center; border-top: 1px solid var(--bd); font-size: 12px; color: var(--tx2); text-transform: uppercase; letter-spacing: 1px; }
 
+        /* DASHBOARD & MODAL */
+        .screen { display: none; min-height: 100vh; }
+        .screen.active { display: block; }
+        .modal-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 2000; display: none; justify-content: center; align-items: center; }
+        .modal-bg.active { display: flex; }
+        .modal { background: var(--bg2); border: 1px solid var(--bd); border-radius: 16px; padding: 40px; width: 90%; max-width: 400px; }
+        .modal h2 { font-size: 24px; margin-bottom: 8px; }
+        .modal p { font-size: 14px; color: var(--tx2); margin-bottom: 24px; }
+        .fg { margin-bottom: 16px; }
+        .fg label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+        .fg input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--bd); background: var(--bg); color: var(--tx); font-family: inherit; font-size: 14px; outline: none; }
+        .btn-full { width: 100%; padding: 14px; background: var(--ac); color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 15px; cursor: pointer; margin-top: 8px; font-family: inherit; }
+        .dash-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--bd); background: var(--bg2); padding: 0 24px; }
+        .dtab { padding: 20px 24px; font-size: 14px; font-weight: 500; color: var(--tx2); border-bottom: 2px solid transparent; cursor: pointer; }
+        .dtab.active { color: var(--tx); border-bottom-color: var(--ac); }
+        .dash-content { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+        .g3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-bottom: 40px; }
+        .big-stat { font-size: 48px; font-weight: 800; letter-spacing: -2px; color: var(--sc); }
+        .ai-ticker { background: var(--bg2); border: 1px solid var(--bd); border-radius: 12px; padding: 24px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+        .pbar { width: 150px; }
+        .pbar p { font-size: 12px; margin-bottom: 6px; font-weight: 600; display: flex; justify-content: space-between; }
+        .bar { width: 100%; height: 6px; background: var(--bd); border-radius: 3px; overflow: hidden; }
+        .fill { height: 100%; background: var(--ac); width: 0%; transition: width 1s; }
+        .tab-c { display: none; }
+        .tab-c.active { display: block; }
+    </style>
+</head>
+<body>
+
+    <!-- LANDING PAGE -->
+    <div id="landing" class="screen active">
+        <header>
+            <nav>
+                <div class="logo"><div class="logo-icon">CA</div> CastAmplify</div>
+                <div class="nav-right">
+                    <button class="btn-theme" id="themeBtn">Light mode</button>
+                    <button class="btn-nav" id="openModal">Start free for 30 days</button>
+                </div>
+            </nav>
+        </header>
+        <section style="text-align: center; padding-top: 140px;">
+            <span class="label">The Global Creator Infrastructure Company</span>
+            <h1>The Mothership for the world's most influential voices.</h1>
+            <p class="sub" style="margin: 0 auto 40px;">8 pillars. 102 channels. 233 languages. One contract. Built to make agencies obsolete.</p>
+            <button class="btn-nav" style="padding: 14px 32px; font-size: 16px;" id="openModalHero">Activate Mothership</button>
+            <div class="stats">
+                <div class="stat"><div class="stat-num">190+</div><div class="stat-lab">Markets</div></div>
+                <div class="stat"><div class="stat-num">233</div><div class="stat-lab">Languages</div></div>
+                <div class="stat"><div class="stat-num">102</div><div class="stat-lab">Channels</div></div>
+                <div class="stat"><div class="stat-num">8</div><div class="stat-lab">Pillars</div></div>
+                <div class="stat"><div class="stat-num">100%</div><div class="stat-lab">AI Back Office</div></div>
+            </div>
+        </section>
+        <section>
+            <div class="container">
+                <span class="label">The 8 Pillars</span>
+                <h2>Every voice that shapes public conversation.</h2>
+                <div class="grid g4" style="margin-top: 48px;">
+                    <div class="card"><h3>🎙️ Distribution</h3><p>102 channels automated. Apple, Spotify, YouTube, TikTok.</p></div>
+                    <div class="card"><h3>🤖 AI Engine</h3><p>100% AI operations. Claude API integration.</p></div>
+                    <div class="card"><h3>🌍 Translation</h3><p>DeepL hybrid. 233 languages processed automatically.</p></div>
+                    <div class="card"><h3>💰 Monetisation</h3><p>Stripe & Paddle. Subscriptions, ads, creator payouts.</p></div>
+                    <div class="card"><h3>📺 Media Hosting</h3><p>Mux & Cloudflare. Podcast RSS, video streaming.</p></div>
+                    <div class="card"><h3>📈 Growth OS</h3><p>Pinecone AI. Automated workflows via Make.com.</p></div>
+                    <div class="card"><h3>🏢 Infrastructure</h3><p>Cloudflare CDN. 190+ countries. Zero lag.</p></div>
+                    <div class="card"><h3>🎓 Academy</h3><p>Masterclasses on scaling and AI back-office usage.</p></div>
+                </div>
+            </div>
+        </section>
+        <section style="background: var(--bg2);">
+            <div class="container">
+                <span class="label">Platform Architecture</span>
+                <h2>Built for Fortune 500 scale.</h2>
+                <div class="grid g3" style="margin-top: 48px;">
+                    <div class="card"><h3 style="color:var(--ac)">Frontend (Next.js)</h3><p>Dashboard, player, studio, multilingual UI.</p></div>
+                    <div class="card"><h3 style="color:var(--ac)">Core Services</h3><p>API Gateway, Auth, Claude AI, DeepL, Ayrshare.</p></div>
+                    <div class="card"><h3 style="color:var(--ac)">Infrastructure</h3><p>Cloudflare CDN, PostgreSQL, Redis, AWS S3.</p></div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="container">
+                <span class="label">Scaling Roadmap</span>
+                <h2>From MVP to Global Enterprise.</h2>
+                <div style="margin-top: 48px;">
+                    <div class="phase"><h4>Phase 1: Foundation</h4><p>Website + Stripe + Buzzsprout. 5 platforms.</p></div>
+                    <div class="phase"><h4>Phase 2: Growth</h4><p>Claude AI + 30 languages. Video streaming. 30 platforms.</p></div>
+                    <div class="phase"><h4>Phase 3: Scale</h4><p>233 languages. 102 platforms. Pinecone AI. Ad monetisation.</p></div>
+                    <div class="phase"><h4>Phase 4: Enterprise</h4><p>White-label. Mobile apps. Custom API access.</p></div>
+                </div>
+            </div>
+        </section>
+        <footer>CastAmplify Ltd — Registered in Zimbabwe, UK, China, USA, Russia, India, and Palestine</footer>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal-bg" id="modal">
+        <div class="modal">
+            <h2>Initialize Command Center</h2>
+            <p>30 days free. No credit card.</p>
+            <form id="signupForm">
+                <div class="fg"><label>Name</label><input type="text" id="iName" required></div>
+                <div class="fg"><label>Email</label><input type="email" id="iEmail" required></div>
+                <button type="submit" class="btn-full">Launch 30-Day Trial</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard" class="screen">
+        <header style="background: var(--bg2);"><nav><div class="logo"><div class="logo-icon">CA</div> CastAmplify</div><div style="font-size:13px;color:var(--tx2)">Trial: <span style="color:var(--sc);font-weight:600">30 Days</span></div></nav></header>
+        <div class="dash-tabs">
+            <div class="dtab active" data-tab="ov">Command Center</div>
+            <div class="dtab" data-tab="ai">AI Back Office</div>
+        </div>
+        <div class="dash-content tab-c active" id="tab-ov">
+            <h2 style="font-size:24px;margin-bottom:24px">Welcome, <span id="dName">Creator</span></h2>
+            <div class="grid g3">
+                <div class="card"><h3>Revenue (MTD)</h3><div class="big-stat" id="rev">$0.00</div></div>
+                <div class="card"><h3>Downloads</h3><div class="big-stat" id="down">0</div></div>
+                <div class="card"><h3>AI Status</h3><div class="big-stat" style="color:var(--ac);font-size:36px">ACTIVE</div></div>
+            </div>
+            <div class="ai-ticker">
+                <div><strong style="color:var(--sc)">● Live Infrastructure</strong></div>
+                <div class="pbar"><p>Translation <span id="lC">0/233</span></p><div class="bar"><div class="fill" id="lP"></div></div></div>
+                <div class="pbar"><p>Distribution <span id="cC">0/102</span></p><div class="bar"><div class="fill" id="cP"></div></div></div>
+            </div>
+        </div>
+        <div class="dash-content tab-c" id="tab-ai">
+            <h2 style="font-size:24px;margin-bottom:24px">100% AI Back Office</h2>
+            <div class="grid g3">
+                <div class="card"><h3>Auto-Sponsorship</h3><p style="color:var(--tx2)">Matches Fortune 500 ads.</p></div>
+                <div class="card"><h3>Auto-Tax</h3><p style="color:var(--tx2)">Converts 190+ currencies.</p></div>
+                <div class="card"><h3>AI Show Notes</h3><p style="color:var(--tx2)">Generates SEO instantly.</p></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Theme Toggle
+            const html = document.documentElement;
+            const tBtn = document.getElementById('themeBtn');
+            tBtn.addEventListener('click', () => {
+                if(html.getAttribute('data-theme') === 'dark') {
+                    html.setAttribute('data-theme', 'light');
+                    tBtn.innerText = 'Dark mode';
+                } else {
+                    html.setAttribute('data-theme', 'dark');
+                    tBtn.innerText = 'Light mode';
+                }
+            });
+
+            // Modal & Screens
+            const modal = document.getElementById('modal');
+            const landing = document.getElementById('landing');
+            const dash = document.getElementById('dashboard');
+            
+            document.getElementById('openModal').addEventListener('click', () => modal.classList.add('active'));
+            document.getElementById('openModalHero').addEventListener('click', () => modal.classList.add('active'));
+
+            document.getElementById('signupForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                document.getElementById('dName').innerText = document.getElementById('iName').value;
+                modal.classList.remove('active');
+                landing.classList.remove('active');
+                dash.classList.add('active');
+                startAI();
+            });
+
+            // Tabs
+            document.querySelectorAll('.dtab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.dtab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-c').forEach(c => c.classList.remove('active'));
+                    tab.classList.add('active');
+                    document.getElementById(`tab-${tab.dataset.tab}`).classList.add('active');
+                });
+            });
+
+            // AI Logic
+            function startAI() {
+                let rev = 0, down = 1240, l = 0, c = 0;
+                setInterval(() => {
+                    rev += (Math.random() * 2.5); down += Math.floor(Math.random() * 15);
+                    document.getElementById('rev').innerText = `$${rev.toFixed(2)}`;
+                    document.getElementById('down').innerText = down.toLocaleString();
+                }, 2000);
+                setInterval(() => { if(l<233){l+=5;if(l>233)l=233; document.getElementById('lC').innerText=`${l}/233`; document.getElementById('lP').style.width=`${(l/233)*100}%`;} }, 500);
+                setInterval(() => { if(c<102){c+=3;if(c>102)c=102; document.getElementById('cC').innerText=`${c}/102`; document.getElementById('cP').style.width=`${(c/102)*100}%`;} }, 800);
+            }
+        });
+    </script>
+</body>
+</html>
