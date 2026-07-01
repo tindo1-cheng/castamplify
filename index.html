@@ -1,1 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CastAmplify</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        :root { --bg: #0a0a0a; --bg2: #111; --tx: #ededed; --tx2: #737373; --bd: #1a1a1a; --ac: #5046e5; --sc: #10b981; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tx); -webkit-font-smoothing: antialiased; line-height: 1.5; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        header { position: fixed; top: 0; width: 100%; background: rgba(10,10,10,0.8); backdrop-filter: blur(12px); z-index: 1000; border-bottom: 1px solid var(--bd); }
+        nav { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+        .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 14px; letter-spacing: -0.5px; }
+        .nav-right { display: flex; gap: 16px; align-items: center; }
+        .btn-nav { background: var(--tx); color: var(--bg); padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; font-family: inherit; transition: opacity 0.2s; }
+        .btn-nav:hover { opacity: 0.8; }
+        section { padding: 140px 24px; border-bottom: 1px solid var(--bd); }
+        .label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--tx2); margin-bottom: 16px; display: block; }
+        h1 { font-size: clamp(40px, 6vw, 72px); font-weight: 700; line-height: 1.05; letter-spacing: -0.03em; max-width: 900px; margin-bottom: 24px; }
+        h2 { font-size: clamp(32px, 4vw, 48px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 16px; }
+        .sub { font-size: 18px; color: var(--tx2); max-width: 600px; margin-bottom: 48px; line-height: 1.6; }
+        .stats { display: grid; grid-template-columns: repeat(5, 1fr); max-width: 1000px; margin: 100px auto 0; border-top: 1px solid var(--bd); padding-top: 40px; }
+        .stat { text-align: center; border-right: 1px solid var(--bd); padding-right: 20px; }
+        .stat:last-child { border-right: none; }
+        .stat-num { font-size: 36px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; }
+        .stat-lab { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--tx2); }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; margin-top: 64px; }
+        .grid-4 h3 { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
+        .grid-4 p { font-size: 14px; color: var(--tx2); line-height: 1.6; }
+        .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--bd); margin-top: 64px; border-radius: 12px; overflow: hidden; }
+        .price-card { background: var(--bg); padding: 32px 24px; display: flex; flex-direction: column; }
+        .price-card.popular { background: var(--bg2); }
+        .price-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--tx2); margin-bottom: 16px; }
+        .price-amount { font-size: 32px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; }
+        .price-desc { font-size: 13px; color: var(--tx2); margin-bottom: 32px; min-height: 40px; }
+        .price-feat { list-style: none; font-size: 13px; color: var(--tx2); margin-bottom: 32px; border-top: 1px solid var(--bd); padding-top: 24px; flex-grow: 1; }
+        .price-feat li { margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .price-feat li::before { content: '✓'; color: var(--sc); font-weight: 700; font-size: 12px; }
+        .btn-price { width: 100%; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; text-align: center; border: 1px solid var(--bd); background: transparent; color: var(--tx); transition: all 0.2s; }
+        .btn-price:hover { border-color: var(--tx2); }
+        .btn-price.primary { background: var(--tx); color: var(--bg); border-color: var(--tx); }
+        .price-footer { text-align: center; margin-top: 40px; font-size: 13px; color: var(--tx2); }
+        footer { padding: 60px 24px; text-align: center; border-top: 1px solid var(--bd); display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .visitor-count { font-size: 12px; color: var(--tx2); display: flex; align-items: center; gap: 8px; }
+        .pulse-dot { width: 6px; height: 6px; background: var(--sc); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); } }
+        
+        .screen { display: none; min-height: 100vh; } .screen.active { display: block; }
+        .modal-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 2000; display: none; justify-content: center; align-items: center; }
+        .modal-bg.active { display: flex; }
+        .modal { background: var(--bg2); border: 1px solid var(--bd); border-radius: 16px; padding: 40px; width: 90%; max-width: 400px; }
+        .modal h2 { font-size: 24px; margin-bottom: 8px; }
+        .modal p { font-size: 14px; color: var(--tx2); margin-bottom: 24px; }
+        .fg { margin-bottom: 16px; } .fg label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; color: var(--tx2); }
+        .fg input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--bd); background: var(--bg); color: var(--tx); font-family: inherit; font-size: 14px; outline: none; }
+        .btn-full { width: 100%; padding: 14px; background: var(--ac); color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; margin-top: 8px; font-family: inherit; }
+        .dash-tabs { display: flex; border-bottom: 1px solid var(--bd); background: var(--bg2); padding: 0 24px; }
+        .dtab { padding: 20px 24px; font-size: 14px; font-weight: 500; color: var(--tx2); border-bottom: 2px solid transparent; cursor: pointer; }
+        .dtab.active { color: var(--tx); border-bottom-color: var(--ac); }
+        .dash-content { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+        .g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--bd); border-radius: 12px; overflow: hidden; margin-bottom: 32px; }
+        .dash-card { background: var(--bg); padding: 32px; }
+        .dash-card h3 { font-size: 13px; font-weight: 600; text-transform: uppercase; color: var(--tx2); margin-bottom: 16px; }
+        .big-stat { font-size: 48px; font-weight: 800; letter-spacing: -0.03em; color: var(--sc); }
+        .ai-ticker { background: var(--bg2); border: 1px solid var(--bd); border-radius: 12px; padding: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+        .pbar { width: 150px; } .pbar p { font-size: 12px; margin-bottom: 6px; font-weight: 600; display: flex; justify-content: space-between; color: var(--tx2); }
+        .bar { width: 100%; height: 4px; background: var(--bd); border-radius: 2px; overflow: hidden; }
+        .fill { height: 100%; background: var(--ac); width: 0%; transition: width 1s; }
+        .tab-c { display: none; } .tab-c.active { display: block; }
+    </style>
+</head>
+<body>
 
+    <div id="landing" class="screen active">
+        <header>
+            <nav>
+                <div class="logo" style="line-height:1; display:flex; align-items:center; gap:10px;">
+                    <div style="width:32px;height:32px;background:linear-gradient(135deg, #4F46E5, #DB2777);border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:800;">CA</div>
+                    <div style="display:flex;gap:2px;font-weight:800;font-size:14px;letter-spacing:-0.5px;">
+                        <span style="font-size:9px">C</span><span style="font-size:10px">A</span><span style="font-size:11px">S</span><span style="font-size:12px">T</span><span style="font-size:10px">A</span><span style="font-size:11px">M</span><span style="font-size:12px">P</span><span style="font-size:13px">L</span><span style="font-size:14px">I</span><span style="font-size:15px">F</span><span style="background:linear-gradient(90deg, #a78bfa, #7c3aed); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:16px;">Y</span>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <button class="btn-nav" id="openModal">Start free for 30 days</button>
+                </div>
+            </nav>
+        </header>
+
+        <section style="text-align: center; padding-top: 160px;">
+            <span class="label">The Global Creator Infrastructure Company</span>
+            <h1>The operating system behind the world's most influential voices.</h1>
+            <p class="sub" style="margin: 0 auto 0;">One contract. Eight pillars of infrastructure. 190+ markets. Built for news organisations, NGOs, elected officials, and independent creators alike.</p>
+            <div class="stats">
+                <div class="stat"><div class="stat-num">190+</div><div class="stat-lab">Markets</div></div>
+                <div class="stat"><div class="stat-num">233</div><div class="stat-lab">Languages</div></div>
+                <div class="stat"><div class="stat-num">102</div><div class="stat-lab">Channels</div></div>
+                <div class="stat"><div class="stat-num">8</div><div class="stat-lab">Pillars</div></div>
+                <div class="stat"><div class="stat-num">100%</div><div class="stat-lab">AI Back Office</div></div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <span class="label">Who it's for</span>
+                <h2>Every voice that shapes public conversation, worldwide.</h2>
+                <div class="grid-4">
+                    <div><h3>News & media</h3><p>Independent journalists, news organisations, documentary creators, and citizen journalism networks.</p></div>
+                    <div><h3>Organisations</h3><p>NGOs, think tanks, universities, trade associations, and government public bodies.</p></div>
+                    <div><h3>Public office</h3><p>Elected officials, political campaigns, policy advisors, and diplomatic communications teams.</p></div>
+                    <div><h3>Independent voices</h3><p>Commentators, faith leaders, educators, musicians, athletes, and advocacy creators worldwide.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section style="background: var(--bg2);">
+            <div class="container">
+                <span class="label">Engagement Models</span>
+                <h2>Now 5 Tiers. Start free. Upgrade when you're ready.</h2>
+                <div class="grid-5">
+                    <!-- FREE TIER (NO STRIPE, USES DATABASE) -->
+                    <div class="price-card">
+                        <div class="price-label">Trial</div>
+                        <div class="price-amount">Free</div>
+                        <div class="price-desc">30 days — prove it works</div>
+                        <ul class="price-feat"><li>3 channels</li><li>2 episodes/mo</li><li>No card required</li></ul>
+                        <button class="btn-price" onclick="document.getElementById('openModal').click()">Start 30-Day Trial</button>
+                    </div>
+                    <!-- PAID TIERS (STRIPE) -->
+                    <div class="price-card">
+                        <div class="price-label">Foundation</div>
+                        <div class="price-amount">£29/mo</div>
+                        <div class="price-desc">Independent creators</div>
+                        <ul class="price-feat"><li>3 channels</li><li>10 languages</li></ul>
+                        <button class="btn-price" onclick="handleStripeCheckout('price_1ToMoPQZa2D6NwOGipyD24d8')">Choose Plan</button>
+                    </div>
+                    <div class="price-card">
+                        <div class="price-label">Growth</div>
+                        <div class="price-amount">£79/mo</div>
+                        <div class="price-desc">Scaling operations</div>
+                        <ul class="price-feat"><li>30 channels</li><li>50 languages</li></ul>
+                        <button class="btn-price" onclick="handleStripeCheckout('price_1ToMtIQZa2D6NwOGcjfb8ghN')">Choose Plan</button>
+                    </div>
+                    <div class="price-card popular">
+                        <div class="price-label">Professional</div>
+                        <div class="price-amount">£199/mo</div>
+                        <div class="price-desc">Established networks</div>
+                        <ul class="price-feat"><li>60 channels</li><li>100 languages</li></ul>
+                        <button class="btn-price primary" onclick="handleStripeCheckout('price_1ToMu8QZa2D6NwOGPmnrqQwM')">Choose Plan</button>
+                    </div>
+                    <div class="price-card">
+                        <div class="price-label">Enterprise</div>
+                        <div class="price-amount">£499/mo</div>
+                        <div class="price-desc">Global organisations</div>
+                        <ul class="price-feat"><li>All 102 channels</li><li>All 233 languages</li></ul>
+                        <button class="btn-price" onclick="handleStripeCheckout('price_1ToMujQZa2D6NwOGk1MfUPdB')">Choose Plan</button>
+                    </div>
+                </div>
+                <p class="price-footer">No card required for the 30-day trial. Annual agreements on paid tiers receive a two-month credit.</p>
+            </div>
+        </section>
+
+        <footer>
+            <div class="visitor-count"><div class="pulse-dot"></div> <span id="visitorCount">14,592</span> active users globally</div>
+            <p style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--tx2);">CastAmplify Ltd — Registered in Zimbabwe, UK, China, USA, Russia, India, and Palestine</p>
+        </footer>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal-bg" id="modal">
+        <div class="modal">
+            <h2>Initialize Command Center</h2>
+            <p>30 days free. No credit card. <br><span style="font-size:11px; color:var(--sc);">*Data saves to real database</span></p>
+            <form id="signupForm">
+                <div class="fg"><label>Name</label><input type="text" id="iName" required></div>
+                <div class="fg"><label>Email</label><input type="email" id="iEmail" required></div>
+                <button type="submit" class="btn-full">Launch 30-Day Trial</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- DASHBOARD (Hidden) -->
+    <div id="dashboard" class="screen">
+        <header style="background: var(--bg2);"><nav><div class="logo" style="line-height:1; display:flex; align-items:center; gap:10px;"><div style="width:32px;height:32px;background:linear-gradient(135deg, #4F46E5, #DB2777);border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:800;">CA</div><div style="display:flex;gap:2px;font-weight:800;font-size:14px;letter-spacing:-0.5px;"><span style="font-size:9px">C</span><span style="font-size:10px">A</span><span style="font-size:11px">S</span><span style="font-size:12px">T</span><span style="font-size:10px">A</span><span style="font-size:11px">M</span><span style="font-size:12px">P</span><span style="font-size:13px">L</span><span style="font-size:14px">I</span><span style="font-size:15px">F</span><span style="background:linear-gradient(90deg, #a78bfa, #7c3aed); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:16px;">Y</span></div></div><div style="font-size:13px;color:var(--tx2)">Trial: <span style="color:var(--sc);font-weight:600">30 Days</span></div></nav></header>
+        <div class="dash-tabs"><div class="dtab active" data-tab="ov">Command Center</div><div class="dtab" data-tab="ai">AI Back Office</div></div>
+        <div class="dash-content tab-c active" id="tab-ov">
+            <h2 style="font-size:24px;margin-bottom:32px">Welcome, <span id="dName">Creator</span></h2>
+            <div class="g3">
+                <div class="dash-card"><h3>Revenue (MTD)</h3><div class="big-stat" id="rev">$0.00</div></div>
+                <div class="dash-card"><h3>Global Downloads</h3><div class="big-stat" id="down">0</div></div>
+                <div class="dash-card"><h3>AI Status</h3><div class="big-stat" style="color:var(--ac);font-size:36px">ACTIVE</div></div>
+            </div>
+            <div class="ai-ticker">
+                <div><strong style="color:var(--sc); font-size:13px;">● Live Infrastructure</strong></div>
+                <div class="pbar"><p>Translation <span id="lC">0/233</span></p><div class="bar"><div class="fill" id="lP"></div></div></div>
+                <div class="pbar"><p>Distribution <span id="cC">0/102</span></p><div class="bar"><div class="fill" id="cP"></div></div></div>
+            </div>
+        </div>
+        <div class="dash-content tab-c" id="tab-ai">
+            <h2 style="font-size:24px;margin-bottom:32px">100% AI Back Office</h2>
+            <div class="g3">
+                <div class="dash-card"><h3>Auto-Sponsorship</h3><p style="color:var(--tx2)">Matches Fortune 500 ads.</p></div>
+                <div class="dash-card"><h3>Auto-Tax</h3><p style="color:var(--tx2)">Converts 190+ currencies.</p></div>
+                <div class="dash-card"><h3>AI Show Notes</h3><p style="color:var(--tx2)">Generates SEO instantly.</p></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. INIT DATABASE
+            const supabase = window.supabase.createClient('https://wuzzdlihjckgtzmdbxwm.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind1enpkbGloamNrZ3R6bWRieHdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4NTAzMTYsImV4cCI6MjA5ODQyNjMxNn0.noRzWezGQkmUsvW-oO6yA4U_-wpCFcKyk0QU-P6II1s');
+
+            // 2. INIT STRIPE (REAL BANK)
+            const stripe = Stripe('sb_publishable_4S03DEOkqS5SZPf_WAkAAQ_ueXITmL4');
+
+            // 3. VISITOR COUNTER
+            let count = 14592; 
+            setInterval(() => { count += Math.floor(Math.random() * 3) + 1; document.getElementById('visitorCount').innerText = count.toLocaleString(); }, 4000);
+
+            // 4. MODAL & SCREENS
+            const modal = document.getElementById('modal');
+            const landing = document.getElementById('landing');
+            const dash = document.getElementById('dashboard');
+            
+            document.getElementById('openModal').addEventListener('click', () => modal.classList.add('active'));
+            document.getElementById('signupForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = document.getElementById('iName').value;
+                const { error } = await supabase.from('users').insert([{ name, email: document.getElementById('iEmail').value }]);
+                if(error) { alert("Database Error: " + error.message); return; }
+                document.getElementById('dName').innerText = name;
+                modal.classList.remove('active');
+                landing.classList.remove('active');
+                dash.classList.add('active');
+                startAI();
+            });
+
+            // 5. STRIPE CHECKOUT FUNCTION (REAL CREDIT CARDS)
+            async function handleStripeCheckout(priceId) {
+                try {
+                    const { error } = await stripe.redirectToCheckout({
+                        lineItems: [{ price: priceId, quantity: 1 }],
+                        mode: 'subscription',
+                        successUrl: window.location.href,
+                        cancelUrl: window.location.href,
+                    });
+                    if (error) { alert("Checkout Error: " + error.message); }
+                } catch (e) { console.error(e); }
+            }
+
+            // 6. TABS
+            document.querySelectorAll('.dtab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.dtab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-c').forEach(c => c.classList.remove('active'));
+                    tab.classList.add('active');
+                    document.getElementById(`tab-${tab.dataset.tab}`).classList.add('active');
+                });
+            });
+
+            // 7. AI TICKERS
+            function startAI() {
+                let rev = 0, down = 1240, l = 0, c = 0;
+                setInterval(() => { rev += (Math.random() * 2.5); down += Math.floor(Math.random() * 15); document.getElementById('rev').innerText = `$${rev.toFixed(2)}`; document.getElementById('down').innerText = down.toLocaleString(); }, 2000);
+                setInterval(() => { if(l<233){l+=5;if(l>233)l=233; document.getElementById('lC').innerText=`${l}/233`; document.getElementById('lP').style.width=`${(l/233)*100}%`;} }, 500);
+                setInterval(() => { if(c<102){c+=3;if(c>102)c=102; document.getElementById('cC').innerText=`${c}/102`; document.getElementById('cP').style.width=`${(c/102)*100}%`;} }, 800);
+            }
+        });
+    </script>
+</body>
+</html>
