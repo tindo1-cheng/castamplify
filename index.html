@@ -7,12 +7,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        :root[data-theme="dark"] { --bg: #0a0a0a; --bg2: #111; --tx: #ededed; --tx2: #737373; --bd: #1a1a1a; --ac: #5046e5; --sc: #10b981; --gold: #C9A84C; }
+        :root[data-theme="dark"] { --bg: #0b1220; --bg2: #121c30; --tx: #ededf2; --tx2: #8b96ab; --bd: #1e2a42; --ac: #5046e5; --sc: #10b981; --gold: #C9A84C; }
         :root[data-theme="light"] { --bg: #fafaf9; --bg2: #f2f1ed; --tx: #14181f; --tx2: #4b5563; --bd: #e5e7eb; --ac: #4338ca; --sc: #059669; --gold: #9A7B2E; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tx); -webkit-font-smoothing: antialiased; line-height: 1.5; transition: background 0.3s, color 0.3s; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-        header { position: fixed; top: 0; width: 100%; background: rgba(10,10,10,0.85); backdrop-filter: blur(12px); z-index: 1000; border-bottom: 1px solid var(--bd); transition: background 0.3s; }
+        header { position: fixed; top: 0; width: 100%; background: rgba(11,18,32,0.85); backdrop-filter: blur(12px); z-index: 1000; border-bottom: 1px solid var(--bd); transition: background 0.3s; }
         [data-theme="light"] header { background: rgba(250,250,249,0.85); }
         nav { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
         .logo { display: flex; align-items: center; gap: 10px; }
@@ -367,7 +367,7 @@
             <div class="logo-mark">CA</div>
             <div class="logo-text"><span style="color:var(--tx)">Cast</span><span style="background:linear-gradient(90deg,#a78bfa,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Amplify</span></div>
         </div>
-        <div class="visitor-count"><div class="pulse-dot"></div><span id="visitorCount">14,592</span> creators active globally</div>
+        <div class="visitor-count"><div class="pulse-dot"></div><span>Now onboarding creators across 190+ markets</span></div>
         <p style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--tx2)">CastAmplify Ltd — Registered in England & Wales — A Global Creator Infrastructure Company</p>
     </footer>
 </div>
@@ -546,13 +546,7 @@ document.addEventListener("DOMContentLoaded", function() {
         themeBtn.textContent = isDark ? '☀️ Light' : '🌙 Dark';
     });
 
-    // VISITOR COUNTER
-    let count = 14592;
-    setInterval(() => {
-        count += Math.floor(Math.random() * 3) + 1;
-        const el = document.getElementById('visitorCount');
-        if (el) el.innerText = count.toLocaleString();
-    }, 4000);
+    // (Visitor counter removed — footer now shows an honest onboarding message)
 
     // MODAL OPEN — or straight back to dashboard when already signed in
     const modal = document.getElementById('modal');
@@ -616,13 +610,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // AI TICKERS
     function startAI() {
-        let rev = 0, down = 1240, l = 0, c = 0, a = 0;
-        setInterval(() => {
-            rev += (Math.random() * 1.8);
-            down += Math.floor(Math.random() * 12);
-            document.getElementById('rev').innerText = `£${rev.toFixed(2)}`;
-            document.getElementById('down').innerText = down.toLocaleString();
-        }, 2000);
+        // Revenue and plays show real values only — starting at zero until live tracking is connected
+        document.getElementById('rev').innerText = '£0.00';
+        document.getElementById('down').innerText = '0';
+        let l = 0, c = 0, a = 0;
         const lTimer = setInterval(() => {
             if (l < 233) { l = Math.min(l + 4, 233); document.getElementById('lC').innerText = `${l}/233`; document.getElementById('lP').style.width = `${(l/233)*100}%`; }
             else clearInterval(lTimer);
