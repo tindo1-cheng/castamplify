@@ -152,13 +152,30 @@
         .orb.o2 { width: 300px; height: 300px; background: radial-gradient(circle, #C9A84C, transparent 70%); bottom: -100px; right: -40px; animation-duration: 24s; }
         @keyframes orbfloat { from { transform: translate(0,0) scale(1); } to { transform: translate(40px, 30px) scale(1.12); } }
         @media (prefers-reduced-motion: reduce) {
-            .flag-track, .flag-track.rev, .cw-line, .cw-pulse, .orb { animation: none !important; }
+            .flag-track, .flag-track.rev, .cw-line, .cw-pulse, .orb, .sky-word { animation: none !important; }
         }
+        /* WORD SKY — subtle drifting background words */
+        #wordSky { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+        .sky-word { position: absolute; font-weight: 600; color: var(--tx2); opacity: 0.12; white-space: nowrap; animation: skyDrift linear infinite; bottom: -5vh; }
+        @keyframes skyDrift { from { transform: translateY(0); } to { transform: translateY(-115vh); } }
+        .screen, header, footer { position: relative; z-index: 1; }
+        /* CLICKABLE PILLARS */
+        .cw-hot { cursor: pointer; }
+        .cw-hot:hover { fill: var(--gold); }
+        .card-sm.pillar-click { cursor: pointer; transition: border-color 0.2s; }
+        .card-sm.pillar-click:hover { border-color: var(--gold); }
+        /* ENGINE ROOM */
+        .engine-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 40px; }
+        @media (max-width: 760px) { .engine-grid { grid-template-columns: 1fr; } }
+        .engine-card { border: 1px solid var(--bd); border-radius: 16px; background: var(--bg2); padding: 28px; text-align: center; }
+        .engine-card h3 { margin-bottom: 6px; }
+        .engine-card p { color: var(--tx2); font-size: 14px; }
     </style>
 </head>
 <body>
 
 <!-- LANDING -->
+<div id="wordSky"></div>
 <div id="landing" class="screen active">
     <header>
         <nav>
@@ -201,10 +218,13 @@
             <span class="label">One platform. Every market.</span>
         </div>
         <div class="flag-band">
-            <div class="flag-track" id="flagRow1"></div>
+            <div class="flag-track" id="flagRow1" style="animation-duration:95s"></div>
         </div>
         <div class="flag-band">
-            <div class="flag-track rev" id="flagRow2"></div>
+            <div class="flag-track rev" id="flagRow2" style="animation-duration:105s"></div>
+        </div>
+        <div class="flag-band">
+            <div class="flag-track" id="flagRow3" style="animation-duration:115s"></div>
         </div>
     </section>
 
@@ -352,28 +372,84 @@
                 <circle class="cw-node" cx="380" cy="78" r="6"/><circle class="cw-pulse" cx="380" cy="78" r="14" style="animation-delay:3.6s"/>
                 <circle class="cw-node" cx="592" cy="132" r="6"/><circle class="cw-pulse" cx="592" cy="132" r="14" style="animation-delay:4.2s"/>
                 <!-- pillar labels -->
-                <text class="cw-label" x="680" y="250" text-anchor="middle">Monetisation</text>
-                <text class="cw-label" x="600" y="436" text-anchor="middle">Growth Intelligence</text>
-                <text class="cw-label" x="380" y="492" text-anchor="middle">Creator Academy</text>
-                <text class="cw-label" x="160" y="436" text-anchor="middle">Network</text>
-                <text class="cw-label" x="80" y="250" text-anchor="middle">Compliance</text>
-                <text class="cw-label" x="160" y="112" text-anchor="middle">Global Reach</text>
-                <text class="cw-label" x="380" y="58" text-anchor="middle">Production & Distribution</text>
-                <text class="cw-label" x="600" y="112" text-anchor="middle">AI Intelligence</text>
+                <text class="cw-label cw-hot" onclick="showPillar('monetisation')" x="680" y="250" text-anchor="middle">Monetisation</text>
+                <text class="cw-label cw-hot" onclick="showPillar('growth')" x="600" y="436" text-anchor="middle">Growth Intelligence</text>
+                <text class="cw-label cw-hot" onclick="showPillar('academy')" x="380" y="492" text-anchor="middle">Creator Academy</text>
+                <text class="cw-label cw-hot" onclick="showPillar('network')" x="160" y="436" text-anchor="middle">Network</text>
+                <text class="cw-label cw-hot" onclick="showPillar('compliance')" x="80" y="250" text-anchor="middle">Compliance</text>
+                <text class="cw-label cw-hot" onclick="showPillar('global')" x="160" y="112" text-anchor="middle">Global Reach</text>
+                <text class="cw-label cw-hot" onclick="showPillar('production')" x="380" y="58" text-anchor="middle">Production & Distribution</text>
+                <text class="cw-label cw-hot" onclick="showPillar('ai')" x="600" y="112" text-anchor="middle">AI Intelligence</text>
                 <!-- centre: the creator -->
                 <rect x="290" y="234" width="180" height="72" rx="14" fill="none" stroke="var(--gold)" stroke-width="1.6"/>
                 <text class="cw-sub" x="380" y="262" text-anchor="middle" letter-spacing="3">THE</text>
                 <text class="cw-label" x="380" y="286" text-anchor="middle" style="font-size:19px;fill:var(--gold)">CREATOR</text>
             </svg>
             <div class="grid-3">
-                <div class="card-sm"><h3>🎙️ Production & Distribution</h3><p>102 channels automated. Apple, Spotify, YouTube, TikTok, X, Rumble, and 96 more — published simultaneously.</p></div>
-                <div class="card-sm"><h3>🤖 AI Intelligence Layer</h3><p>100% AI back office. Show notes, scripts, captions, translations — all generated in your voice automatically.</p></div>
-                <div class="card-sm"><h3>🌍 Global Reach</h3><p>DeepL and Google hybrid translation. 233 languages. Your content reaches audiences in every country.</p></div>
-                <div class="card-sm"><h3>💰 Monetisation</h3><p>Stripe subscriptions, dynamic ad insertion, brand marketplace, tip jar, and creator payouts worldwide.</p></div>
-                <div class="card-sm"><h3>📈 Growth Intelligence</h3><p>AI analytics engine. Knows what content works, when to post, and which audience to target next.</p></div>
-                <div class="card-sm"><h3>🎓 Creator Academy</h3><p>126 modules covering everything from recording your first episode to building a six-figure creator business.</p></div>
-                <div class="card-sm"><h3>🤝 Network</h3><p>Cross-promotion matching, partnership introductions, and a verified global community of 190+ country creators.</p></div>
-                <div class="card-sm"><h3>🛡️ Compliance & Protection</h3><p>Identity verification, rights management, GDPR compliance, and IP protection built into every layer.</p></div>
+                <div class="card-sm pillar-click" onclick="showPillar('production')"><h3>🎙️ Production & Distribution</h3><p>102 channels automated. Apple, Spotify, YouTube, TikTok, X, Rumble, and 96 more — published simultaneously.</p></div>
+                <div class="card-sm pillar-click" onclick="showPillar('ai')"><h3>🤖 AI Intelligence Layer</h3><p>100% AI back office. Show notes, scripts, captions, translations — all generated in your voice automatically.</p></div>
+                <div class="card-sm pillar-click" onclick="showPillar('global')"><h3>🌍 Global Reach</h3><p>DeepL and Google hybrid translation. 233 languages. Your content reaches audiences in every country.</p></div>
+                <div class="card-sm pillar-click" onclick="showPillar('monetisation')"><h3>💰 Monetisation</h3><p>Stripe subscriptions, dynamic ad insertion, brand marketplace, tip jar, and creator payouts worldwide.</p></div>
+                <div class="card-sm pillar-click" onclick="showPillar('growth')"><h3>📈 Growth Intelligence</h3><p>AI analytics engine. Knows what content works, when to post, and which audience to target next.</p></div>
+                <div class="card-sm pillar-click" onclick="showPillar('academy')"><h3>🎓 Creator Academy</h3><p>126 modules covering everything from recording your first episode to building a six-figure creator business.</p></div>
+                <div class="card-sm pillar-click" onclick="showPillar('network')"><h3>🤝 Network</h3><p>Cross-promotion matching, partnership introductions, and a verified global community of 190+ country creators.</p></div>
+                <div class="card-sm pillar-click" onclick="showPillar('compliance')"><h3>🛡️ Compliance & Protection</h3><p>Identity verification, rights management, GDPR compliance, and IP protection built into every layer.</p></div>
+            </div>
+            <p style="text-align:center;color:var(--tx2);font-size:13px;margin-top:20px">Tap any pillar — on the web or the cards — to see what's inside.</p>
+        </div>
+    </section>
+
+    <!-- ENGINE ROOM — moving pictures -->
+    <section id="sec-engine">
+        <div class="container">
+            <span class="label">The engine room</span>
+            <h2>Watch the machine work.</h2>
+            <div class="engine-grid">
+                <div class="engine-card">
+                    <svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:320px" role="img" aria-label="Animated broadcast rings radiating from one point to many channels">
+                        <circle cx="160" cy="110" r="7" fill="var(--gold)"/>
+                        <circle cx="160" cy="110" fill="none" stroke="var(--ac)" stroke-width="1.4">
+                            <animate attributeName="r" from="10" to="95" dur="4s" repeatCount="indefinite"/>
+                            <animate attributeName="opacity" from="0.8" to="0" dur="4s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="160" cy="110" fill="none" stroke="var(--ac)" stroke-width="1.4">
+                            <animate attributeName="r" from="10" to="95" dur="4s" begin="1.3s" repeatCount="indefinite"/>
+                            <animate attributeName="opacity" from="0.8" to="0" dur="4s" begin="1.3s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="160" cy="110" fill="none" stroke="var(--gold)" stroke-width="1.4">
+                            <animate attributeName="r" from="10" to="95" dur="4s" begin="2.6s" repeatCount="indefinite"/>
+                            <animate attributeName="opacity" from="0.8" to="0" dur="4s" begin="2.6s" repeatCount="indefinite"/>
+                        </circle>
+                        <text x="50" y="30" class="cw-sub">Spotify</text>
+                        <text x="230" y="30" class="cw-sub">Apple</text>
+                        <text x="22" y="115" class="cw-sub">YouTube</text>
+                        <text x="262" y="115" class="cw-sub">X</text>
+                        <text x="46" y="200" class="cw-sub">TikTok</text>
+                        <text x="150" y="212" class="cw-sub">Rumble</text>
+                        <text x="236" y="200" class="cw-sub">RSS +95</text>
+                    </svg>
+                    <h3>One upload. 102 channels.</h3>
+                    <p>Your episode radiates outward — formatted, captioned, and delivered to every platform at once.</p>
+                </div>
+                <div class="engine-card">
+                    <svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:320px" role="img" aria-label="Animated neural network with signals flowing between layers">
+                        <line class="cw-line" x1="60" y1="55" x2="160" y2="40"/><line class="cw-line" x1="60" y1="55" x2="160" y2="110"/>
+                        <line class="cw-line" x1="60" y1="110" x2="160" y2="110"/><line class="cw-line" x1="60" y1="110" x2="160" y2="180"/>
+                        <line class="cw-line" x1="60" y1="165" x2="160" y2="180"/><line class="cw-line" x1="60" y1="165" x2="160" y2="40"/>
+                        <line class="cw-line" x1="160" y1="40" x2="260" y2="80"/><line class="cw-line" x1="160" y1="110" x2="260" y2="80"/>
+                        <line class="cw-line" x1="160" y1="110" x2="260" y2="145"/><line class="cw-line" x1="160" y1="180" x2="260" y2="145"/>
+                        <circle class="cw-node" cx="60" cy="55" r="6"/><circle class="cw-node" cx="60" cy="110" r="6"/><circle class="cw-node" cx="60" cy="165" r="6"/>
+                        <circle class="cw-node" cx="160" cy="40" r="6"/><circle class="cw-node" cx="160" cy="110" r="6"/><circle class="cw-node" cx="160" cy="180" r="6"/>
+                        <circle class="cw-node" cx="260" cy="80" r="6"/><circle class="cw-node" cx="260" cy="145" r="6"/>
+                        <circle class="cw-pulse" cx="160" cy="110" r="14"/>
+                        <circle class="cw-pulse" cx="260" cy="80" r="14" style="animation-delay:1.5s"/>
+                        <circle class="cw-pulse" cx="60" cy="110" r="14" style="animation-delay:3s"/>
+                        <text x="34" y="200" class="cw-sub">your voice in</text>
+                        <text x="216" y="200" class="cw-sub">growth out</text>
+                    </svg>
+                    <h3>AI & machine learning core.</h3>
+                    <p>A living network that learns your voice, your audience, and what makes them grow.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -537,6 +613,16 @@
     </div>
 </div>
 
+<!-- PILLAR DETAIL MODAL -->
+<div class="modal-bg" id="pillarModal">
+    <div class="modal">
+        <button class="modal-close" onclick="closeModal('pillarModal')">✕</button>
+        <h2 id="plTitle"></h2>
+        <p id="plFact1" style="margin-bottom:14px"></p>
+        <p id="plFact2"></p>
+    </div>
+</div>
+
 <!-- DASHBOARD -->
 <div id="dashboard" class="screen">
     <header style="background:var(--bg2)">
@@ -622,27 +708,80 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // (Visitor counter removed — footer now shows an honest onboarding message)
 
-    // FLAG MARQUEE — deliberately mixed: Africa, West, Asia, Latin America, Middle East, Caribbean, Pacific
-    const flagRow1 = [
-        ['🇿🇼','Zimbabwe'],['🇬🇧','United Kingdom'],['🇯🇵','Japan'],['🇧🇷','Brazil'],
-        ['🇳🇬','Nigeria'],['🇺🇸','United States'],['🇮🇳','India'],['🇲🇽','Mexico'],
-        ['🇰🇪','Kenya'],['🇩🇪','Germany'],['🇸🇬','Singapore'],['🇦🇷','Argentina'],
-        ['🇬🇭','Ghana'],['🇫🇷','France'],['🇰🇷','South Korea'],['🇨🇴','Colombia']
+    // FLAG MARQUEE — every African nation + the connected world, interleaved so regions always mix
+    const REGIONS = [
+        // Africa — all 54
+        [['🇩🇿','Algeria'],['🇦🇴','Angola'],['🇧🇯','Benin'],['🇧🇼','Botswana'],['🇧🇫','Burkina Faso'],['🇧🇮','Burundi'],['🇨🇻','Cabo Verde'],['🇨🇲','Cameroon'],['🇨🇫','Central African Republic'],['🇹🇩','Chad'],['🇰🇲','Comoros'],['🇨🇬','Congo'],['🇨🇩','DR Congo'],['🇨🇮','Côte d\'Ivoire'],['🇩🇯','Djibouti'],['🇪🇬','Egypt'],['🇬🇶','Equatorial Guinea'],['🇪🇷','Eritrea'],['🇸🇿','Eswatini'],['🇪🇹','Ethiopia'],['🇬🇦','Gabon'],['🇬🇲','Gambia'],['🇬🇭','Ghana'],['🇬🇳','Guinea'],['🇬🇼','Guinea-Bissau'],['🇰🇪','Kenya'],['🇱🇸','Lesotho'],['🇱🇷','Liberia'],['🇱🇾','Libya'],['🇲🇬','Madagascar'],['🇲🇼','Malawi'],['🇲🇱','Mali'],['🇲🇷','Mauritania'],['🇲🇺','Mauritius'],['🇲🇦','Morocco'],['🇲🇿','Mozambique'],['🇳🇦','Namibia'],['🇳🇪','Niger'],['🇳🇬','Nigeria'],['🇷🇼','Rwanda'],['🇸🇹','São Tomé & Príncipe'],['🇸🇳','Senegal'],['🇸🇨','Seychelles'],['🇸🇱','Sierra Leone'],['🇸🇴','Somalia'],['🇿🇦','South Africa'],['🇸🇸','South Sudan'],['🇸🇩','Sudan'],['🇹🇿','Tanzania'],['🇹🇬','Togo'],['🇹🇳','Tunisia'],['🇺🇬','Uganda'],['🇿🇲','Zambia'],['🇿🇼','Zimbabwe']],
+        // Europe
+        [['🇬🇧','United Kingdom'],['🇩🇪','Germany'],['🇫🇷','France'],['🇪🇸','Spain'],['🇮🇹','Italy'],['🇳🇱','Netherlands'],['🇸🇪','Sweden'],['🇳🇴','Norway'],['🇩🇰','Denmark'],['🇫🇮','Finland'],['🇮🇪','Ireland'],['🇵🇹','Portugal'],['🇵🇱','Poland'],['🇺🇦','Ukraine'],['🇷🇺','Russia'],['🇨🇭','Switzerland'],['🇬🇷','Greece'],['🇨🇿','Czechia'],['🇷🇴','Romania'],['🇪🇪','Estonia']],
+        // Asia
+        [['🇯🇵','Japan'],['🇰🇷','South Korea'],['🇸🇬','Singapore'],['🇨🇳','China'],['🇮🇳','India'],['🇮🇩','Indonesia'],['🇵🇭','Philippines'],['🇹🇭','Thailand'],['🇻🇳','Vietnam'],['🇲🇾','Malaysia'],['🇵🇰','Pakistan'],['🇧🇩','Bangladesh'],['🇱🇰','Sri Lanka'],['🇰🇿','Kazakhstan'],['🇳🇵','Nepal']],
+        // Americas & Caribbean
+        [['🇺🇸','United States'],['🇨🇦','Canada'],['🇲🇽','Mexico'],['🇧🇷','Brazil'],['🇦🇷','Argentina'],['🇨🇱','Chile'],['🇨🇴','Colombia'],['🇵🇪','Peru'],['🇯🇲','Jamaica'],['🇹🇹','Trinidad & Tobago'],['🇺🇾','Uruguay'],['🇪🇨','Ecuador'],['🇩🇴','Dominican Republic'],['🇧🇸','Bahamas'],['🇧🇧','Barbados']],
+        // Middle East
+        [['🇵🇸','Palestine'],['🇮🇱','Israel'],['🇦🇪','UAE'],['🇸🇦','Saudi Arabia'],['🇶🇦','Qatar'],['🇯🇴','Jordan'],['🇱🇧','Lebanon'],['🇹🇷','Türkiye'],['🇰🇼','Kuwait'],['🇴🇲','Oman'],['🇧🇭','Bahrain'],['🇮🇶','Iraq']],
+        // Oceania
+        [['🇦🇺','Australia'],['🇳🇿','New Zealand'],['🇫🇯','Fiji'],['🇵🇬','Papua New Guinea'],['🇼🇸','Samoa']]
     ];
-    const flagRow2 = [
-        ['🇪🇬','Egypt'],['🇨🇦','Canada'],['🇮🇩','Indonesia'],['🇨🇱','Chile'],
-        ['🇹🇿','Tanzania'],['🇪🇸','Spain'],['🇵🇭','Philippines'],['🇯🇲','Jamaica'],
-        ['🇸🇳','Senegal'],['🇮🇹','Italy'],['🇹🇭','Thailand'],['🇵🇪','Peru'],
-        ['🇷🇼','Rwanda'],['🇳🇱','Netherlands'],['🇦🇪','UAE'],['🇦🇺','Australia']
-    ];
+    // Round-robin interleave: Africa, Europe, Asia, Americas, Middle East, Oceania, repeat
+    const mixedFlags = [];
+    let ri = 0, found = true;
+    while (found) {
+        found = false;
+        for (const region of REGIONS) {
+            if (region[ri]) { mixedFlags.push(region[ri]); found = true; }
+        }
+        ri++;
+    }
+    const third = Math.ceil(mixedFlags.length / 3);
     function fillFlags(rowId, flags) {
         const el = document.getElementById(rowId);
         if (!el) return;
         const pills = flags.map(f => '<div class="flag-pill"><span class="fl">' + f[0] + '</span>' + f[1] + '</div>').join('');
         el.innerHTML = pills + pills; // duplicated for a seamless infinite loop
     }
-    fillFlags('flagRow1', flagRow1);
-    fillFlags('flagRow2', flagRow2);
+    fillFlags('flagRow1', mixedFlags.slice(0, third));
+    fillFlags('flagRow2', mixedFlags.slice(third, third * 2));
+    fillFlags('flagRow3', mixedFlags.slice(third * 2));
+
+    // PILLAR DETAILS — two facts each
+    const PILLAR_INFO = {
+        production: ['🎙️ Production & Distribution', 'Publish once — your episode is automatically formatted and delivered to Apple, Spotify, YouTube, TikTok, X, Rumble and 96 more channels simultaneously.', 'Scheduling, show art, episode pages and RSS feeds are all generated and maintained for you.'],
+        ai: ['🤖 AI Intelligence Layer', 'Show notes, scripts, captions, titles and translations generated automatically — in your voice, not a robot\'s.', 'A 10-role AI back office works on your show around the clock: producer, editor, marketer, analyst and more.'],
+        global: ['🌍 Global Reach', 'Hybrid DeepL + Google translation carries your content into 233 languages.', 'Region-aware publishing means your episodes land correctly in every one of 190+ markets.'],
+        monetisation: ['💰 Monetisation', 'Stripe subscriptions, dynamic ad insertion, a brand marketplace and a listener tip jar — switched on from one dashboard.', 'Creator payouts worldwide with transparent reporting, so you always know what you\'ve earned and why.'],
+        growth: ['📈 Growth Intelligence', 'AI analytics that learn what works for your show — which content, which timing, which audience.', 'A weekly growth report lands every Monday with concrete next actions, not just charts.'],
+        academy: ['🎓 Creator Academy', '126 modules covering the full journey — from recording your very first episode to running a six-figure creator business.', 'Templates, checklists and walkthroughs for every stage, so you never face a blank page.'],
+        network: ['🤝 Network', 'Cross-promotion matching connects you with verified creators across 190+ markets.', 'AI-curated partnership and sponsorship introductions that fit your niche and audience size.'],
+        compliance: ['🛡️ Compliance & Protection', 'Identity verification, rights management and IP protection built into every layer of the platform.', 'Privacy-first data handling designed to meet the world\'s strictest data-protection standards.']
+    };
+    window.showPillar = function(key) {
+        const info = PILLAR_INFO[key];
+        if (!info) return;
+        document.getElementById('plTitle').textContent = info[0];
+        document.getElementById('plFact1').textContent = info[1];
+        document.getElementById('plFact2').textContent = info[2];
+        document.getElementById('pillarModal').classList.add('active');
+    };
+    const plm = document.getElementById('pillarModal');
+    plm.addEventListener('click', (e) => { if (e.target === plm) plm.classList.remove('active'); });
+
+    // WORD SKY — small drifting background words
+    const SKY_WORDS = ['network','compliance','monetisation','growth','English','French','Swahili','Venda','Shona','Ndebele','Arabic','Hindi','Spanish','Portuguese','Mandarin','Zulu','Yoruba','Hausa','Amharic','X','Rumble','YouTube','Spotify','Apple Podcasts','TikTok','Telegram','RSS','190+ markets','233 languages','102 channels','8 pillars','AI','machine learning','creators','podcast','distribution','analytics','academy'];
+    const sky = document.getElementById('wordSky');
+    if (sky) {
+        SKY_WORDS.forEach((w, i) => {
+            const el = document.createElement('span');
+            el.className = 'sky-word';
+            el.textContent = w;
+            el.style.left = ((i * 61) % 97) + '%';
+            el.style.fontSize = (11 + (i % 4) * 2) + 'px';
+            const dur = 70 + (i % 7) * 12;
+            el.style.animationDuration = dur + 's';
+            el.style.animationDelay = '-' + ((i * 13) % dur) + 's';
+            sky.appendChild(el);
+        });
+    }
 
     // MODAL OPEN — or straight back to dashboard when already signed in
     const modal = document.getElementById('modal');
