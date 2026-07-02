@@ -471,7 +471,11 @@
                 <div class="logo-mark">CA</div>
                 <div class="logo-text"><span style="color:var(--tx)">Cast</span><span style="background:linear-gradient(90deg,#a78bfa,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Amplify</span></div>
             </div>
-            <div style="font-size:13px;color:var(--tx2)">Trial: <span style="color:var(--sc);font-weight:700">30 Days Remaining</span></div>
+            <div style="display:flex;gap:12px;align-items:center">
+                <button class="btn-theme" id="viewSiteBtn">View website</button>
+                <button class="btn-theme" id="logoutBtn">Log out</button>
+                <div style="font-size:13px;color:var(--tx2)">Trial: <span style="color:var(--sc);font-weight:700">30 Days Remaining</span></div>
+            </div>
         </nav>
     </header>
     <div style="padding-top:64px">
@@ -550,10 +554,19 @@ document.addEventListener("DOMContentLoaded", function() {
         if (el) el.innerText = count.toLocaleString();
     }, 4000);
 
-    // MODAL OPEN
+    // MODAL OPEN — or straight back to dashboard when already signed in
     const modal = document.getElementById('modal');
-    document.getElementById('openModal').addEventListener('click', () => modal.classList.add('active'));
-    document.getElementById('openModal2').addEventListener('click', () => modal.classList.add('active'));
+    function handleCTA() {
+        if (user && user.name) {
+            document.getElementById('landing').classList.remove('active');
+            document.getElementById('dashboard').classList.add('active');
+            window.scrollTo(0,0);
+        } else {
+            modal.classList.add('active');
+        }
+    }
+    document.getElementById('openModal').addEventListener('click', handleCTA);
+    document.getElementById('openModal2').addEventListener('click', handleCTA);
 
     // CLOSE MODAL ON BACKGROUND CLICK
     modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
@@ -755,6 +768,30 @@ document.addEventListener("DOMContentLoaded", function() {
         renderChecklist();
         startAI();
     }
+
+    // VIEW WEBSITE / LOG OUT
+    function refreshNavButtons() {
+        const label = (user && user.name) ? 'My dashboard →' : 'Start free — 30 days';
+        document.getElementById('openModal').textContent = label;
+        document.getElementById('openModal2').textContent = label;
+    }
+    refreshNavButtons();
+
+    document.getElementById('viewSiteBtn').addEventListener('click', () => {
+        document.getElementById('dashboard').classList.remove('active');
+        document.getElementById('landing').classList.add('active');
+        window.scrollTo(0,0);
+        refreshNavButtons();
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+        localStorage.removeItem(LS_KEY);
+        user = null;
+        document.getElementById('dashboard').classList.remove('active');
+        document.getElementById('landing').classList.add('active');
+        window.scrollTo(0,0);
+        refreshNavButtons();
+    });
 
 });
 
