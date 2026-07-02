@@ -129,6 +129,31 @@
         .fg textarea:focus { border-color: var(--ac); }
         .photo-preview { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); display: none; margin-top: 10px; }
         .modal-close { float: right; background: none; border: none; color: var(--tx2); font-size: 20px; cursor: pointer; font-family: inherit; }
+        /* FLAG MARQUEE */
+        .flag-band { overflow: hidden; padding: 10px 0; }
+        .flag-track { display: flex; gap: 14px; width: max-content; animation: flagL 55s linear infinite; }
+        .flag-track.rev { animation: flagR 60s linear infinite; }
+        .flag-pill { display: flex; align-items: center; gap: 10px; padding: 10px 20px; border: 1px solid var(--bd); border-radius: 999px; background: var(--bg2); font-size: 14px; font-weight: 600; white-space: nowrap; }
+        .flag-pill span.fl { font-size: 18px; }
+        @keyframes flagL { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        @keyframes flagR { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+        /* CREATOR WEB */
+        .creator-web { max-width: 760px; width: 100%; margin: 48px auto 8px; display: block; }
+        .cw-line { stroke: var(--ac); stroke-width: 1.2; stroke-dasharray: 4 7; opacity: 0.55; animation: cwflow 6s linear infinite; }
+        @keyframes cwflow { to { stroke-dashoffset: -110; } }
+        .cw-node { fill: var(--gold); }
+        .cw-pulse { fill: none; stroke: var(--gold); stroke-width: 1.5; opacity: 0; animation: cwpulse 5s ease-out infinite; }
+        @keyframes cwpulse { 0% { opacity: 0.7; } 70% { opacity: 0; } 100% { opacity: 0; } }
+        .cw-label { fill: var(--tx); font-size: 14px; font-weight: 600; font-family: inherit; }
+        .cw-sub { fill: var(--tx2); font-size: 11px; font-family: inherit; }
+        /* FLOATING ORBS */
+        .orb { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.35; pointer-events: none; animation: orbfloat 18s ease-in-out infinite alternate; }
+        .orb.o1 { width: 340px; height: 340px; background: radial-gradient(circle, #5046e5, transparent 70%); top: -80px; left: -60px; }
+        .orb.o2 { width: 300px; height: 300px; background: radial-gradient(circle, #C9A84C, transparent 70%); bottom: -100px; right: -40px; animation-duration: 24s; }
+        @keyframes orbfloat { from { transform: translate(0,0) scale(1); } to { transform: translate(40px, 30px) scale(1.12); } }
+        @media (prefers-reduced-motion: reduce) {
+            .flag-track, .flag-track.rev, .cw-line, .cw-pulse, .orb { animation: none !important; }
+        }
     </style>
 </head>
 <body>
@@ -151,7 +176,9 @@
     </header>
 
     <!-- HERO -->
-    <section style="text-align:center;padding-top:160px">
+    <section style="text-align:center;padding-top:160px;position:relative;overflow:hidden">
+        <div class="orb o1"></div>
+        <div class="orb o2"></div>
         <span class="label">The Global Creator Infrastructure Company</span>
         <h1>The operating system behind the world's most influential voices.</h1>
         <p class="sub" style="margin:0 auto 40px">One contract. Eight pillars of infrastructure. 190+ markets. Built for news organisations, NGOs, elected officials, and independent creators alike — try free for 30 days, no card required.</p>
@@ -165,6 +192,19 @@
             <div class="stat"><div class="stat-num">102</div><div class="stat-lab">Channels</div></div>
             <div class="stat"><div class="stat-num">8</div><div class="stat-lab">Pillars</div></div>
             <div class="stat"><div class="stat-num">100%</div><div class="stat-lab">AI Back Office</div></div>
+        </div>
+    </section>
+
+    <!-- GLOBAL FLAG BAND — one world, mixed deliberately -->
+    <section style="padding:48px 0 56px">
+        <div style="text-align:center;margin-bottom:28px">
+            <span class="label">One platform. Every market.</span>
+        </div>
+        <div class="flag-band">
+            <div class="flag-track" id="flagRow1"></div>
+        </div>
+        <div class="flag-band">
+            <div class="flag-track rev" id="flagRow2"></div>
         </div>
     </section>
 
@@ -291,6 +331,40 @@
         <div class="container">
             <span class="label">The 8 Pillars</span>
             <h2>Every tool you need. One platform.</h2>
+            <p class="sub" style="margin-top:12px">Other systems put institutions at the centre. CastAmplify puts <strong>you</strong> there — eight pillars of growth, all wired to one point: the creator.</p>
+            <svg class="creator-web" viewBox="0 0 760 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing the creator at the centre of eight growth pillars">
+                <!-- connecting lines -->
+                <line class="cw-line" x1="380" y1="270" x2="680" y2="270"/>
+                <line class="cw-line" x1="380" y1="270" x2="592" y2="408"/>
+                <line class="cw-line" x1="380" y1="270" x2="380" y2="462"/>
+                <line class="cw-line" x1="380" y1="270" x2="168" y2="408"/>
+                <line class="cw-line" x1="380" y1="270" x2="80" y2="270"/>
+                <line class="cw-line" x1="380" y1="270" x2="168" y2="132"/>
+                <line class="cw-line" x1="380" y1="270" x2="380" y2="78"/>
+                <line class="cw-line" x1="380" y1="270" x2="592" y2="132"/>
+                <!-- pillar nodes -->
+                <circle class="cw-node" cx="680" cy="270" r="6"/><circle class="cw-pulse" cx="680" cy="270" r="14"/>
+                <circle class="cw-node" cx="592" cy="408" r="6"/><circle class="cw-pulse" cx="592" cy="408" r="14" style="animation-delay:0.6s"/>
+                <circle class="cw-node" cx="380" cy="462" r="6"/><circle class="cw-pulse" cx="380" cy="462" r="14" style="animation-delay:1.2s"/>
+                <circle class="cw-node" cx="168" cy="408" r="6"/><circle class="cw-pulse" cx="168" cy="408" r="14" style="animation-delay:1.8s"/>
+                <circle class="cw-node" cx="80" cy="270" r="6"/><circle class="cw-pulse" cx="80" cy="270" r="14" style="animation-delay:2.4s"/>
+                <circle class="cw-node" cx="168" cy="132" r="6"/><circle class="cw-pulse" cx="168" cy="132" r="14" style="animation-delay:3s"/>
+                <circle class="cw-node" cx="380" cy="78" r="6"/><circle class="cw-pulse" cx="380" cy="78" r="14" style="animation-delay:3.6s"/>
+                <circle class="cw-node" cx="592" cy="132" r="6"/><circle class="cw-pulse" cx="592" cy="132" r="14" style="animation-delay:4.2s"/>
+                <!-- pillar labels -->
+                <text class="cw-label" x="680" y="250" text-anchor="middle">Monetisation</text>
+                <text class="cw-label" x="600" y="436" text-anchor="middle">Growth Intelligence</text>
+                <text class="cw-label" x="380" y="492" text-anchor="middle">Creator Academy</text>
+                <text class="cw-label" x="160" y="436" text-anchor="middle">Network</text>
+                <text class="cw-label" x="80" y="250" text-anchor="middle">Compliance</text>
+                <text class="cw-label" x="160" y="112" text-anchor="middle">Global Reach</text>
+                <text class="cw-label" x="380" y="58" text-anchor="middle">Production & Distribution</text>
+                <text class="cw-label" x="600" y="112" text-anchor="middle">AI Intelligence</text>
+                <!-- centre: the creator -->
+                <rect x="290" y="234" width="180" height="72" rx="14" fill="none" stroke="var(--gold)" stroke-width="1.6"/>
+                <text class="cw-sub" x="380" y="262" text-anchor="middle" letter-spacing="3">THE</text>
+                <text class="cw-label" x="380" y="286" text-anchor="middle" style="font-size:19px;fill:var(--gold)">CREATOR</text>
+            </svg>
             <div class="grid-3">
                 <div class="card-sm"><h3>🎙️ Production & Distribution</h3><p>102 channels automated. Apple, Spotify, YouTube, TikTok, X, Rumble, and 96 more — published simultaneously.</p></div>
                 <div class="card-sm"><h3>🤖 AI Intelligence Layer</h3><p>100% AI back office. Show notes, scripts, captions, translations — all generated in your voice automatically.</p></div>
@@ -547,6 +621,28 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // (Visitor counter removed — footer now shows an honest onboarding message)
+
+    // FLAG MARQUEE — deliberately mixed: Africa, West, Asia, Latin America, Middle East, Caribbean, Pacific
+    const flagRow1 = [
+        ['🇿🇼','Zimbabwe'],['🇬🇧','United Kingdom'],['🇯🇵','Japan'],['🇧🇷','Brazil'],
+        ['🇳🇬','Nigeria'],['🇺🇸','United States'],['🇮🇳','India'],['🇲🇽','Mexico'],
+        ['🇰🇪','Kenya'],['🇩🇪','Germany'],['🇸🇬','Singapore'],['🇦🇷','Argentina'],
+        ['🇬🇭','Ghana'],['🇫🇷','France'],['🇰🇷','South Korea'],['🇨🇴','Colombia']
+    ];
+    const flagRow2 = [
+        ['🇪🇬','Egypt'],['🇨🇦','Canada'],['🇮🇩','Indonesia'],['🇨🇱','Chile'],
+        ['🇹🇿','Tanzania'],['🇪🇸','Spain'],['🇵🇭','Philippines'],['🇯🇲','Jamaica'],
+        ['🇸🇳','Senegal'],['🇮🇹','Italy'],['🇹🇭','Thailand'],['🇵🇪','Peru'],
+        ['🇷🇼','Rwanda'],['🇳🇱','Netherlands'],['🇦🇪','UAE'],['🇦🇺','Australia']
+    ];
+    function fillFlags(rowId, flags) {
+        const el = document.getElementById(rowId);
+        if (!el) return;
+        const pills = flags.map(f => '<div class="flag-pill"><span class="fl">' + f[0] + '</span>' + f[1] + '</div>').join('');
+        el.innerHTML = pills + pills; // duplicated for a seamless infinite loop
+    }
+    fillFlags('flagRow1', flagRow1);
+    fillFlags('flagRow2', flagRow2);
 
     // MODAL OPEN — or straight back to dashboard when already signed in
     const modal = document.getElementById('modal');
