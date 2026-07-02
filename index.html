@@ -914,10 +914,12 @@ document.addEventListener("DOMContentLoaded", function() {
             else { icon = '<div class="check-icon">' + (i + 1) + '</div>'; stateClass = s.action ? 'clickable' : 'locked'; }
             li.className = stateClass;
             let right = '';
-            if (isDone && i > 0) right = '<span class="check-done-note">Completed ✓</span>';
+            if (isDone && i > 0) right = '<span class="check-done-note">Completed ✓' + (s.action && s.action !== 'publish' ? ' · tap to edit ✎' : '') + '</span>';
             else if (s.action && !isDone) right = '<span class="check-go">Tap to complete →</span>';
             li.innerHTML = icon + '<div><strong>' + s.title + '</strong> — ' + s.desc + '</div>' + right;
-            if (s.action && !isDone) {
+            const openable = s.action && (!isDone || s.action !== 'publish');
+            if (isDone && s.action && s.action !== 'publish') li.classList.add('clickable');
+            if (openable) {
                 li.addEventListener('click', () => {
                     if (s.action === 'publish') {
                         if (!(user.steps && user.steps.episode)) { alert('Upload your first episode (Step 3) before publishing.'); return; }
@@ -925,12 +927,33 @@ document.addEventListener("DOMContentLoaded", function() {
                         user.steps.publish = true; saveUser(); renderChecklist();
                         alert('🎉 Your episode is queued for distribution. You will be notified as channels go live.');
                     } else {
+                        prefillModal(s.action);
                         document.getElementById(s.action).classList.add('active');
                     }
                 });
             }
             ul.appendChild(li);
         });
+    }
+
+    function prefillModal(modalId) {
+        if (!user) return;
+        if (modalId === 'profileModal') {
+            document.getElementById('pBio').value = user.bio || '';
+            document.getElementById('pTags').value = user.tags || '';
+            if (user.photo) { const img = document.getElementById('pPhotoPreview'); img.src = user.photo; img.style.display = 'block'; }
+        } else if (modalId === 'episodeModal') {
+            document.getElementById('eTitle').value = user.episodeTitle || '';
+            document.getElementById('eLink').value = user.episodeLink || '';
+            document.getElementById('eDesc').value = user.episodeDesc || '';
+        } else if (modalId === 'socialModal') {
+            const l = user.socialLinks || [];
+            document.getElementById('sLink1').value = l[0] || '';
+            document.getElementById('sLink2').value = l[1] || '';
+            document.getElementById('sLink3').value = l[2] || '';
+        } else if (modalId === 'payoutModal') {
+            document.getElementById('payEmail').value = user.payoutEmail || '';
+        }
     }
 
     window.closeModal = function(id) { document.getElementById(id).classList.remove('active'); };
