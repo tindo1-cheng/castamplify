@@ -613,6 +613,18 @@
     </div>
 </div>
 
+<!-- AI RESULTS MODAL -->
+<div class="modal-bg" id="aiResultModal">
+    <div class="modal" style="max-height:80vh;overflow-y:auto">
+        <button class="modal-close" onclick="closeModal('aiResultModal')">✕</button>
+        <h2>🤖 Your AI content is ready</h2>
+        <p>Generated for your episode by the CastAmplify AI back office — saved to your account.</p>
+        <div class="fg"><label>Show notes</label><p id="aiNotes" style="font-size:14px;line-height:1.7;color:var(--tx)"></p></div>
+        <div class="fg"><label>Social captions</label><div id="aiCaptions" style="font-size:14px;line-height:1.7;color:var(--tx)"></div></div>
+        <div class="fg"><label>Alternative titles</label><div id="aiTitles" style="font-size:14px;line-height:1.7;color:var(--tx)"></div></div>
+    </div>
+</div>
+
 <!-- PILLAR DETAIL MODAL -->
 <div class="modal-bg" id="pillarModal">
     <div class="modal">
@@ -959,15 +971,47 @@ document.addEventListener("DOMContentLoaded", function() {
         }, 'profileModal');
     });
 
-    // EPISODE FORM
-    document.getElementById('episodeForm').addEventListener('submit', (e) => {
+    // EPISODE FORM — now calls the real AI back office
+    document.getElementById('episodeForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        completeStep('episode', {
+        const btn = e.target.querySelector('button[type="submit"]');
+        const epData = {
             episodeTitle: document.getElementById('eTitle').value,
             episodeLink: document.getElementById('eLink').value,
             episodeDesc: document.getElementById('eDesc').value
-        }, 'episodeModal');
+        };
+        btn.disabled = true;
+        btn.textContent = '🤖 AI is writing your show notes…';
+        let ai = null;
+        try {
+            const r = await fetch('/api/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title: epData.episodeTitle,
+                    description: epData.episodeDesc,
+                    niche: user && user.niche,
+                    name: user && user.name
+                })
+            });
+            if (r.ok) ai = await r.json();
+        } catch (err) { /* generation failed — episode still saves */ }
+        btn.disabled = false;
+        btn.textContent = 'Save my episode ✓';
+        if (ai && ai.showNotes) {
+            epData.aiContent = ai;
+            completeStep('episode', epData, 'episodeModal');
+            document.getElementById('aiNotes').textContent = ai.showNotes;
+            document.getElementById('aiCaptions').innerHTML = (ai.captions || []).map(c => '<p style="margin-bottom:8px">• ' + c.replace(/</g,'&lt;') + '</p>').join('');
+            document.getElementById('aiTitles').innerHTML = (ai.titles || []).map(t => '<p style="margin-bottom:8px">• ' + t.replace(/</g,'&lt;') + '</p>').join('');
+            document.getElementById('aiResultModal').classList.add('active');
+        } else {
+            completeStep('episode', epData, 'episodeModal');
+            alert('Episode saved ✓ — AI content generation is temporarily unavailable and will be ready soon.');
+        }
     });
+    const aim = document.getElementById('aiResultModal');
+    aim.addEventListener('click', (e) => { if (e.target === aim) aim.classList.remove('active'); });
 
     // SOCIAL FORM
     document.getElementById('socialForm').addEventListener('submit', (e) => {
