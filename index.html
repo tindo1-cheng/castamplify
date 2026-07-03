@@ -835,6 +835,12 @@ document.addEventListener("DOMContentLoaded", function() {
         setTimeout(() => {
             user = { name, email, niche, steps: {} };
             saveUser();
+            // Send the welcome email (fire and forget — signup never blocks on it)
+            fetch('/api/welcome', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email })
+            }).catch(() => {});
             document.getElementById('dName').innerText = name.split(' ')[0];
             modal.classList.remove('active');
             document.getElementById('landing').classList.remove('active');
