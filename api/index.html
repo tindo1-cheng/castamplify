@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CastAmplify — The Global Creator Infrastructure Company</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root[data-theme="dark"] { --bg: #0b1220; --bg2: #121c30; --tx: #ededf2; --tx2: #8b96ab; --bd: #1e2a42; --ac: #5046e5; --sc: #10b981; --gold: #C9A84C; }
+        :root[data-theme="light"] { --bg: #fafaf9; --bg2: #f2f1ed; --tx: #14181f; --tx2: #4b5563; --bd: #e5e7eb; --ac: #4338ca; --sc: #059669; --gold: #9A7B2E; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tx); -webkit-font-smoothing: antialiased; line-height: 1.5; transition: background 0.3s, color 0.3s; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        header { position: fixed; top: 0; width: 100%; background: rgba(11,18,32,0.85); backdrop-filter: blur(12px); z-index: 1000; border-bottom: 1px solid var(--bd); transition: background 0.3s; }
+        [data-theme="light"] header { background: rgba(250,250,249,0.85); }
+        nav { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+        .logo { display: flex; align-items: center; gap: 10px; }
+        .logo-mark { width: 32px; height: 32px; background: linear-gradient(135deg,#4F46E5,#DB2777); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: 800; }
+        .logo-text { display: flex; gap: 1px; font-weight: 800; font-size: 15px; letter-spacing: -0.5px; }
+        .nav-right { display: flex; gap: 12px; align-items: center; }
+        .btn-theme { background: transparent; border: 1px solid var(--bd); color: var(--tx2); padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s; }
+        .btn-theme:hover { border-color: var(--tx2); }
+        .btn-nav { background: var(--tx); color: var(--bg); padding: 8px 18px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; font-family: inherit; transition: opacity 0.2s; }
+        .btn-nav:hover { opacity: 0.85; }
+        section { padding: 120px 24px; border-bottom: 1px solid var(--bd); }
+        .label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); margin-bottom: 16px; display: block; }
+        h1 { font-size: clamp(36px,5.5vw,68px); font-weight: 800; line-height: 1.06; letter-spacing: -0.03em; max-width: 900px; margin-bottom: 24px; }
+        h2 { font-size: clamp(28px,3.5vw,44px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 16px; }
+        .sub { font-size: 17px; color: var(--tx2); max-width: 580px; margin-bottom: 48px; line-height: 1.65; }
+        .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+        .btn-primary { background: var(--tx); color: var(--bg); padding: 14px 28px; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; font-family: inherit; transition: opacity 0.2s; }
+        .btn-primary:hover { opacity: 0.85; }
+        .btn-secondary { background: transparent; color: var(--tx); padding: 14px 28px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; border: 1px solid var(--bd); font-family: inherit; transition: border-color 0.2s; }
+        .btn-secondary:hover { border-color: var(--tx2); }
+        .stats { display: grid; grid-template-columns: repeat(5,1fr); max-width: 1000px; margin: 80px auto 0; border-top: 1px solid var(--bd); padding-top: 40px; gap: 0; }
+        .stat { text-align: center; padding: 0 16px; border-right: 1px solid var(--bd); }
+        .stat:last-child { border-right: none; }
+        .stat-num { font-size: 34px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; color: var(--gold); }
+        .stat-lab { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--tx2); }
+        .grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--bd); border-radius: 12px; overflow: hidden; margin-top: 48px; }
+        .grid-4-item { background: var(--bg); padding: 32px; }
+        .grid-4-item h3 { font-size: 14px; font-weight: 700; margin-bottom: 10px; color: var(--gold); }
+        .grid-4-item p { font-size: 13px; color: var(--tx2); line-height: 1.6; }
+
+        /* PRICING */
+        .grid-6 { display: grid; grid-template-columns: repeat(6,1fr); gap: 1px; background: var(--bd); border-radius: 12px; overflow: hidden; margin-top: 48px; }
+        .price-card { background: var(--bg); padding: 28px 20px; display: flex; flex-direction: column; }
+        .price-card.popular { background: var(--bg2); border-top: 2px solid var(--gold); }
+        .price-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--tx2); margin-bottom: 14px; }
+        .price-label.gold { color: var(--gold); }
+        .price-amount { font-size: 26px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 6px; }
+        .price-desc { font-size: 12px; color: var(--tx2); margin-bottom: 20px; line-height: 1.4; min-height: 32px; }
+        .price-feat { list-style: none; font-size: 12px; color: var(--tx2); margin-bottom: 20px; border-top: 1px solid var(--bd); padding-top: 16px; flex-grow: 1; }
+        .price-feat li { margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+        .price-feat li::before { content: '✓'; color: var(--sc); font-weight: 800; font-size: 11px; }
+        .btn-price { width: 100%; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; text-align: center; border: 1px solid var(--bd); background: transparent; color: var(--tx); transition: all 0.2s; }
+        .btn-price:hover { border-color: var(--tx2); }
+        .btn-price.primary { background: var(--tx); color: var(--bg); border-color: var(--tx); }
+        .price-footer { text-align: center; margin-top: 28px; font-size: 13px; color: var(--tx2); }
+
+        /* PILLARS */
+        .grid-3 { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--bd); border-radius: 12px; overflow: hidden; margin-top: 48px; }
+        .card-sm { background: var(--bg); padding: 28px; }
+        .card-sm h3 { font-size: 13px; font-weight: 700; color: var(--gold); margin-bottom: 10px; }
+        .card-sm p { font-size: 13px; color: var(--tx2); line-height: 1.5; }
+
+        /* JOURNEY / ROADMAP */
+        .journey { margin-top: 48px; }
+        .journey-step { display: flex; gap: 24px; align-items: flex-start; padding: 32px 0; border-bottom: 1px solid var(--bd); }
+        .journey-step:last-child { border-bottom: none; }
+        .step-num { width: 40px; height: 40px; border-radius: 50%; background: var(--gold); color: #000; font-size: 16px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .step-body h4 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+        .step-body p { font-size: 14px; color: var(--tx2); line-height: 1.6; }
+        .step-time { font-size: 11px; font-weight: 700; color: var(--sc); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+
+        /* FOOTER */
+        footer { padding: 60px 24px; text-align: center; border-top: 1px solid var(--bd); display: flex; flex-direction: column; align-items: center; gap: 16px; }
+        .visitor-count { font-size: 13px; color: var(--tx2); display: flex; align-items: center; gap: 8px; }
+        .pulse-dot { width: 7px; height: 7px; background: var(--sc); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(16,185,129,0.7)} 70%{box-shadow:0 0 0 8px rgba(16,185,129,0)} }
+
+        /* MODAL */
+        .screen { display: none; min-height: 100vh; }
+        .screen.active { display: block; }
+        .modal-bg { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.75); backdrop-filter: blur(10px); z-index: 2000; display: none; justify-content: center; align-items: center; }
+        .modal-bg.active { display: flex; }
+        .modal { background: var(--bg2); border: 1px solid var(--bd); border-radius: 20px; padding: 44px; width: 90%; max-width: 420px; }
+        .modal h2 { font-size: 26px; font-weight: 800; margin-bottom: 8px; }
+        .modal p { font-size: 14px; color: var(--tx2); margin-bottom: 28px; }
+        .fg { margin-bottom: 16px; }
+        .fg label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--tx2); }
+        .fg input, .fg select { width: 100%; padding: 13px; border-radius: 10px; border: 1px solid var(--bd); background: var(--bg); color: var(--tx); font-family: inherit; font-size: 14px; outline: none; transition: border-color 0.2s; }
+        .fg input:focus, .fg select:focus { border-color: var(--ac); }
+        .btn-full { width: 100%; padding: 14px; background: var(--ac); color: white; border: none; border-radius: 10px; font-weight: 700; font-size: 15px; cursor: pointer; margin-top: 8px; font-family: inherit; transition: opacity 0.2s; }
+        .btn-full:hover { opacity: 0.9; }
+        .success-msg { display: none; text-align: center; padding: 20px; color: var(--sc); font-weight: 700; }
+
+        /* DASHBOARD */
+        .dash-tabs { display: flex; border-bottom: 1px solid var(--bd); background: var(--bg2); padding: 0 24px; overflow-x: auto; }
+        .dtab { padding: 20px 20px; font-size: 13px; font-weight: 600; color: var(--tx2); border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; transition: color 0.2s; }
+        .dtab.active { color: var(--tx); border-bottom-color: var(--gold); }
+        .dash-content { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+        .g3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--bd); border-radius: 12px; overflow: hidden; margin-bottom: 24px; }
+        .dash-card { background: var(--bg); padding: 28px; }
+        .dash-card h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--tx2); margin-bottom: 14px; }
+        .big-stat { font-size: 40px; font-weight: 800; letter-spacing: -0.03em; color: var(--sc); }
+        .ai-ticker { background: var(--bg2); border: 1px solid var(--bd); border-radius: 12px; padding: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; margin-bottom: 24px; }
+        .pbar { min-width: 140px; flex: 1; }
+        .pbar p { font-size: 12px; margin-bottom: 6px; font-weight: 600; display: flex; justify-content: space-between; color: var(--tx2); }
+        .bar { width: 100%; height: 5px; background: var(--bd); border-radius: 3px; overflow: hidden; }
+        .fill { height: 100%; background: var(--ac); width: 0%; transition: width 1.2s ease; }
+        .tab-c { display: none; }
+        .jpath { display: none; }
+        .jpath.active { display: block; }
+        .jtab { transition: all 0.2s; }
+        .tab-c.active { display: block; }
+        .checklist { list-style: none; margin-top: 24px; }
+        .checklist li { display: flex; align-items: center; gap: 12px; padding: 16px 20px; background: var(--bg); border-radius: 10px; margin-bottom: 10px; border: 1px solid var(--bd); font-size: 14px; }
+        .check-icon { width: 28px; height: 28px; border-radius: 50%; background: var(--bd); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+        .check-icon.done { background: var(--sc); color: white; }
+        .check-icon.active { background: var(--ac); color: white; }
+        .checklist li.clickable { cursor: pointer; transition: border-color 0.2s; }
+        .checklist li.clickable:hover { border-color: var(--ac); }
+        .checklist li.locked { opacity: 0.5; }
+        .check-go { margin-left: auto; font-size: 12px; font-weight: 700; color: var(--ac); white-space: nowrap; }
+        .check-done-note { margin-left: auto; font-size: 12px; font-weight: 700; color: var(--sc); white-space: nowrap; }
+        .fg textarea { width: 100%; padding: 13px; border-radius: 10px; border: 1px solid var(--bd); background: var(--bg); color: var(--tx); font-family: inherit; font-size: 14px; outline: none; resize: vertical; min-height: 90px; transition: border-color 0.2s; }
+        .fg textarea:focus { border-color: var(--ac); }
+        .photo-preview { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); display: none; margin-top: 10px; }
+        .modal-close { float: right; background: none; border: none; color: var(--tx2); font-size: 20px; cursor: pointer; font-family: inherit; }
+        /* FLAG MARQUEE */
+        .flag-band { overflow: hidden; padding: 10px 0; }
+        .flag-track { display: flex; gap: 14px; width: max-content; animation: flagL 55s linear infinite; }
+        .flag-track.rev { animation: flagR 60s linear infinite; }
+        .flag-pill { display: flex; align-items: center; gap: 10px; padding: 10px 20px; border: 1px solid var(--bd); border-radius: 999px; background: var(--bg2); font-size: 14px; font-weight: 600; white-space: nowrap; }
+        .flag-pill span.fl { font-size: 18px; }
+        @keyframes flagL { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        @keyframes flagR { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+        /* CREATOR WEB */
+        .creator-web { max-width: 760px; width: 100%; margin: 48px auto 8px; display: block; }
+        .cw-line { stroke: var(--ac); stroke-width: 1.2; stroke-dasharray: 4 7; opacity: 0.55; animation: cwflow 6s linear infinite; }
+        @keyframes cwflow { to { stroke-dashoffset: -110; } }
+        .cw-node { fill: var(--gold); }
+        .cw-pulse { fill: none; stroke: var(--gold); stroke-width: 1.5; opacity: 0; animation: cwpulse 5s ease-out infinite; }
+        @keyframes cwpulse { 0% { opacity: 0.7; } 70% { opacity: 0; } 100% { opacity: 0; } }
+        .cw-label { fill: var(--tx); font-size: 14px; font-weight: 600; font-family: inherit; }
+        .cw-sub { fill: var(--tx2); font-size: 11px; font-family: inherit; }
+        /* FLOATING ORBS */
+        .orb { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.35; pointer-events: none; animation: orbfloat 18s ease-in-out infinite alternate; }
+        .orb.o1 { width: 340px; height: 340px; background: radial-gradient(circle, #5046e5, transparent 70%); top: -80px; left: -60px; }
+        .orb.o2 { width: 300px; height: 300px; background: radial-gradient(circle, #C9A84C, transparent 70%); bottom: -100px; right: -40px; animation-duration: 24s; }
+        @keyframes orbfloat { from { transform: translate(0,0) scale(1); } to { transform: translate(40px, 30px) scale(1.12); } }
+        @media (prefers-reduced-motion: reduce) {
+            .flag-track, .flag-track.rev, .cw-line, .cw-pulse, .orb, .sky-word { animation: none !important; }
+        }
+        /* WORD SKY — subtle drifting background words */
+        #wordSky { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+        .sky-word { position: absolute; font-weight: 600; color: var(--tx2); opacity: 0.12; white-space: nowrap; animation: skyDrift linear infinite; bottom: -5vh; }
+        @keyframes skyDrift { from { transform: translateY(0); } to { transform: translateY(-115vh); } }
+        .screen, header, footer { position: relative; z-index: 1; }
+        /* CLICKABLE PILLARS */
+        .cw-hot { cursor: pointer; }
+        .cw-hot:hover { fill: var(--gold); }
+        .card-sm.pillar-click { cursor: pointer; transition: border-color 0.2s; }
+        .card-sm.pillar-click:hover { border-color: var(--gold); }
+        /* ENGINE ROOM */
+        .engine-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 40px; }
+        @media (max-width: 760px) { .engine-grid { grid-template-columns: 1fr; } }
+        .engine-card { border: 1px solid var(--bd); border-radius: 16px; background: var(--bg2); padding: 28px; text-align: center; }
+        .engine-card h3 { margin-bottom: 6px; }
+        .engine-card p { color: var(--tx2); font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<!-- LANDING -->
+<div id="wordSky"></div>
+<div id="landing" class="screen active">
+    <header>
+        <nav>
+            <div class="logo">
+                <div class="logo-mark">CA</div>
+                <div class="logo-text">
+                    <span style="color:var(--tx)">Cast</span><span style="background:linear-gradient(90deg,#a78bfa,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Amplify</span>
+                </div>
+            </div>
+            <div class="nav-right">
+                <button class="btn-theme" id="themeToggle">☀️ Light</button>
+                <button class="btn-nav" id="openModal">Start free — 30 days</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <section style="text-align:center;padding-top:160px;position:relative;overflow:hidden">
+        <div class="orb o1"></div>
+        <div class="orb o2"></div>
+        <span class="label">The Global Creator Infrastructure Company</span>
+        <h1>The operating system behind the world's most influential voices.</h1>
+        <p class="sub" style="margin:0 auto 40px">One contract. Eight pillars of infrastructure. 190+ markets. Built for news organisations, NGOs, elected officials, and independent creators alike — try free for 30 days, no card required.</p>
+        <div class="hero-btns" style="justify-content:center">
+            <button class="btn-primary" id="openModal2">Start free — 30 days</button>
+            <button class="btn-secondary" onclick="document.getElementById('sec-who').scrollIntoView({behavior:'smooth'})">See who it's for</button>
+        </div>
+        <div class="stats">
+            <div class="stat"><div class="stat-num">190+</div><div class="stat-lab">Markets</div></div>
+            <div class="stat"><div class="stat-num">233</div><div class="stat-lab">Languages</div></div>
+            <div class="stat"><div class="stat-num">102</div><div class="stat-lab">Channels</div></div>
+            <div class="stat"><div class="stat-num">8</div><div class="stat-lab">Pillars</div></div>
+            <div class="stat"><div class="stat-num">100%</div><div class="stat-lab">AI Back Office</div></div>
+        </div>
+    </section>
+
+    <!-- GLOBAL FLAG BAND — one world, mixed deliberately -->
+    <section style="padding:48px 0 56px">
+        <div style="text-align:center;margin-bottom:28px">
+            <span class="label">One platform. Every market.</span>
+        </div>
+        <div class="flag-band">
+            <div class="flag-track" id="flagRow1" style="animation-duration:95s"></div>
+        </div>
+        <div class="flag-band">
+            <div class="flag-track rev" id="flagRow2" style="animation-duration:105s"></div>
+        </div>
+        <div class="flag-band">
+            <div class="flag-track" id="flagRow3" style="animation-duration:115s"></div>
+        </div>
+    </section>
+
+    <!-- WHO IT'S FOR -->
+    <section id="sec-who">
+        <div class="container">
+            <span class="label">Who it's for</span>
+            <h2>Every voice that shapes public conversation, worldwide.</h2>
+            <div class="grid-4">
+                <div class="grid-4-item"><h3>📰 News & media</h3><p>Independent journalists, news organisations, documentary creators, and citizen journalism networks worldwide.</p></div>
+                <div class="grid-4-item"><h3>🏛️ Organisations</h3><p>NGOs, think tanks, universities, trade associations, religious bodies, and government public bodies.</p></div>
+                <div class="grid-4-item"><h3>🗳️ Public office</h3><p>Elected officials, political campaigns, policy advisors, and diplomatic communications teams globally.</p></div>
+                <div class="grid-4-item"><h3>🎙️ Independent voices</h3><p>Commentators, faith leaders, educators, musicians, athletes, and advocacy creators across 190+ countries.</p></div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ESTABLISHED PODCASTERS -->
+    <section id="sec-established" style="background:var(--bg2)">
+        <div class="container">
+            <span class="label">Already podcasting?</span>
+            <h2>CastAmplify was built for you too.</h2>
+            <p class="sub">Whether you have 100 listeners or 100,000 — if you're spending hours on tasks that should be automatic, this is what you have been waiting for.</p>
+            <div class="grid-4">
+                <div class="grid-4-item"><h3>🔄 Switch in minutes</h3><p>Import your existing RSS feed and episode library automatically. Your entire back catalogue migrates without losing a single listener or subscriber on Spotify or Apple Podcasts.</p></div>
+                <div class="grid-4-item"><h3>📈 Immediate growth</h3><p>AI analyses your existing content, identifies your strongest episodes, and starts distributing clips, captions, and translations to platforms you are not currently reaching.</p></div>
+                <div class="grid-4-item"><h3>💰 Unlock new revenue</h3><p>Most established podcasters leave money on the table. CastAmplify activates brand deals, dynamic ad insertion, international audiences, and listener subscriptions — all simultaneously.</p></div>
+                <div class="grid-4-item"><h3>⏱️ Get your time back</h3><p>Show notes, social posts, blog articles, newsletters, translations — AI generates all of it from every episode. What used to take 8 hours now takes zero hours. Every week.</p></div>
+            </div>
+            <div style="margin-top:40px;background:var(--bg);border-radius:16px;padding:36px;border:1px solid var(--bd);display:grid;grid-template-columns:repeat(3,1fr);gap:32px;text-align:center">
+                <div><div style="font-size:36px;font-weight:800;color:var(--gold);margin-bottom:8px">8hrs</div><div style="font-size:13px;color:var(--tx2)">Saved per episode on admin tasks alone</div></div>
+                <div><div style="font-size:36px;font-weight:800;color:var(--gold);margin-bottom:8px">102</div><div style="font-size:13px;color:var(--tx2)">Platforms reached from one single upload</div></div>
+                <div><div style="font-size:36px;font-weight:800;color:var(--gold);margin-bottom:8px">£0</div><div style="font-size:13px;color:var(--tx2)">Cost to migrate your existing podcast here</div></div>
+            </div>
+        </div>
+    </section>
+
+        <!-- PRICING — 6 TIERS INCLUDING £499 -->
+    <section style="background:var(--bg2)" id="sec-pricing">
+        <div class="container">
+            <span class="label">Engagement Models</span>
+            <h2>Start free. Upgrade when you're ready.</h2>
+            <div class="grid-6">
+                <div class="price-card">
+                    <div class="price-label gold">Trial</div>
+                    <div class="price-amount">Free</div>
+                    <div class="price-desc">30 days — prove it works, no card</div>
+                    <ul class="price-feat">
+                        <li>3 channels</li>
+                        <li>English only</li>
+                        <li>2 episodes/month</li>
+                        <li>10 AI generations</li>
+                    </ul>
+                    <button class="btn-price primary" onclick="document.getElementById('openModal').click()">Start Free</button>
+                </div>
+                <div class="price-card">
+                    <div class="price-label">Foundation</div>
+                    <div class="price-amount">£29<span style="font-size:13px;font-weight:500;color:var(--tx2)">/mo</span></div>
+                    <div class="price-desc">Independent creators</div>
+                    <ul class="price-feat">
+                        <li>10 channels</li>
+                        <li>10 languages</li>
+                        <li>50 AI generations</li>
+                        <li>Core AI suite</li>
+                    </ul>
+                    <button class="btn-price" onclick="document.getElementById('openModal').click()">Choose Plan</button>
+                </div>
+                <div class="price-card">
+                    <div class="price-label">Growth</div>
+                    <div class="price-amount">£79<span style="font-size:13px;font-weight:500;color:var(--tx2)">/mo</span></div>
+                    <div class="price-desc">Scaling operations</div>
+                    <ul class="price-feat">
+                        <li>30 channels</li>
+                        <li>50 languages</li>
+                        <li>200 AI generations</li>
+                        <li>Monetisation tools</li>
+                    </ul>
+                    <button class="btn-price" onclick="document.getElementById('openModal').click()">Choose Plan</button>
+                </div>
+                <div class="price-card popular">
+                    <div class="price-label gold">Professional</div>
+                    <div class="price-amount">£199<span style="font-size:13px;font-weight:500;color:var(--tx2)">/mo</span></div>
+                    <div class="price-desc">Established networks</div>
+                    <ul class="price-feat">
+                        <li>60 channels</li>
+                        <li>100 languages</li>
+                        <li>1,000 AI generations</li>
+                        <li>Brand marketplace</li>
+                    </ul>
+                    <button class="btn-price primary" onclick="document.getElementById('openModal').click()">Choose Plan</button>
+                </div>
+                <div class="price-card">
+                    <div class="price-label">Enterprise</div>
+                    <div class="price-amount">£499<span style="font-size:13px;font-weight:500;color:var(--tx2)">/mo</span></div>
+                    <div class="price-desc">Global organisations</div>
+                    <ul class="price-feat">
+                        <li>All 102 channels</li>
+                        <li>All 233 languages</li>
+                        <li>Unlimited AI</li>
+                        <li>Dedicated team</li>
+                    </ul>
+                    <button class="btn-price" onclick="document.getElementById('openModal').click()">Contact Sales</button>
+                </div>
+                <div class="price-card" style="background:linear-gradient(135deg,rgba(79,70,229,0.1),rgba(219,39,119,0.1))">
+                    <div class="price-label gold">White Label</div>
+                    <div class="price-amount" style="font-size:18px">Custom</div>
+                    <div class="price-desc">Your brand, our infrastructure</div>
+                    <ul class="price-feat">
+                        <li>Custom branding</li>
+                        <li>SLA contract</li>
+                        <li>API access</li>
+                        <li>Dedicated support</li>
+                    </ul>
+                    <button class="btn-price" onclick="document.getElementById('openModal').click()">Get in touch</button>
+                </div>
+            </div>
+            <p class="price-footer">No card required for the 30-day trial. Annual agreements on paid tiers receive a two-month credit.</p>
+        </div>
+    </section>
+
+    <!-- 8 PILLARS -->
+    <section id="sec-pillars">
+        <div class="container">
+            <span class="label">The 8 Pillars</span>
+            <h2>Every tool you need. One platform.</h2>
+            <p class="sub" style="margin-top:12px">Other systems put institutions at the centre. CastAmplify puts <strong>you</strong> there — eight pillars of growth, all wired to one point: the creator.</p>
+            <svg class="creator-web" viewBox="0 0 760 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing the creator at the centre of eight growth pillars">
+                <!-- connecting lines -->
+                <line class="cw-line" x1="380" y1="270" x2="680" y2="270"/>
+                <line class="cw-line" x1="380" y1="270" x2="592" y2="408"/>
+                <line class="cw-line" x1="380" y1="270" x2="380" y2="462"/>
+                <line class="cw-line" x1="380" y1="270" x2="168" y2="408"/>
+                <line class="cw-line" x1="380" y1="270" x2="80" y2="270"/>
+                <line class="cw-line" x1="380" y1="270" x2="168" y2="132"/>
+                <line class="cw-line" x1="380" y1="270" x2="380" y2="78"/>
+                <line class="cw-line" x1="380" y1="270" x2="592" y2="132"/>
+                <!-- pillar nodes -->
+                <circle class="cw-node" cx="680" cy="270" r="6"/><circle class="cw-pulse" cx="680" cy="270" r="14"/>
+                <circle class="cw-node" cx="592" cy="408" r="6"/><circle class="cw-pulse" cx="592" cy="408" r="14" style="animation-delay:0.6s"/>
+                <circle class="cw-node" cx="380" cy="462" r="6"/><circle class="cw-pulse" cx="380" cy="462" r="14" style="animation-delay:1.2s"/>
+                <circle class="cw-node" cx="168" cy="408" r="6"/><circle class="cw-pulse" cx="168" cy="408" r="14" style="animation-delay:1.8s"/>
+                <circle class="cw-node" cx="80" cy="270" r="6"/><circle class="cw-pulse" cx="80" cy="270" r="14" style="animation-delay:2.4s"/>
+                <circle class="cw-node" cx="168" cy="132" r="6"/><circle class="cw-pulse" cx="168" cy="132" r="14" style="animation-delay:3s"/>
+                <circle class="cw-node" cx="380" cy="78" r="6"/><circle class="cw-pulse" cx="380" cy="78" r="14" style="animation-delay:3.6s"/>
+                <circle class="cw-node" cx="592" cy="132" r="6"/><circle class="cw-pulse" cx="592" cy="132" r="14" style="animation-delay:4.2s"/>
+                <!-- pillar labels -->
+                <text class="cw-label cw-hot" onclick="showPillar('monetisation')" x="680" y="250" text-anchor="middle">Monetisation</text>
+                <text class="cw-label cw-hot" onclick="showPillar('growth')" x="600" y="436" text-anchor="middle">Growth Intelligence</text>
+                <text class="cw-label cw-hot" onclick="showPillar('academy')" x="380" y="492" text-anchor="middle">Creator Academy</text>
+                <text class="cw-label cw-hot" onclick="showPillar('network')" x="160" y="436" text-anchor="middle">Network</text>
+                <text class="cw-label cw-hot" onclick="showPillar('compliance')" x="80" y="250" text-anchor="middle">Compliance</text>
+                <text class="cw-label cw-hot" onclick="showPillar('global')" x="160" y="112" text-anchor="middle">Global Reach</text>
+                <text class="cw-label cw-hot" onclick="showPillar('production')" x="380" y="58" text-anchor="middle">Production & Distribution</text>
+                <text class="cw-label cw-hot" onclick="showPillar('ai')" x="600" y="112" text-anchor="middle">AI Intelligence</text>
+                <!-- centre: the creator -->
+                <rect x="290" y="234" width="180" height="72" rx="14" fill="none" stroke="var(--gold)" stroke-width="1.6"/>
+                <text class="cw-sub" x="380" y="262" text-anchor="middle" letter-spacing="3">THE</text>
+                <text class="cw-label" x="380" y="286" text-anchor="middle" style="font-size:19px;fill:var(--gold)">CREATOR</text>
+            </svg>
+            <div class="grid-3">
+                <div class="card-sm pillar-click" onclick="showPillar('production')"><h3>🎙️ Production & Distribution</h3><p>102 channels automated. Apple, Spotify, YouTube, TikTok, X, Rumble, and 96 more — published simultaneously.</p></div>
+                <div class="card-sm pillar-click" onclick="showPillar('ai')"><h3>🤖 AI Intelligence Layer</h3><p>100% AI back office. Show notes, scripts, captions, translations — all generated in your voice automatically.</p></div>
+                <div class="card-sm pillar-click" onclick="showPillar('global')"><h3>🌍 Global Reach</h3><p>DeepL and Google hybrid translation. 233 languages. Your content reaches audiences in every country.</p></div>
+                <div class="card-sm pillar-click" onclick="showPillar('monetisation')"><h3>💰 Monetisation</h3><p>Stripe subscriptions, dynamic ad insertion, brand marketplace, tip jar, and creator payouts worldwide.</p></div>
+                <div class="card-sm pillar-click" onclick="showPillar('growth')"><h3>📈 Growth Intelligence</h3><p>AI analytics engine. Knows what content works, when to post, and which audience to target next.</p></div>
+                <div class="card-sm pillar-click" onclick="showPillar('academy')"><h3>🎓 Creator Academy</h3><p>126 modules covering everything from recording your first episode to building a six-figure creator business.</p></div>
+                <div class="card-sm pillar-click" onclick="showPillar('network')"><h3>🤝 Network</h3><p>Cross-promotion matching, partnership introductions, and a verified global community of 190+ country creators.</p></div>
+                <div class="card-sm pillar-click" onclick="showPillar('compliance')"><h3>🛡️ Compliance & Protection</h3><p>Identity verification, rights management, GDPR compliance, and IP protection built into every layer.</p></div>
+            </div>
+            <p style="text-align:center;color:var(--tx2);font-size:13px;margin-top:20px">Tap any pillar — on the web or the cards — to see what's inside.</p>
+        </div>
+    </section>
+
+    <!-- ENGINE ROOM — moving pictures -->
+    <section id="sec-engine">
+        <div class="container">
+            <span class="label">The engine room</span>
+            <h2>Watch the machine work.</h2>
+            <div class="engine-grid">
+                <div class="engine-card">
+                    <svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:320px" role="img" aria-label="Animated broadcast rings radiating from one point to many channels">
+                        <circle cx="160" cy="110" r="7" fill="var(--gold)"/>
+                        <circle cx="160" cy="110" fill="none" stroke="var(--ac)" stroke-width="1.4">
+                            <animate attributeName="r" from="10" to="95" dur="4s" repeatCount="indefinite"/>
+                            <animate attributeName="opacity" from="0.8" to="0" dur="4s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="160" cy="110" fill="none" stroke="var(--ac)" stroke-width="1.4">
+                            <animate attributeName="r" from="10" to="95" dur="4s" begin="1.3s" repeatCount="indefinite"/>
+                            <animate attributeName="opacity" from="0.8" to="0" dur="4s" begin="1.3s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="160" cy="110" fill="none" stroke="var(--gold)" stroke-width="1.4">
+                            <animate attributeName="r" from="10" to="95" dur="4s" begin="2.6s" repeatCount="indefinite"/>
+                            <animate attributeName="opacity" from="0.8" to="0" dur="4s" begin="2.6s" repeatCount="indefinite"/>
+                        </circle>
+                        <text x="50" y="30" class="cw-sub">Spotify</text>
+                        <text x="230" y="30" class="cw-sub">Apple</text>
+                        <text x="22" y="115" class="cw-sub">YouTube</text>
+                        <text x="262" y="115" class="cw-sub">X</text>
+                        <text x="46" y="200" class="cw-sub">TikTok</text>
+                        <text x="150" y="212" class="cw-sub">Rumble</text>
+                        <text x="236" y="200" class="cw-sub">RSS +95</text>
+                    </svg>
+                    <h3>One upload. 102 channels.</h3>
+                    <p>Your episode radiates outward — formatted, captioned, and delivered to every platform at once.</p>
+                </div>
+                <div class="engine-card">
+                    <svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:320px" role="img" aria-label="Animated neural network with signals flowing between layers">
+                        <line class="cw-line" x1="60" y1="55" x2="160" y2="40"/><line class="cw-line" x1="60" y1="55" x2="160" y2="110"/>
+                        <line class="cw-line" x1="60" y1="110" x2="160" y2="110"/><line class="cw-line" x1="60" y1="110" x2="160" y2="180"/>
+                        <line class="cw-line" x1="60" y1="165" x2="160" y2="180"/><line class="cw-line" x1="60" y1="165" x2="160" y2="40"/>
+                        <line class="cw-line" x1="160" y1="40" x2="260" y2="80"/><line class="cw-line" x1="160" y1="110" x2="260" y2="80"/>
+                        <line class="cw-line" x1="160" y1="110" x2="260" y2="145"/><line class="cw-line" x1="160" y1="180" x2="260" y2="145"/>
+                        <circle class="cw-node" cx="60" cy="55" r="6"/><circle class="cw-node" cx="60" cy="110" r="6"/><circle class="cw-node" cx="60" cy="165" r="6"/>
+                        <circle class="cw-node" cx="160" cy="40" r="6"/><circle class="cw-node" cx="160" cy="110" r="6"/><circle class="cw-node" cx="160" cy="180" r="6"/>
+                        <circle class="cw-node" cx="260" cy="80" r="6"/><circle class="cw-node" cx="260" cy="145" r="6"/>
+                        <circle class="cw-pulse" cx="160" cy="110" r="14"/>
+                        <circle class="cw-pulse" cx="260" cy="80" r="14" style="animation-delay:1.5s"/>
+                        <circle class="cw-pulse" cx="60" cy="110" r="14" style="animation-delay:3s"/>
+                        <text x="34" y="200" class="cw-sub">your voice in</text>
+                        <text x="216" y="200" class="cw-sub">growth out</text>
+                    </svg>
+                    <h3>AI & machine learning core.</h3>
+                    <p>A living network that learns your voice, your audience, and what makes them grow.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CLIENT JOURNEY — ALL THREE CREATOR TYPES -->
+    <section style="background:var(--bg2)" id="sec-journey">
+        <div class="container">
+            <span class="label">Your Journey</span>
+            <h2>Wherever you are starting from — we have you covered.</h2>
+            <p class="sub">Brand new to podcasting. Still planning. Or already established with an audience. CastAmplify is built for all three. Find your path below.</p>
+
+            <!-- TAB SELECTOR -->
+            <div style="display:flex;gap:8px;margin-bottom:40px;flex-wrap:wrap">
+                <button class="jtab active" data-journey="new" onclick="switchJourney('new')" style="padding:12px 24px;border-radius:10px;border:1px solid var(--gold);background:var(--gold);color:#000;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit">🌱 Brand new creator</button>
+                <button class="jtab" data-journey="planning" onclick="switchJourney('planning')" style="padding:12px 24px;border-radius:10px;border:1px solid var(--bd);background:transparent;color:var(--tx2);font-weight:600;font-size:13px;cursor:pointer;font-family:inherit">💡 Still planning</button>
+                <button class="jtab" data-journey="established" onclick="switchJourney('established')" style="padding:12px 24px;border-radius:10px;border:1px solid var(--bd);background:transparent;color:var(--tx2);font-weight:600;font-size:13px;cursor:pointer;font-family:inherit">🎙️ Already podcasting</button>
+            </div>
+
+            <!-- JOURNEY: BRAND NEW -->
+            <div class="journey jpath active" id="journey-new">
+                <div class="journey-step"><div class="step-num">1</div><div class="step-body"><div class="step-time">Day 1 — Minutes 0 to 10</div><h4>Sign up — no card, no setup fee</h4><p>Enter your name, email, and niche. AI immediately builds your professional creator profile, your first content calendar, and your show concept — before you have recorded a single word.</p></div></div>
+                <div class="journey-step"><div class="step-num">2</div><div class="step-body"><div class="step-time">Day 1 — Hour 1</div><h4>Record or upload your very first episode</h4><p>It does not need to be perfect. Upload it and AI instantly writes your show notes, five title options, social captions for every platform, a blog post, and an email newsletter — all sounding like you.</p></div></div>
+                <div class="journey-step"><div class="step-num">3</div><div class="step-body"><div class="step-time">Day 1 — Hour 2</div><h4>Published across 102 platforms simultaneously</h4><p>Connect your accounts once. Every future episode automatically goes to YouTube, Spotify, Apple, TikTok, X, Rumble, and up to 98 more — all at once, with zero manual work from you.</p></div></div>
+                <div class="journey-step"><div class="step-num">4</div><div class="step-body"><div class="step-time">Day 2</div><h4>AI starts building your audience for you</h4><p>AI clips your episode into short-form videos for TikTok and Reels. A press release reaches 500 media contacts. Content is translated and distributed internationally. AI contacts 500 potential followers per week automatically.</p></div></div>
+                <div class="journey-step"><div class="step-num">5</div><div class="step-body"><div class="step-time">Week 1</div><h4>Your personalised AI growth report arrives</h4><p>Every Monday morning, AI analyses your first week and sends you a plain-English report: what worked, what did not, your top content, and one specific action to take this week. No guessing.</p></div></div>
+                <div class="journey-step"><div class="step-num">6</div><div class="step-body"><div class="step-time">Week 2 to 4</div><h4>Monetisation activates</h4><p>Hit your listener thresholds — which AI is designed to reach within 30 days — and your earnings unlock: tip jar, brand deals, ad revenue, and listener subscriptions, all running simultaneously.</p></div></div>
+                <div class="journey-step"><div class="step-num">7</div><div class="step-body"><div class="step-time">Month 1 onward</div><h4>You get paid — automatically, every month</h4><p>Revenue flows directly to your Stripe account. Ads, subscriptions, brand deals, tips, course sales — all managed by AI. You create. We handle everything else.</p></div></div>
+            </div>
+
+            <!-- JOURNEY: STILL PLANNING -->
+            <div class="journey jpath" id="journey-planning" style="display:none">
+                <div class="journey-step"><div class="step-num">1</div><div class="step-body"><div class="step-time">Right now — Day 1</div><h4>Start your free trial before you even have an idea</h4><p>You do not need a show concept, a name, or any equipment. Sign up and AI asks you five questions about your interests, expertise, and goals — then suggests three specific podcast concepts tailored to you, with audience size estimates for each.</p></div></div>
+                <div class="journey-step"><div class="step-num">2</div><div class="step-body"><div class="step-time">Day 1 to 3</div><h4>AI builds your show concept from scratch</h4><p>Choose a concept and AI builds everything: show name, episode structure, first 10 episode titles, show art prompt, intro script, and a 30-day content calendar. Your podcast is planned before you have recorded a single word.</p></div></div>
+                <div class="journey-step"><div class="step-num">3</div><div class="step-body"><div class="step-time">Day 3 to 7</div><h4>Creator Academy walks you through recording</h4><p>Access 126 modules covering equipment (on any budget), recording technique, interview skills, and audio quality. AI Coach answers every question in real time. You will be ready to record your first episode by the end of Week 1.</p></div></div>
+                <div class="journey-step"><div class="step-num">4</div><div class="step-body"><div class="step-time">Day 7</div><h4>Record and publish your first episode</h4><p>AI handles all the post-production content. Your show is live on all 102 platforms within hours of your first recording. What used to take weeks of setup happens in one day.</p></div></div>
+                <div class="journey-step"><div class="step-num">5</div><div class="step-body"><div class="step-time">Week 2 to 4</div><h4>AI grows your audience while you find your voice</h4><p>You keep recording. AI keeps distributing, clipping, translating, and reaching out to potential new followers. You focus on getting comfortable — AI handles the growth engine behind the scenes.</p></div></div>
+                <div class="journey-step"><div class="step-num">6</div><div class="step-body"><div class="step-time">Month 1</div><h4>Your first income arrives</h4><p>Monetisation unlocks as your audience builds. Brand deals, listener tips, and ad revenue start flowing — often before most new podcasters have even figured out their RSS feed. Your AI back office manages every pound.</p></div></div>
+            </div>
+
+            <!-- JOURNEY: ESTABLISHED PODCASTER -->
+            <div class="journey jpath" id="journey-established" style="display:none">
+                <div class="journey-step"><div class="step-num">1</div><div class="step-body"><div class="step-time">Day 1 — 10 minutes</div><h4>Import your entire existing podcast instantly</h4><p>Paste your existing RSS feed URL. CastAmplify pulls in your entire back catalogue automatically — every episode, every piece of artwork, every description. Your existing Spotify and Apple listeners are not affected or disrupted at all.</p></div></div>
+                <div class="journey-step"><div class="step-num">2</div><div class="step-body"><div class="step-time">Day 1 — Hour 1</div><h4>AI analyses your entire history</h4><p>AI reads through your back catalogue and identifies your best-performing content, your strongest topics, your unique voice patterns, and the exact audience segments most likely to follow you. This becomes your personalised growth strategy — built from your own data.</p></div></div>
+                <div class="journey-step"><div class="step-num">3</div><div class="step-body"><div class="step-time">Day 1 — Hour 2</div><h4>Distribution expands to platforms you are missing</h4><p>Most established podcasters are on 3 to 5 platforms. CastAmplify connects you to up to 102. AI clips your best existing episodes into short-form content for TikTok and Reels — immediately reaching audiences who have never heard of you.</p></div></div>
+                <div class="journey-step"><div class="step-num">4</div><div class="step-body"><div class="step-time">Day 2</div><h4>Revenue gaps close immediately</h4><p>AI scans your content and matches you with brand deals from the marketplace. Dynamic ad insertion activates across your back catalogue — meaning episodes you recorded 2 years ago start earning again. International translation opens entirely new paying audiences.</p></div></div>
+                <div class="journey-step"><div class="step-num">5</div><div class="step-body"><div class="step-time">Week 1</div><h4>You stop doing admin forever</h4><p>Your next episode uploads. AI generates show notes, 5 title options, social captions for all platforms, a blog post, a newsletter, chapter markers, and short-form clips — automatically, before you have even had a coffee. What used to take 8 hours takes zero.</p></div></div>
+                <div class="journey-step"><div class="step-num">6</div><div class="step-body"><div class="step-time">Month 1</div><h4>Full AI back office running</h4><p>Sponsorship matching, payout management, tax reporting, audience analytics, cross-promotion with compatible creators — all automated. Your entire business operation runs itself. You just keep creating the content you love.</p></div></div>
+                <div class="journey-step"><div class="step-num">7</div><div class="step-body"><div class="step-time">Month 2 onward</div><h4>Scale without hiring</h4><p>Whether you go from 1,000 to 10,000 listeners or from 100,000 to 1 million — CastAmplify scales with you automatically. No extra staff, no new tools, no new subscriptions. The same platform handles every level of growth.</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRUST STRIP -->
+    <section style="padding:60px 24px;text-align:center">
+        <div class="container">
+            <span class="label" style="margin-bottom:24px;display:block">Powered by enterprise-grade infrastructure</span>
+            <div style="display:flex;justify-content:center;gap:40px;flex-wrap:wrap;font-size:13px;font-weight:600;color:var(--tx2)">
+                <span>AWS</span><span>Cloudflare</span><span>Stripe</span><span>Anthropic Claude</span><span>DeepL</span><span>GDPR Compliant</span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="logo">
+            <div class="logo-mark">CA</div>
+            <div class="logo-text"><span style="color:var(--tx)">Cast</span><span style="background:linear-gradient(90deg,#a78bfa,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Amplify</span></div>
+        </div>
+        <div class="visitor-count"><div class="pulse-dot"></div><span>Now onboarding creators across 190+ markets</span></div>
+        <div style="font-size:13px"><a href="/privacy.html" style="color:var(--tx2);margin:0 12px">Privacy Policy</a>|<a href="/terms.html" style="color:var(--tx2);margin:0 12px">Terms of Service</a></div>
+        <p style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--tx2)">CastAmplify — A Global Creator Infrastructure Company</p>
+    </footer>
+</div>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modal">
+    <div class="modal">
+        <h2>Start your 30-day free trial</h2>
+        <p>No credit card required. Your creator command centre will be ready in minutes.<br><span style="font-size:12px;color:var(--sc)">✓ Real account • ✓ AI activated immediately</span></p>
+        <form id="signupForm">
+            <div class="fg"><label>Full name</label><input type="text" id="iName" placeholder="Your name" required></div>
+            <div class="fg"><label>Email address</label><input type="email" id="iEmail" placeholder="you@email.com" required></div>
+            <div class="fg">
+                <label>Your niche</label>
+                <select id="iNiche">
+                    <option value="">Select your creator type...</option>
+                    <option>Independent journalist</option>
+                    <option>News organisation</option>
+                    <option>NGO / Non-profit</option>
+                    <option>Elected official / Political</option>
+                    <option>Faith leader</option>
+                    <option>Educator / Academic</option>
+                    <option>Business commentator</option>
+                    <option>Sports creator</option>
+                    <option>Lifestyle / Entertainment</option>
+                    <option>Other</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-full" id="submitBtn">Launch my free trial →</button>
+            <p style="font-size:12px;color:var(--tx2);margin-top:12px;text-align:center">By signing up you agree to our <a href="/terms.html" target="_blank" style="color:var(--gold)">Terms of Service</a> and <a href="/privacy.html" target="_blank" style="color:var(--gold)">Privacy Policy</a>.</p>
+        </form>
+        <div class="success-msg" id="successMsg">
+            ✅ Welcome! Your command centre is ready. Loading now...
+        </div>
+        <p style="text-align:center;font-size:12px;color:var(--tx2);margin-top:16px">By signing up you agree to our Terms of Service and Privacy Policy</p>
+    </div>
+</div>
+
+<!-- PROFILE MODAL (Step 2) -->
+<div class="modal-bg" id="profileModal">
+    <div class="modal">
+        <button class="modal-close" onclick="closeModal('profileModal')">✕</button>
+        <h2>Your creator profile</h2>
+        <p>Tell the world who you are. This powers your public creator page.</p>
+        <form id="profileForm">
+            <div class="fg"><label>Short bio</label><textarea id="pBio" placeholder="e.g. Zimbabwean journalist covering agriculture, mining and community stories across Southern Africa" required></textarea></div>
+            <div class="fg"><label>Profile photo (optional)</label><input type="file" id="pPhoto" accept="image/*"><img class="photo-preview" id="pPhotoPreview" alt="Photo preview"></div>
+            <div class="fg"><label>Niche tags (separate with commas)</label><input type="text" id="pTags" placeholder="e.g. farming, news, education" required></div>
+            <button type="submit" class="btn-full">Save my profile ✓</button>
+        </form>
+    </div>
+</div>
+
+<!-- EPISODE MODAL (Step 3) -->
+<div class="modal-bg" id="episodeModal">
+    <div class="modal">
+        <button class="modal-close" onclick="closeModal('episodeModal')">✕</button>
+        <h2>Your first episode</h2>
+        <p>Give us your episode details. Paste a link if it's already online (Spotify, YouTube, RSS, a file link) or just enter the title to register it.</p>
+        <form id="episodeForm">
+            <div class="fg"><label>Episode title</label><input type="text" id="eTitle" placeholder="e.g. Episode 1 — Welcome to my show" required></div>
+            <div class="fg"><label>Episode link (optional)</label><input type="url" id="eLink" placeholder="https://..."></div>
+            <div class="fg"><label>Short description (optional)</label><textarea id="eDesc" placeholder="What is this episode about?"></textarea></div>
+            <button type="submit" class="btn-full">Save my episode ✓</button>
+        </form>
+    </div>
+</div>
+
+<!-- SOCIAL LINKS MODAL (Step 4) -->
+<div class="modal-bg" id="socialModal">
+    <div class="modal">
+        <button class="modal-close" onclick="closeModal('socialModal')">✕</button>
+        <h2>Connect your platforms</h2>
+        <p>Paste the links to your existing profiles or shows. Add at least one.</p>
+        <form id="socialForm">
+            <div class="fg"><label>Link 1</label><input type="url" id="sLink1" placeholder="https://youtube.com/@yourchannel" required></div>
+            <div class="fg"><label>Link 2 (optional)</label><input type="url" id="sLink2" placeholder="https://open.spotify.com/show/..."></div>
+            <div class="fg"><label>Link 3 (optional)</label><input type="url" id="sLink3" placeholder="https://tiktok.com/@you"></div>
+            <button type="submit" class="btn-full">Save my links ✓</button>
+        </form>
+    </div>
+</div>
+
+<!-- PAYOUT MODAL (Step 5) -->
+<div class="modal-bg" id="payoutModal">
+    <div class="modal">
+        <button class="modal-close" onclick="closeModal('payoutModal')">✕</button>
+        <h2>Payout details</h2>
+        <p>Enter the email address you use (or will use) for Stripe payouts. Full Stripe onboarding follows once your earnings activate.</p>
+        <form id="payoutForm">
+            <div class="fg"><label>Payout email</label><input type="email" id="payEmail" placeholder="you@email.com" required></div>
+            <button type="submit" class="btn-full">Save payout details ✓</button>
+        </form>
+    </div>
+</div>
+
+<!-- AI RESULTS MODAL -->
+<div class="modal-bg" id="aiResultModal">
+    <div class="modal" style="max-height:80vh;overflow-y:auto">
+        <button class="modal-close" onclick="closeModal('aiResultModal')">✕</button>
+        <h2>🤖 Your AI content is ready</h2>
+        <p>Generated for your episode by the CastAmplify AI back office — saved to your account.</p>
+        <div class="fg"><label>Show notes</label><p id="aiNotes" style="font-size:14px;line-height:1.7;color:var(--tx)"></p></div>
+        <div class="fg"><label>Social captions</label><div id="aiCaptions" style="font-size:14px;line-height:1.7;color:var(--tx)"></div></div>
+        <div class="fg"><label>Alternative titles</label><div id="aiTitles" style="font-size:14px;line-height:1.7;color:var(--tx)"></div></div>
+    </div>
+</div>
+
+<!-- PILLAR DETAIL MODAL -->
+<div class="modal-bg" id="pillarModal">
+    <div class="modal">
+        <button class="modal-close" onclick="closeModal('pillarModal')">✕</button>
+        <h2 id="plTitle"></h2>
+        <p id="plFact1" style="margin-bottom:14px"></p>
+        <p id="plFact2"></p>
+    </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="screen">
+    <header style="background:var(--bg2)">
+        <nav>
+            <div class="logo">
+                <div class="logo-mark">CA</div>
+                <div class="logo-text"><span style="color:var(--tx)">Cast</span><span style="background:linear-gradient(90deg,#a78bfa,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Amplify</span></div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:center">
+                <button class="btn-theme" id="viewSiteBtn">View website</button>
+                <button class="btn-theme" id="logoutBtn">Log out</button>
+                <div style="font-size:13px;color:var(--tx2)">Trial: <span style="color:var(--sc);font-weight:700" id="trialDays">30 Days Remaining</span></div>
+            </div>
+        </nav>
+    </header>
+    <div style="padding-top:64px">
+        <div class="dash-tabs">
+            <div class="dtab active" data-tab="ov">Command Centre</div>
+            <div class="dtab" data-tab="ai">AI Back Office</div>
+            <div class="dtab" data-tab="setup">Setup Checklist</div>
+        </div>
+
+        <div class="tab-c active" id="tab-ov">
+            <div class="dash-content">
+                <h2 style="font-size:22px;margin-bottom:8px">Welcome, <span id="dName">Creator</span> 👋</h2>
+                <p style="color:var(--tx2);font-size:14px;margin-bottom:32px">Your AI back office is active and running. Here's your live dashboard.</p>
+                <div class="g3">
+                    <div class="dash-card"><h3>Revenue (MTD)</h3><div class="big-stat" id="rev">£0.00</div></div>
+                    <div class="dash-card"><h3>Global Plays</h3><div class="big-stat" id="down">0</div></div>
+                    <div class="dash-card"><h3>AI Status</h3><div class="big-stat" style="color:var(--ac);font-size:32px">● ACTIVE</div></div>
+                </div>
+                <div class="ai-ticker">
+                    <div><strong style="color:var(--sc);font-size:13px">● Live Infrastructure Running</strong></div>
+                    <div class="pbar"><p>Languages active <span id="lC">0/233</span></p><div class="bar"><div class="fill" id="lP"></div></div></div>
+                    <div class="pbar"><p>Channels active <span id="cC">0/102</span></p><div class="bar"><div class="fill" id="cP"></div></div></div>
+                    <div class="pbar"><p>AI Completions <span id="aC">0/10</span></p><div class="bar"><div class="fill" id="aP"></div></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-c" id="tab-ai">
+            <div class="dash-content">
+                <h2 style="font-size:22px;margin-bottom:8px">100% AI Back Office</h2>
+                <p style="color:var(--tx2);font-size:14px;margin-bottom:32px">Every function below runs automatically — no staff required.</p>
+                <div class="g3">
+                    <div class="dash-card"><h3>🤖 Auto Show Notes</h3><p style="color:var(--tx2);font-size:13px">Generates SEO-optimised show notes from every episode automatically.</p></div>
+                    <div class="dash-card"><h3>💼 Auto Sponsorships</h3><p style="color:var(--tx2);font-size:13px">AI matches your content with relevant brand deals and sends proposals.</p></div>
+                    <div class="dash-card"><h3>🌍 Auto Translation</h3><p style="color:var(--tx2);font-size:13px">Every episode translated and distributed in up to 233 languages.</p></div>
+                    <div class="dash-card"><h3>📊 Auto Analytics</h3><p style="color:var(--tx2);font-size:13px">Weekly growth reports written by AI, sent every Monday morning.</p></div>
+                    <div class="dash-card"><h3>💰 Auto Payouts</h3><p style="color:var(--tx2);font-size:13px">Revenue collected, converted, and paid to your account automatically.</p></div>
+                    <div class="dash-card"><h3>📧 Auto Outreach</h3><p style="color:var(--tx2);font-size:13px">AI contacts 500 potential new followers per week on your behalf.</p></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-c" id="tab-setup">
+            <div class="dash-content">
+                <h2 style="font-size:22px;margin-bottom:8px">Your Setup Checklist</h2>
+                <p style="color:var(--tx2);font-size:14px;margin-bottom:32px">Complete these steps to activate your full platform and start earning. Tap any unlocked step to complete it.</p>
+                <ul class="checklist" id="checklistUl"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+    // SUPABASE
+    const supabase = window.supabase.createClient(
+        'https://wuzzdlihjckgtzmdbxwm.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind1enpkbGloamNrZ3R6bWRieHdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4NTAzMTYsImV4cCI6MjA5ODQyNjMxNn0.noRzWezGQkmUsvW-oO6yA4U_-wpCFcKyk0QU-P6II1s'
+    );
+
+    // THEME TOGGLE
+    const themeBtn = document.getElementById('themeToggle');
+    let isDark = true;
+    themeBtn.addEventListener('click', () => {
+        isDark = !isDark;
+        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        themeBtn.textContent = isDark ? '☀️ Light' : '🌙 Dark';
+    });
+
+    // (Visitor counter removed — footer now shows an honest onboarding message)
+
+    // FLAG MARQUEE — every African nation + the connected world, interleaved so regions always mix
+    const REGIONS = [
+        // Africa — all 54
+        [['🇩🇿','Algeria'],['🇦🇴','Angola'],['🇧🇯','Benin'],['🇧🇼','Botswana'],['🇧🇫','Burkina Faso'],['🇧🇮','Burundi'],['🇨🇻','Cabo Verde'],['🇨🇲','Cameroon'],['🇨🇫','Central African Republic'],['🇹🇩','Chad'],['🇰🇲','Comoros'],['🇨🇬','Congo'],['🇨🇩','DR Congo'],['🇨🇮','Côte d\'Ivoire'],['🇩🇯','Djibouti'],['🇪🇬','Egypt'],['🇬🇶','Equatorial Guinea'],['🇪🇷','Eritrea'],['🇸🇿','Eswatini'],['🇪🇹','Ethiopia'],['🇬🇦','Gabon'],['🇬🇲','Gambia'],['🇬🇭','Ghana'],['🇬🇳','Guinea'],['🇬🇼','Guinea-Bissau'],['🇰🇪','Kenya'],['🇱🇸','Lesotho'],['🇱🇷','Liberia'],['🇱🇾','Libya'],['🇲🇬','Madagascar'],['🇲🇼','Malawi'],['🇲🇱','Mali'],['🇲🇷','Mauritania'],['🇲🇺','Mauritius'],['🇲🇦','Morocco'],['🇲🇿','Mozambique'],['🇳🇦','Namibia'],['🇳🇪','Niger'],['🇳🇬','Nigeria'],['🇷🇼','Rwanda'],['🇸🇹','São Tomé & Príncipe'],['🇸🇳','Senegal'],['🇸🇨','Seychelles'],['🇸🇱','Sierra Leone'],['🇸🇴','Somalia'],['🇿🇦','South Africa'],['🇸🇸','South Sudan'],['🇸🇩','Sudan'],['🇹🇿','Tanzania'],['🇹🇬','Togo'],['🇹🇳','Tunisia'],['🇺🇬','Uganda'],['🇿🇲','Zambia'],['🇿🇼','Zimbabwe']],
+        // Europe
+        [['🇬🇧','United Kingdom'],['🇩🇪','Germany'],['🇫🇷','France'],['🇪🇸','Spain'],['🇮🇹','Italy'],['🇳🇱','Netherlands'],['🇸🇪','Sweden'],['🇳🇴','Norway'],['🇩🇰','Denmark'],['🇫🇮','Finland'],['🇮🇪','Ireland'],['🇵🇹','Portugal'],['🇵🇱','Poland'],['🇺🇦','Ukraine'],['🇷🇺','Russia'],['🇨🇭','Switzerland'],['🇬🇷','Greece'],['🇨🇿','Czechia'],['🇷🇴','Romania'],['🇪🇪','Estonia']],
+        // Asia
+        [['🇯🇵','Japan'],['🇰🇷','South Korea'],['🇸🇬','Singapore'],['🇨🇳','China'],['🇮🇳','India'],['🇮🇩','Indonesia'],['🇵🇭','Philippines'],['🇹🇭','Thailand'],['🇻🇳','Vietnam'],['🇲🇾','Malaysia'],['🇵🇰','Pakistan'],['🇧🇩','Bangladesh'],['🇱🇰','Sri Lanka'],['🇰🇿','Kazakhstan'],['🇳🇵','Nepal']],
+        // Americas & Caribbean
+        [['🇺🇸','United States'],['🇨🇦','Canada'],['🇲🇽','Mexico'],['🇧🇷','Brazil'],['🇦🇷','Argentina'],['🇨🇱','Chile'],['🇨🇴','Colombia'],['🇵🇪','Peru'],['🇯🇲','Jamaica'],['🇹🇹','Trinidad & Tobago'],['🇺🇾','Uruguay'],['🇪🇨','Ecuador'],['🇩🇴','Dominican Republic'],['🇧🇸','Bahamas'],['🇧🇧','Barbados']],
+        // Middle East
+        [['🇵🇸','Palestine'],['🇮🇱','Israel'],['🇦🇪','UAE'],['🇸🇦','Saudi Arabia'],['🇶🇦','Qatar'],['🇯🇴','Jordan'],['🇱🇧','Lebanon'],['🇹🇷','Türkiye'],['🇰🇼','Kuwait'],['🇴🇲','Oman'],['🇧🇭','Bahrain'],['🇮🇶','Iraq']],
+        // Oceania
+        [['🇦🇺','Australia'],['🇳🇿','New Zealand'],['🇫🇯','Fiji'],['🇵🇬','Papua New Guinea'],['🇼🇸','Samoa']]
+    ];
+    // Round-robin interleave: Africa, Europe, Asia, Americas, Middle East, Oceania, repeat
+    const mixedFlags = [];
+    let ri = 0, found = true;
+    while (found) {
+        found = false;
+        for (const region of REGIONS) {
+            if (region[ri]) { mixedFlags.push(region[ri]); found = true; }
+        }
+        ri++;
+    }
+    const third = Math.ceil(mixedFlags.length / 3);
+    function fillFlags(rowId, flags) {
+        const el = document.getElementById(rowId);
+        if (!el) return;
+        const pills = flags.map(f => '<div class="flag-pill"><span class="fl">' + f[0] + '</span>' + f[1] + '</div>').join('');
+        el.innerHTML = pills + pills; // duplicated for a seamless infinite loop
+    }
+    fillFlags('flagRow1', mixedFlags.slice(0, third));
+    fillFlags('flagRow2', mixedFlags.slice(third, third * 2));
+    fillFlags('flagRow3', mixedFlags.slice(third * 2));
+
+    // PILLAR DETAILS — two facts each
+    const PILLAR_INFO = {
+        production: ['🎙️ Production & Distribution', 'Publish once — your episode is automatically formatted and delivered to Apple, Spotify, YouTube, TikTok, X, Rumble and 96 more channels simultaneously.', 'Scheduling, show art, episode pages and RSS feeds are all generated and maintained for you.'],
+        ai: ['🤖 AI Intelligence Layer', 'Show notes, scripts, captions, titles and translations generated automatically — in your voice, not a robot\'s.', 'A 10-role AI back office works on your show around the clock: producer, editor, marketer, analyst and more.'],
+        global: ['🌍 Global Reach', 'Hybrid DeepL + Google translation carries your content into 233 languages.', 'Region-aware publishing means your episodes land correctly in every one of 190+ markets.'],
+        monetisation: ['💰 Monetisation', 'Stripe subscriptions, dynamic ad insertion, a brand marketplace and a listener tip jar — switched on from one dashboard.', 'Creator payouts worldwide with transparent reporting, so you always know what you\'ve earned and why.'],
+        growth: ['📈 Growth Intelligence', 'AI analytics that learn what works for your show — which content, which timing, which audience.', 'A weekly growth report lands every Monday with concrete next actions, not just charts.'],
+        academy: ['🎓 Creator Academy', '126 modules covering the full journey — from recording your very first episode to running a six-figure creator business.', 'Templates, checklists and walkthroughs for every stage, so you never face a blank page.'],
+        network: ['🤝 Network', 'Cross-promotion matching connects you with verified creators across 190+ markets.', 'AI-curated partnership and sponsorship introductions that fit your niche and audience size.'],
+        compliance: ['🛡️ Compliance & Protection', 'Identity verification, rights management and IP protection built into every layer of the platform.', 'Privacy-first data handling designed to meet the world\'s strictest data-protection standards.']
+    };
+    window.showPillar = function(key) {
+        const info = PILLAR_INFO[key];
+        if (!info) return;
+        document.getElementById('plTitle').textContent = info[0];
+        document.getElementById('plFact1').textContent = info[1];
+        document.getElementById('plFact2').textContent = info[2];
+        document.getElementById('pillarModal').classList.add('active');
+    };
+    const plm = document.getElementById('pillarModal');
+    plm.addEventListener('click', (e) => { if (e.target === plm) plm.classList.remove('active'); });
+
+    // WORD SKY — small drifting background words
+    const SKY_WORDS = ['network','compliance','monetisation','growth','English','French','Swahili','Venda','Shona','Ndebele','Arabic','Hindi','Spanish','Portuguese','Mandarin','Zulu','Yoruba','Hausa','Amharic','X','Rumble','YouTube','Spotify','Apple Podcasts','TikTok','Telegram','RSS','190+ markets','233 languages','102 channels','8 pillars','AI','machine learning','creators','podcast','distribution','analytics','academy'];
+    const sky = document.getElementById('wordSky');
+    if (sky) {
+        SKY_WORDS.forEach((w, i) => {
+            const el = document.createElement('span');
+            el.className = 'sky-word';
+            el.textContent = w;
+            el.style.left = ((i * 61) % 97) + '%';
+            el.style.fontSize = (11 + (i % 4) * 2) + 'px';
+            const dur = 70 + (i % 7) * 12;
+            el.style.animationDuration = dur + 's';
+            el.style.animationDelay = '-' + ((i * 13) % dur) + 's';
+            sky.appendChild(el);
+        });
+    }
+
+    // MODAL OPEN — or straight back to dashboard when already signed in
+    const modal = document.getElementById('modal');
+    function handleCTA() {
+        if (user && user.name) {
+            document.getElementById('landing').classList.remove('active');
+            document.getElementById('dashboard').classList.add('active');
+            window.scrollTo(0,0);
+        } else {
+            modal.classList.add('active');
+        }
+    }
+    document.getElementById('openModal').addEventListener('click', handleCTA);
+    document.getElementById('openModal2').addEventListener('click', handleCTA);
+
+    // CLOSE MODAL ON BACKGROUND CLICK
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
+
+    // SIGNUP FORM
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        btn.textContent = 'Launching...';
+        btn.disabled = true;
+
+        const name = document.getElementById('iName').value;
+        const email = document.getElementById('iEmail').value;
+        const niche = document.getElementById('iNiche').value;
+
+        try {
+            await supabase.from('users').insert([{ name, email, niche }]);
+        } catch(err) {
+            // Continue even if DB fails — show dashboard anyway
+        }
+
+        document.getElementById('signupForm').style.display = 'none';
+        document.getElementById('successMsg').style.display = 'block';
+
+        setTimeout(() => {
+            user = { name, email, niche, steps: {}, createdAt: Date.now() };
+            saveUser();
+            // Send the welcome email (fire and forget — signup never blocks on it)
+            fetch('/api/welcome', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email })
+            }).catch(() => {});
+            document.getElementById('dName').innerText = name.split(' ')[0];
+            modal.classList.remove('active');
+            document.getElementById('landing').classList.remove('active');
+            document.getElementById('dashboard').classList.add('active');
+            window.scrollTo(0,0);
+            renderChecklist();
+            updateTrialDays();
+            startAI();
+        }, 1500);
+    });
+
+    // DASHBOARD TABS
+    document.querySelectorAll('.dtab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.dtab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-c').forEach(c => c.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById(`tab-${tab.dataset.tab}`).classList.add('active');
+        });
+    });
+
+    // AI TICKERS
+    function startAI() {
+        // Revenue and plays show real values only — starting at zero until live tracking is connected
+        document.getElementById('rev').innerText = '£0.00';
+        document.getElementById('down').innerText = '0';
+        let l = 0, c = 0, a = 0;
+        const lTimer = setInterval(() => {
+            if (l < 233) { l = Math.min(l + 4, 233); document.getElementById('lC').innerText = `${l}/233`; document.getElementById('lP').style.width = `${(l/233)*100}%`; }
+            else clearInterval(lTimer);
+        }, 400);
+        const cTimer = setInterval(() => {
+            if (c < 102) { c = Math.min(c + 3, 102); document.getElementById('cC').innerText = `${c}/102`; document.getElementById('cP').style.width = `${(c/102)*100}%`; }
+            else clearInterval(cTimer);
+        }, 600);
+        const aTimer = setInterval(() => {
+            if (a < 10) { a++; document.getElementById('aC').innerText = `${a}/10`; document.getElementById('aP').style.width = `${(a/10)*100}%`; }
+            else clearInterval(aTimer);
+        }, 800);
+    }
+
+    // ===== CHECKLIST ENGINE =====
+    const LS_KEY = 'castamplify_user';
+    let user = JSON.parse(localStorage.getItem(LS_KEY) || 'null');
+
+    const STEPS = [
+        { id: 'account', title: 'Create your account', desc: "Done! You're in.", action: null },
+        { id: 'profile', title: 'Complete your creator profile', desc: 'Add your bio, photo, and niche tags', action: 'profileModal' },
+        { id: 'episode', title: 'Upload your first episode', desc: 'AI will generate all content automatically', action: 'episodeModal' },
+        { id: 'social',  title: 'Connect your social accounts', desc: 'Paste links to your existing platforms', action: 'socialModal' },
+        { id: 'payout',  title: 'Set up your payout account', desc: 'Connect Stripe to receive earnings directly', action: 'payoutModal' },
+        { id: 'publish', title: 'Publish your first episode', desc: 'Queue your episode for distribution', action: 'publish' },
+        { id: 'report',  title: 'Review your first AI growth report', desc: 'Arrives Monday morning automatically', action: null }
+    ];
+
+    function saveUser() {
+        localStorage.setItem(LS_KEY, JSON.stringify(user));
+        // Cloud backup — silently skipped if the table doesn't exist yet
+        try {
+            supabase.from('creator_profiles').upsert(
+                { email: user.email, data: user }, { onConflict: 'email' }
+            ).then(() => {}, () => {});
+        } catch (err) {}
+    }
+
+    function renderChecklist() {
+        const ul = document.getElementById('checklistUl');
+        if (!ul || !user) return;
+        ul.innerHTML = '';
+        const done = user.steps || {};
+        let currentFound = false;
+        STEPS.forEach((s, i) => {
+            const li = document.createElement('li');
+            const isDone = i === 0 || !!done[s.id];
+            let stateClass = '', icon = '';
+            if (isDone) { icon = '<div class="check-icon done">✓</div>'; }
+            else if (!currentFound) { icon = '<div class="check-icon active">' + (i + 1) + '</div>'; stateClass = s.action ? 'clickable' : ''; currentFound = true; }
+            else { icon = '<div class="check-icon">' + (i + 1) + '</div>'; stateClass = s.action ? 'clickable' : 'locked'; }
+            li.className = stateClass;
+            let right = '';
+            if (isDone && i > 0) right = '<span class="check-done-note">Completed ✓' + (s.action && s.action !== 'publish' ? ' · tap to edit ✎' : '') + '</span>';
+            else if (s.action && !isDone) right = '<span class="check-go">Tap to complete →</span>';
+            li.innerHTML = icon + '<div><strong>' + s.title + '</strong> — ' + s.desc + '</div>' + right;
+            const openable = s.action && (!isDone || s.action !== 'publish');
+            if (isDone && s.action && s.action !== 'publish') li.classList.add('clickable');
+            if (openable) {
+                li.addEventListener('click', () => {
+                    if (s.action === 'publish') {
+                        if (!(user.steps && user.steps.episode)) { alert('Upload your first episode (Step 3) before publishing.'); return; }
+                        if (!user.steps) user.steps = {};
+                        user.steps.publish = true; saveUser(); renderChecklist();
+                        alert('🎉 Your episode is queued for distribution. You will be notified as channels go live.');
+                    } else {
+                        prefillModal(s.action);
+                        document.getElementById(s.action).classList.add('active');
+                    }
+                });
+            }
+            ul.appendChild(li);
+        });
+    }
+
+    function prefillModal(modalId) {
+        if (!user) return;
+        if (modalId === 'profileModal') {
+            document.getElementById('pBio').value = user.bio || '';
+            document.getElementById('pTags').value = user.tags || '';
+            if (user.photo) { const img = document.getElementById('pPhotoPreview'); img.src = user.photo; img.style.display = 'block'; }
+        } else if (modalId === 'episodeModal') {
+            document.getElementById('eTitle').value = user.episodeTitle || '';
+            document.getElementById('eLink').value = user.episodeLink || '';
+            document.getElementById('eDesc').value = user.episodeDesc || '';
+        } else if (modalId === 'socialModal') {
+            const l = user.socialLinks || [];
+            document.getElementById('sLink1').value = l[0] || '';
+            document.getElementById('sLink2').value = l[1] || '';
+            document.getElementById('sLink3').value = l[2] || '';
+        } else if (modalId === 'payoutModal') {
+            document.getElementById('payEmail').value = user.payoutEmail || '';
+        }
+    }
+
+    window.closeModal = function(id) { document.getElementById(id).classList.remove('active'); };
+    ['profileModal','episodeModal','socialModal','payoutModal'].forEach(id => {
+        const m = document.getElementById(id);
+        if (m) m.addEventListener('click', (e) => { if (e.target === m) m.classList.remove('active'); });
+    });
+
+    function completeStep(stepId, data, modalId) {
+        if (!user) return;
+        if (!user.steps) user.steps = {};
+        user.steps[stepId] = true;
+        Object.assign(user, data);
+        saveUser();
+        window.closeModal(modalId);
+        renderChecklist();
+    }
+
+    // PROFILE FORM
+    let photoData = null;
+    document.getElementById('pPhoto').addEventListener('change', (e) => {
+        const f = e.target.files[0];
+        if (!f) return;
+        const r = new FileReader();
+        r.onload = () => {
+            photoData = r.result;
+            const img = document.getElementById('pPhotoPreview');
+            img.src = photoData; img.style.display = 'block';
+        };
+        r.readAsDataURL(f);
+    });
+    document.getElementById('profileForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        completeStep('profile', {
+            bio: document.getElementById('pBio').value,
+            tags: document.getElementById('pTags').value,
+            photo: photoData
+        }, 'profileModal');
+    });
+
+    // EPISODE FORM — now calls the real AI back office
+    document.getElementById('episodeForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = e.target.querySelector('button[type="submit"]');
+        const epData = {
+            episodeTitle: document.getElementById('eTitle').value,
+            episodeLink: document.getElementById('eLink').value,
+            episodeDesc: document.getElementById('eDesc').value
+        };
+        btn.disabled = true;
+        btn.textContent = '🤖 AI is writing your show notes…';
+        let ai = null;
+        try {
+            const r = await fetch('/api/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title: epData.episodeTitle,
+                    description: epData.episodeDesc,
+                    niche: user && user.niche,
+                    name: user && user.name
+                })
+            });
+            if (r.ok) ai = await r.json();
+        } catch (err) { /* generation failed — episode still saves */ }
+        btn.disabled = false;
+        btn.textContent = 'Save my episode ✓';
+        if (ai && ai.showNotes) {
+            epData.aiContent = ai;
+            completeStep('episode', epData, 'episodeModal');
+            document.getElementById('aiNotes').textContent = ai.showNotes;
+            document.getElementById('aiCaptions').innerHTML = (ai.captions || []).map(c => '<p style="margin-bottom:8px">• ' + c.replace(/</g,'&lt;') + '</p>').join('');
+            document.getElementById('aiTitles').innerHTML = (ai.titles || []).map(t => '<p style="margin-bottom:8px">• ' + t.replace(/</g,'&lt;') + '</p>').join('');
+            document.getElementById('aiResultModal').classList.add('active');
+        } else {
+            completeStep('episode', epData, 'episodeModal');
+            alert('Episode saved ✓ — AI content generation is temporarily unavailable and will be ready soon.');
+        }
+    });
+    const aim = document.getElementById('aiResultModal');
+    aim.addEventListener('click', (e) => { if (e.target === aim) aim.classList.remove('active'); });
+
+    // SOCIAL FORM
+    document.getElementById('socialForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const links = [
+            document.getElementById('sLink1').value,
+            document.getElementById('sLink2').value,
+            document.getElementById('sLink3').value
+        ].filter(Boolean);
+        completeStep('social', { socialLinks: links }, 'socialModal');
+    });
+
+    // PAYOUT FORM
+    document.getElementById('payoutForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        completeStep('payout', { payoutEmail: document.getElementById('payEmail').value }, 'payoutModal');
+    });
+
+    // TRIAL COUNTDOWN — real days remaining from the actual signup date
+    function updateTrialDays() {
+        const el = document.getElementById('trialDays');
+        if (!el || !user) return;
+        if (!user.createdAt) { user.createdAt = Date.now(); saveUser(); }
+        const used = Math.floor((Date.now() - user.createdAt) / 86400000);
+        const left = Math.max(0, 30 - used);
+        el.innerText = left > 0 ? left + ' Day' + (left === 1 ? '' : 's') + ' Remaining' : 'Trial ended';
+        if (left === 0) el.style.color = 'var(--gold)';
+    }
+
+    // SESSION RESTORE — returning users go straight to their dashboard
+    if (user && user.name) {
+        document.getElementById('dName').innerText = user.name.split(' ')[0];
+        document.getElementById('landing').classList.remove('active');
+        document.getElementById('dashboard').classList.add('active');
+        renderChecklist();
+        updateTrialDays();
+        startAI();
+    }
+
+    // VIEW WEBSITE / LOG OUT
+    function refreshNavButtons() {
+        const label = (user && user.name) ? 'My dashboard →' : 'Start free — 30 days';
+        document.getElementById('openModal').textContent = label;
+        document.getElementById('openModal2').textContent = label;
+    }
+    refreshNavButtons();
+
+    document.getElementById('viewSiteBtn').addEventListener('click', () => {
+        document.getElementById('dashboard').classList.remove('active');
+        document.getElementById('landing').classList.add('active');
+        window.scrollTo(0,0);
+        refreshNavButtons();
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+        localStorage.removeItem(LS_KEY);
+        user = null;
+        document.getElementById('dashboard').classList.remove('active');
+        document.getElementById('landing').classList.add('active');
+        window.scrollTo(0,0);
+        refreshNavButtons();
+    });
+
+});
+
+    // JOURNEY TAB SWITCHER
+    window.switchJourney = function(type) {
+        document.querySelectorAll('.jpath').forEach(p => { p.style.display = 'none'; p.classList.remove('active'); });
+        document.querySelectorAll('.jtab').forEach(t => {
+            t.style.background = 'transparent';
+            t.style.color = 'var(--tx2)';
+            t.style.borderColor = 'var(--bd)';
+        });
+        const path = document.getElementById('journey-' + type);
+        if (path) { path.style.display = 'block'; path.classList.add('active'); }
+        const btn = document.querySelector('.jtab[data-journey="' + type + '"]');
+        if (btn) { btn.style.background = 'var(--gold)'; btn.style.color = '#000'; btn.style.borderColor = 'var(--gold)'; }
+    };
+    // Show brand new by default
+    window.switchJourney('new');
+
+</script>
+</body>
+</html>
