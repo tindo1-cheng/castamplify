@@ -1,11 +1,9 @@
 // CastAmplify — Stripe Webhook
 // Runs on Vercel at /api/stripe-webhook
 // Marks a creator as paid in Supabase when their Stripe checkout completes.
-// Security: we never trust the incoming payload — we fetch the session
-// directly from Stripe using our secret key and act only on Stripe's answer.
 
 const SUPABASE_URL = 'https://wuzzdlihjckgtzmdbxwm.supabase.co';
-const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind1enpkbGloamNrZ3R6bWRieHdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE2NTk4NTUsImV4cCI6MjA3NzIzNTg1NX0.LDtLDcQzoJDs2SoBhDLtLl-TjfvJqIocnAgBpU4pWQ4';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind1enpkbGloamNrZ3R6bWRieHdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4NTAzMTYsImV4cCI6MjA5ODQyNjMxNn0.noRzWezGQkmUsvW-oO6yA4U_-wpCFcKyk0QU-P6II1s';
 
 module.exports = async (req, res) => {
     if (req.method !== 'POST') {
@@ -21,7 +19,6 @@ module.exports = async (req, res) => {
             return res.status(400).json({ error: 'No session id' });
         }
 
-        // Verify with Stripe directly — the source of truth
         const sResp = await fetch('https://api.stripe.com/v1/checkout/sessions/' + sessionId, {
             headers: { 'Authorization': 'Bearer ' + process.env.STRIPE_SECRET_KEY }
         });
@@ -38,7 +35,6 @@ module.exports = async (req, res) => {
             return res.status(200).json({ received: true, note: 'no email on session' });
         }
 
-        // Mark paid in Supabase
         const uResp = await fetch(SUPABASE_URL + '/rest/v1/creator_profiles?email=eq.' + encodeURIComponent(email.toLowerCase()), {
             method: 'PATCH',
             headers: {
@@ -51,7 +47,6 @@ module.exports = async (req, res) => {
         });
         const updated = await uResp.json().catch(() => []);
         if (!Array.isArray(updated) || updated.length === 0) {
-            // No profile row yet — create one so the unlock still works
             await fetch(SUPABASE_URL + '/rest/v1/creator_profiles', {
                 method: 'POST',
                 headers: {
@@ -63,7 +58,6 @@ module.exports = async (req, res) => {
                 body: JSON.stringify({ email: email.toLowerCase(), paid: true, stripe_session: sessionId })
             });
         }
-        console.log('Creator marked paid:', email);
         return res.status(200).json({ received: true, paid: email });
     } catch (err) {
         console.error('Webhook error:', err);
