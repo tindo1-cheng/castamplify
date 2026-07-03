@@ -518,7 +518,8 @@
             <div class="logo-text"><span style="color:var(--tx)">Cast</span><span style="background:linear-gradient(90deg,#a78bfa,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Amplify</span></div>
         </div>
         <div class="visitor-count"><div class="pulse-dot"></div><span>Now onboarding creators across 190+ markets</span></div>
-        <p style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--tx2)">CastAmplify Ltd — Registered in England & Wales — A Global Creator Infrastructure Company</p>
+        <div style="font-size:13px"><a href="/privacy.html" style="color:var(--tx2);margin:0 12px">Privacy Policy</a>|<a href="/terms.html" style="color:var(--tx2);margin:0 12px">Terms of Service</a></div>
+        <p style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--tx2)">CastAmplify — A Global Creator Infrastructure Company</p>
     </footer>
 </div>
 
@@ -547,6 +548,7 @@
                 </select>
             </div>
             <button type="submit" class="btn-full" id="submitBtn">Launch my free trial →</button>
+            <p style="font-size:12px;color:var(--tx2);margin-top:12px;text-align:center">By signing up you agree to our <a href="/terms.html" target="_blank" style="color:var(--gold)">Terms of Service</a> and <a href="/privacy.html" target="_blank" style="color:var(--gold)">Privacy Policy</a>.</p>
         </form>
         <div class="success-msg" id="successMsg">
             ✅ Welcome! Your command centre is ready. Loading now...
@@ -646,7 +648,7 @@
             <div style="display:flex;gap:12px;align-items:center">
                 <button class="btn-theme" id="viewSiteBtn">View website</button>
                 <button class="btn-theme" id="logoutBtn">Log out</button>
-                <div style="font-size:13px;color:var(--tx2)">Trial: <span style="color:var(--sc);font-weight:700">30 Days Remaining</span></div>
+                <div style="font-size:13px;color:var(--tx2)">Trial: <span style="color:var(--sc);font-weight:700" id="trialDays">30 Days Remaining</span></div>
             </div>
         </nav>
     </header>
@@ -833,7 +835,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('successMsg').style.display = 'block';
 
         setTimeout(() => {
-            user = { name, email, niche, steps: {} };
+            user = { name, email, niche, steps: {}, createdAt: Date.now() };
             saveUser();
             // Send the welcome email (fire and forget — signup never blocks on it)
             fetch('/api/welcome', {
@@ -847,6 +849,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('dashboard').classList.add('active');
             window.scrollTo(0,0);
             renderChecklist();
+            updateTrialDays();
             startAI();
         }, 1500);
     });
@@ -1059,12 +1062,24 @@ document.addEventListener("DOMContentLoaded", function() {
         completeStep('payout', { payoutEmail: document.getElementById('payEmail').value }, 'payoutModal');
     });
 
+    // TRIAL COUNTDOWN — real days remaining from the actual signup date
+    function updateTrialDays() {
+        const el = document.getElementById('trialDays');
+        if (!el || !user) return;
+        if (!user.createdAt) { user.createdAt = Date.now(); saveUser(); }
+        const used = Math.floor((Date.now() - user.createdAt) / 86400000);
+        const left = Math.max(0, 30 - used);
+        el.innerText = left > 0 ? left + ' Day' + (left === 1 ? '' : 's') + ' Remaining' : 'Trial ended';
+        if (left === 0) el.style.color = 'var(--gold)';
+    }
+
     // SESSION RESTORE — returning users go straight to their dashboard
     if (user && user.name) {
         document.getElementById('dName').innerText = user.name.split(' ')[0];
         document.getElementById('landing').classList.remove('active');
         document.getElementById('dashboard').classList.add('active');
         renderChecklist();
+        updateTrialDays();
         startAI();
     }
 
