@@ -3,10 +3,10 @@
 // Requires environment variable STRIPE_SECRET_KEY in Vercel project settings.
 
 const PRICES = {
-    foundation: 'price_1ToMoPQZa2D6NwOGipyD24d8',
-    growth: 'price_1ToMtIQZa2D6NwOGcjfb8ghN',
-    professional: 'price_1ToMu8QZa2D6NwOGPmnrqQwM',
-    enterprise: 'price_1ToMujQZa2D6NwOGk1MfUPdB'
+    foundation: 'price_1Tp87vQZa2D6NwOG1e5JGPMi',
+    growth: 'price_1Tp8ZbQZa2D6NwOGlYHvNX9Q',
+    professional: 'price_1Tp8UcQZa2D6NwOG7WDnThJT',
+    enterprise: 'price_1Tp8W3QZa2D6NwOGa5uFwqdF'
 };
 
 module.exports = async (req, res) => {
