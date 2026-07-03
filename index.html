@@ -1445,5 +1445,35 @@ document.addEventListener("DOMContentLoaded", function() {
     window.switchJourney('new');
 
 </script>
+    <script>
+(function () {
+  if (localStorage.getItem('ca_lang')) return;
+  var GREET = {
+    ZA:["Sawubona!","isiZulu"], ZW:["Mhoro!","Shona"], KE:["Habari!","Kiswahili"],
+    TZ:["Habari!","Kiswahili"], NG:["Bawo ni!","Yorùbá"], GH:["Akwaaba!","Twi"],
+    ET:["Selam!","Amharic"], EG:["Ahlan!","العربية"], MA:["Salam!","العربية"],
+    FR:["Bonjour !","Français"], ES:["¡Hola!","Español"], MX:["¡Hola!","Español"],
+    AR:["¡Hola!","Español"], CO:["¡Hola!","Español"], BR:["Olá!","Português"],
+    PT:["Olá!","Português"], DE:["Hallo!","Deutsch"], IT:["Ciao!","Italiano"],
+    NL:["Hallo!","Nederlands"], IN:["Namaste!","हिन्दी"], PK:["Salam!","اردو"],
+    ID:["Halo!","Bahasa"], PH:["Kumusta!","Tagalog"], JP:["こんにちは！","日本語"],
+    KR:["안녕하세요!","한국어"], CN:["你好！","中文"], TR:["Merhaba!","Türkçe"],
+    RU:["Привет!","Русский"], PL:["Cześć!","Polski"], SE:["Hej!","Svenska"]
+  };
+  fetch('/api/geo').then(function(r){return r.json();}).then(function(g){
+    var m = GREET[g.country];
+    if (!m) { localStorage.setItem('ca_lang','en'); return; }
+    var b = document.createElement('div');
+    b.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1a1a2e;color:#fff;padding:18px 22px;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.35);z-index:9999;text-align:center;max-width:92%;font-family:inherit';
+    b.innerHTML='<div style="font-size:22px;margin-bottom:4px">'+m[0]+' &nbsp;Hello!</div>'+
+      '<div style="font-size:14px;opacity:.85;margin-bottom:12px">Which language do you prefer?</div>'+
+      '<button id="caL1" style="padding:10px 18px;margin:0 6px;border:0;border-radius:8px;background:#7c5cff;color:#fff;font-size:15px;cursor:pointer">'+m[1]+'</button>'+
+      '<button id="caL2" style="padding:10px 18px;margin:0 6px;border:0;border-radius:8px;background:#fff;color:#1a1a2e;font-size:15px;cursor:pointer">English</button>';
+    document.body.appendChild(b);
+    document.getElementById('caL1').onclick=function(){localStorage.setItem('ca_lang',m[1]);b.remove();};
+    document.getElementById('caL2').onclick=function(){localStorage.setItem('ca_lang','en');b.remove();};
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>
