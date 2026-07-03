@@ -291,7 +291,7 @@
                         <li>50 AI generations</li>
                         <li>Core AI suite</li>
                     </ul>
-                    <button class="btn-price" onclick="document.getElementById('openModal').click()">Choose Plan</button>
+                    <button class="btn-price" onclick="startCheckout('foundation')">Choose Plan</button>
                 </div>
                 <div class="price-card">
                     <div class="price-label">Growth</div>
@@ -303,7 +303,7 @@
                         <li>200 AI generations</li>
                         <li>Monetisation tools</li>
                     </ul>
-                    <button class="btn-price" onclick="document.getElementById('openModal').click()">Choose Plan</button>
+                    <button class="btn-price" onclick="startCheckout('growth')">Choose Plan</button>
                 </div>
                 <div class="price-card popular">
                     <div class="price-label gold">Professional</div>
@@ -315,7 +315,7 @@
                         <li>1,000 AI generations</li>
                         <li>Brand marketplace</li>
                     </ul>
-                    <button class="btn-price primary" onclick="document.getElementById('openModal').click()">Choose Plan</button>
+                    <button class="btn-price primary" onclick="startCheckout('professional')">Choose Plan</button>
                 </div>
                 <div class="price-card">
                     <div class="price-label">Enterprise</div>
@@ -327,7 +327,7 @@
                         <li>Unlimited AI</li>
                         <li>Dedicated team</li>
                     </ul>
-                    <button class="btn-price" onclick="document.getElementById('openModal').click()">Contact Sales</button>
+                    <button class="btn-price" onclick="startCheckout('enterprise')">Choose Plan</button>
                 </div>
                 <div class="price-card" style="background:linear-gradient(135deg,rgba(79,70,229,0.1),rgba(219,39,119,0.1))">
                     <div class="price-label gold">White Label</div>
@@ -624,6 +624,22 @@
         <div class="fg"><label>Show notes</label><p id="aiNotes" style="font-size:14px;line-height:1.7;color:var(--tx)"></p></div>
         <div class="fg"><label>Social captions</label><div id="aiCaptions" style="font-size:14px;line-height:1.7;color:var(--tx)"></div></div>
         <div class="fg"><label>Alternative titles</label><div id="aiTitles" style="font-size:14px;line-height:1.7;color:var(--tx)"></div></div>
+    </div>
+</div>
+
+<!-- PAYWALL MODAL (trial ended) -->
+<div class="modal-bg" id="paywallModal">
+    <div class="modal" style="max-height:85vh;overflow-y:auto;text-align:center">
+        <h2>Your 30-day trial has ended 🎙️</h2>
+        <p>Your creator command centre — and everything you've built in it — is safe and waiting. Choose a plan to switch it back on.</p>
+        <div style="display:grid;gap:12px;margin-top:20px">
+            <button class="btn-full" onclick="startCheckout('foundation')">Foundation — £29/mo</button>
+            <button class="btn-full" onclick="startCheckout('growth')">Growth — £79/mo</button>
+            <button class="btn-full" style="background:var(--gold);color:#0b1220" onclick="startCheckout('professional')">Professional — £199/mo ★</button>
+            <button class="btn-full" onclick="startCheckout('enterprise')">Enterprise — £499/mo</button>
+        </div>
+        <p style="font-size:12px;color:var(--tx2);margin-top:16px">Payments are processed securely by Stripe. Cancel anytime.</p>
+        <button class="btn-theme" style="margin-top:8px" onclick="document.getElementById('logoutBtn').click()">Log out</button>
     </div>
 </div>
 
@@ -1069,8 +1085,59 @@ document.addEventListener("DOMContentLoaded", function() {
         if (!user.createdAt) { user.createdAt = Date.now(); saveUser(); }
         const used = Math.floor((Date.now() - user.createdAt) / 86400000);
         const left = Math.max(0, 30 - used);
+        if (user.paid) { el.innerText = 'Active plan ✓'; el.style.color = 'var(--sc)'; return; }
         el.innerText = left > 0 ? left + ' Day' + (left === 1 ? '' : 's') + ' Remaining' : 'Trial ended';
         if (left === 0) el.style.color = 'var(--gold)';
+    }
+
+    // ===== MONEY MACHINE =====
+    window.startCheckout = async function(plan) {
+        const email = user && user.email;
+        if (!email) { document.getElementById('modal').classList.add('active'); return; }
+        try {
+            const r = await fetch('/api/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ plan: plan, email: email })
+            });
+            const d = await r.json();
+            if (d.url) { window.location.href = d.url; }
+            else { alert('Could not open checkout — please try again in a moment.'); }
+        } catch (e) {
+            alert('Could not open checkout — please try again in a moment.');
+        }
+    };
+
+    async function refreshPaidStatus() {
+        if (!user || !user.email) return;
+        try {
+            const { data } = await supabase.from('creator_profiles')
+                .select('paid').eq('email', user.email.toLowerCase()).maybeSingle();
+            if (data && data.paid) { user.paid = true; saveUser(); }
+        } catch (e) { /* offline or column missing — fail quietly */ }
+    }
+
+    function enforcePaywall() {
+        if (!user || user.paid) return;
+        const used = Math.floor((Date.now() - (user.createdAt || Date.now())) / 86400000);
+        if (used >= 30) document.getElementById('paywallModal').classList.add('active');
+    }
+
+    async function handlePaymentReturn() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('payment') === 'success') {
+            // give the webhook a moment, then re-check
+            await new Promise(r => setTimeout(r, 2500));
+            await refreshPaidStatus();
+            document.getElementById('paywallModal').classList.remove('active');
+            updateTrialDays();
+            if (user && user.paid) alert('🎉 Payment received — welcome aboard! Your full platform is now active.');
+            else alert('Payment received — your account will activate within a minute. Refresh if needed.');
+            window.history.replaceState({}, '', '/');
+        } else if (params.get('payment') === 'cancelled') {
+            alert('Checkout cancelled — no payment was taken.');
+            window.history.replaceState({}, '', '/');
+        }
     }
 
     // SESSION RESTORE — returning users go straight to their dashboard
@@ -1081,6 +1148,9 @@ document.addEventListener("DOMContentLoaded", function() {
         renderChecklist();
         updateTrialDays();
         startAI();
+        refreshPaidStatus().then(() => { updateTrialDays(); enforcePaywall(); handlePaymentReturn(); });
+    } else {
+        handlePaymentReturn();
     }
 
     // VIEW WEBSITE / LOG OUT
