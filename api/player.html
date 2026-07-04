@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CastAmplify Player</title>
+<style>
+body{margin:0;font-family:-apple-system,Segoe UI,Arial,sans-serif;background:#151530;color:#fff}
+.wrap{padding:16px}
+.head{display:flex;gap:14px;align-items:center}
+.head img{width:72px;height:72px;border-radius:12px;object-fit:cover}
+.head h1{font-size:17px;margin:0}
+.head p{font-size:13px;color:#a9a3d9;margin:2px 0 0}
+audio{width:100%;margin:14px 0 6px}
+.eps{list-style:none;padding:0;margin:8px 0;max-height:220px;overflow-y:auto}
+.eps li{padding:9px 10px;border-radius:8px;font-size:14px;color:#ddd;cursor:pointer;display:flex;justify-content:space-between;gap:8px}
+.eps li:hover{background:#232350}
+.eps li.on{background:#2d2d63;color:#fff}
+.eps span{color:#8f89c0;font-size:12px;white-space:nowrap}
+.foot{text-align:center;font-size:12px;padding:8px 0 2px}
+.foot a{color:#9b82ff;text-decoration:none;font-weight:bold}
+.msg{color:#a9a3d9;padding:30px 10px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"><p class="msg">Loading player…</p></div>
+<script>
+(async function(){
+  var app=document.getElementById('app');
+  var feed=new URLSearchParams(location.search).get('feed');
+  if(!feed){app.innerHTML='<p class="msg">Add ?feed=YOUR_RSS_URL to use this player.</p>';return;}
+  try{
+    var r=await fetch('/api/rss?url='+encodeURIComponent(feed));
+    var d=await r.json();
+    if(d.error){app.innerHTML='<p class="msg">'+d.error+'</p>';return;}
+    var eps=d.episodes.filter(function(e){return e.audio;});
+    app.innerHTML='<div class="head">'+(d.show.image?'<img src="'+d.show.image+'">':'')+
+      '<div><h1>'+d.show.title+'</h1><p>'+(d.show.author||'')+'</p></div></div>'+
+      '<audio id="pl" controls preload="none"></audio>'+
+      '<ul class="eps" id="list"></ul>'+
+      '<div class="foot">Powered by <a href="https://castamplify.com" target="_blank">CastAmplify</a></div>';
+    var pl=document.getElementById('pl'),list=document.getElementById('list');
+    eps.forEach(function(e,i){
+      var li=document.createElement('li');
+      li.innerHTML='<em style="font-style:normal">'+e.title+'</em><span>'+(e.date?new Date(e.date).toLocaleDateString():'')+'</span>';
+      li.onclick=function(){
+        pl.src=e.audio;pl.play();
+        list.querySelectorAll('li').forEach(function(x){x.className='';});
+        li.className='on';
+      };
+      list.appendChild(li);
+    });
+    if(eps[0]){pl.src=eps[0].audio;list.firstChild.className='on';}
+  }catch(e){app.innerHTML='<p class="msg">Could not load this feed.</p>';}
+})();
+</script>
+</body>
+</html>
