@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>The CastAmplify Show</title>
+  <link>https://castamplify.com</link>
+  <language>en</language>
+  <copyright>© 2026 CastAmplify Ltd</copyright>
+  <description>One practical podcasting lesson a week, from someone building from zero — for everyone building from zero. Hosted by Tendayi Chengeta, pig farmer in Zimbabwe and founder of CastAmplify, the global creator infrastructure company.</description>
+  <atom:link href="https://castamplify.com/feed.xml" rel="self" type="application/rss+xml"/>
+  <itunes:author>Tendayi Chengeta</itunes:author>
+  <itunes:owner>
+    <itunes:name>Tendayi Chengeta</itunes:name>
+    <itunes:email>admin@afriaquaticweedharvesters.com</itunes:email>
+  </itunes:owner>
+  <itunes:image href="https://castamplify.com/CastAmplify_Show_Cover.jpg"/>
+  <itunes:category text="Business">
+    <itunes:category text="Entrepreneurship"/>
+  </itunes:category>
+  <itunes:explicit>false</itunes:explicit>
+
+  <item>
+    <title>Episode 1 — Starting From Zero</title>
+    <description>Virgin land. No pens, no pigs, nothing — and what that teaches you about starting a podcast. Tendayi shares the real story of building his farm from bare ground, the honest struggles of a Zimbabwean winter, and the one lesson that applies to farms and podcasts alike: plant with the rain you have. Plus: what we built at CastAmplify this week. Try the free feed migration demo at castamplify.com.</description>
+    <enclosure url="https://castamplify.com/CastAmplify_Show_Ep1.mp3" length="4343057" type="audio/mpeg"/>
+    <guid isPermaLink="false">castamplify-show-ep1</guid>
+    <pubDate>Sun, 05 Jul 2026 06:00:00 GMT</pubDate>
+    <itunes:duration>271</itunes:duration>
+    <itunes:episode>1</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+  </item>
+</channel>
+</rss>
