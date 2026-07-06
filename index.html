@@ -1512,5 +1512,42 @@ document.addEventListener("DOMContentLoaded", function() {
   };
 })();
 </script>
+<script>
+(function () {
+  var CUR = {US:'USD',CA:'CAD',AU:'AUD',NZ:'NZD',JP:'JPY',CN:'CNY',IN:'INR',ZA:'ZAR',
+    BR:'BRL',MX:'MXN',TR:'TRY',KR:'KRW',SE:'SEK',NO:'NOK',DK:'DKK',CH:'CHF',PL:'PLN',
+    CZ:'CZK',HU:'HUF',IL:'ILS',SG:'SGD',HK:'HKD',TH:'THB',MY:'MYR',PH:'PHP',ID:'IDR',
+    AT:'EUR',BE:'EUR',DE:'EUR',ES:'EUR',FI:'EUR',FR:'EUR',GR:'EUR',IE:'EUR',IT:'EUR',
+    NL:'EUR',PT:'EUR',NG:'USD',KE:'USD',GH:'USD',ZW:'USD',EG:'USD',MA:'USD',TZ:'USD',UG:'USD'};
+  var SYM = {USD:'$',CAD:'CA$',AUD:'A$',NZD:'NZ$',JPY:'¥',CNY:'¥',INR:'₹',ZAR:'R',
+    BRL:'R$',MXN:'MX$',TRY:'₺',KRW:'₩',SEK:'kr',NOK:'kr',DKK:'kr',CHF:'CHF',PLN:'zł',
+    CZK:'Kč',HUF:'Ft',ILS:'₪',SGD:'S$',HKD:'HK$',THB:'฿',MYR:'RM',PHP:'₱',IDR:'Rp',EUR:'€'};
+  fetch('/api/geo').then(function(r){return r.json();}).then(function(g){
+    var cur = CUR[g.country];
+    if (!cur) return; // GB and unknown countries stay £ only
+    return fetch('https://api.frankfurter.app/latest?from=GBP&to=' + cur)
+      .then(function(r){return r.json();})
+      .then(function(d){
+        var rate = d.rates[cur];
+        if (!rate) return;
+        var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+        var nodes = [];
+        while (walker.nextNode()) {
+          if (/£\d+(\.\d+)?/.test(walker.currentNode.nodeValue)) nodes.push(walker.currentNode);
+        }
+        nodes.forEach(function(n){
+          var m = n.nodeValue.match(/£(\d+(?:\.\d+)?)/);
+          if (!m) return;
+          var local = (parseFloat(m[1]) * rate);
+          local = (cur==='JPY'||cur==='KRW'||cur==='IDR'||cur==='HUF') ? Math.round(local) : local.toFixed(2);
+          var span = document.createElement('span');
+          span.style.cssText='color:#22c55e;font-size:0.72em;white-space:nowrap';
+          span.textContent = ' ≈ ' + (SYM[cur]||cur) + local;
+          if (n.parentNode) n.parentNode.insertBefore(span, n.nextSibling);
+        });
+      });
+  }).catch(function(){});
+})();
+</script>    
 </body>
 </html>
