@@ -4,7 +4,7 @@
 
 const PRICES = {
     foundation: 'price_1Tp87vQZa2D6NwOG1e5JGPMi',
-    growth: 'price_1Tp8ZbQZa2D6NwOGlYHvNX9Q',
+    growth: 'price_1Tp8CVQZa2D6NwOGqrUQRgSI',
     professional: 'price_1Tp8UcQZa2D6NwOG7WDnThJT',
     enterprise: 'price_1Tp8W3QZa2D6NwOGa5uFwqdF'
 };
