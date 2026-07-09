@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AmpliBoost — Algorithm Optimizer | CastAmplify</title>
+<meta name="description" content="Turn one episode into an algorithm-ready launch kit: titles, descriptions, tags, hashtags, hooks and posting times.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root[data-theme="dark"] { --bg:#0b1220; --bg2:#121c30; --tx:#ededf2; --tx2:#8b96ab; --bd:#1e2a42; --ac:#5046e5; --sc:#10b981; --gold:#C9A84C; }
+:root[data-theme="light"] { --bg:#fafaf9; --bg2:#f2f1ed; --tx:#14181f; --tx2:#4b5563; --bd:#e5e7eb; --ac:#4338ca; --sc:#059669; --gold:#9A7B2E; }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);-webkit-font-smoothing:antialiased;line-height:1.5;transition:background .3s,color .3s}
+.container{max-width:860px;margin:0 auto;padding:0 24px}
+header{position:fixed;top:0;width:100%;background:rgba(11,18,32,.85);backdrop-filter:blur(12px);z-index:1000;border-bottom:1px solid var(--bd)}
+[data-theme="light"] header{background:rgba(250,250,249,.85)}
+nav{max-width:1200px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--tx)}
+.logo-mark{width:32px;height:32px;background:linear-gradient(135deg,#4F46E5,#DB2777);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:800}
+.logo-text{font-weight:800;font-size:15px;letter-spacing:-.5px}
+.btn-theme{background:transparent;border:1px solid var(--bd);color:var(--tx2);padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+main{padding:120px 0 80px}
+.badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);padding:5px 12px;border-radius:999px;margin-bottom:18px}
+h1{font-size:clamp(28px,5vw,44px);font-weight:800;letter-spacing:-1px;line-height:1.15;margin-bottom:14px}
+.sub{color:var(--tx2);font-size:16px;max-width:620px;margin-bottom:36px}
+.card{background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:26px;margin-bottom:20px}
+label{display:block;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--tx2);margin:16px 0 6px}
+label:first-of-type{margin-top:0}
+input,textarea{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:10px;color:var(--tx);font-family:inherit;font-size:14px;padding:12px 14px;outline:none;transition:border-color .2s}
+input:focus,textarea:focus{border-color:var(--ac)}
+textarea{min-height:90px;resize:vertical}
+.btn-boost{margin-top:22px;width:100%;background:linear-gradient(135deg,#4F46E5,#DB2777);color:#fff;border:none;border-radius:12px;padding:16px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;letter-spacing:.3px;transition:opacity .2s}
+.btn-boost:hover{opacity:.9}
+.btn-boost:disabled{opacity:.5;cursor:wait}
+.status{margin-top:14px;font-size:13px;color:var(--tx2);text-align:center;min-height:20px}
+.result{display:none}
+.result.show{display:block}
+.rhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.rtitle{font-size:14px;font-weight:800;letter-spacing:.3px}
+.rtitle span{color:var(--gold);margin-right:8px}
+.copybtn{background:transparent;border:1px solid var(--bd);color:var(--tx2);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .2s}
+.copybtn:hover{border-color:var(--gold);color:var(--gold)}
+.rbody{font-size:14px;color:var(--tx);white-space:pre-wrap;word-wrap:break-word}
+.rbody ul{list-style:none}
+.rbody li{padding:8px 0;border-bottom:1px solid var(--bd)}
+.rbody li:last-child{border-bottom:none}
+.pill{display:inline-block;background:var(--bg);border:1px solid var(--bd);border-radius:999px;padding:5px 12px;font-size:12px;margin:3px 4px 3px 0;color:var(--tx)}
+.disclaimer{font-size:12px;color:var(--tx2);text-align:center;margin-top:26px}
+footer{border-top:1px solid var(--bd);padding:28px 24px;text-align:center;font-size:12px;color:var(--tx2)}
+footer a{color:var(--tx2)}
+</style>
+</head>
+<body>
+<header>
+  <nav>
+    <a class="logo" href="index.html">
+      <div class="logo-mark">CA</div>
+      <div class="logo-text">CastAmplify</div>
+    </a>
+    <button class="btn-theme" onclick="toggleTheme()">◐ Theme</button>
+  </nav>
+</header>
+
+<main>
+  <div class="container">
+    <div class="badge">⚡ AmpliBoost</div>
+    <h1>Give the algorithm exactly what it feeds on.</h1>
+    <p class="sub">Type in your episode, press Boost, and receive a complete algorithm-ready launch kit: click-worthy titles, a keyword-rich YouTube description, Spotify summary, tags, platform hashtags, short-form hooks and the best times to post.</p>
+
+    <div class="card">
+      <label for="btitle">Episode title *</label>
+      <input id="btitle" type="text" maxlength="200" placeholder="e.g. Starting From Zero — my first month as a podcaster">
+      <label for="bsummary">What the episode is about (optional)</label>
+      <textarea id="bsummary" maxlength="1500" placeholder="A few sentences about what you cover, key moments, guests..."></textarea>
+      <label for="bniche">Your niche (optional)</label>
+      <input id="bniche" type="text" maxlength="100" placeholder="e.g. entrepreneurship, farming, news, faith, tech">
+      <label for="baudience">Target audience (optional)</label>
+      <input id="baudience" type="text" maxlength="150" placeholder="e.g. young entrepreneurs in Africa and the UK">
+      <button class="btn-boost" id="boostBtn" onclick="runBoost()">⚡ Boost this episode</button>
+      <div class="status" id="bstatus"></div>
+    </div>
+
+    <div class="card result" id="r-titles">
+      <div class="rhead"><div class="rtitle"><span>01</span>Click-worthy titles</div><button class="copybtn" onclick="copyResult('titles')">Copy</button></div>
+      <div class="rbody"><ul id="out-titles"></ul></div>
+    </div>
+
+    <div class="card result" id="r-yt">
+      <div class="rhead"><div class="rtitle"><span>02</span>YouTube description</div><button class="copybtn" onclick="copyResult('yt')">Copy</button></div>
+      <div class="rbody" id="out-yt"></div>
+    </div>
+
+    <div class="card result" id="r-spotify">
+      <div class="rhead"><div class="rtitle"><span>03</span>Spotify summary</div><button class="copybtn" onclick="copyResult('spotify')">Copy</button></div>
+      <div class="rbody" id="out-spotify"></div>
+    </div>
+
+    <div class="card result" id="r-tags">
+      <div class="rhead"><div class="rtitle"><span>04</span>Search tags</div><button class="copybtn" onclick="copyResult('tags')">Copy</button></div>
+      <div class="rbody" id="out-tags"></div>
+    </div>
+
+    <div class="card result" id="r-hash">
+      <div class="rhead"><div class="rtitle"><span>05</span>Hashtags — TikTok &amp; Instagram</div><button class="copybtn" onclick="copyResult('hash')">Copy</button></div>
+      <div class="rbody" id="out-hash"></div>
+    </div>
+
+    <div class="card result" id="r-hooks">
+      <div class="rhead"><div class="rtitle"><span>06</span>5-second hooks for clips</div><button class="copybtn" onclick="copyResult('hooks')">Copy</button></div>
+      <div class="rbody"><ul id="out-hooks"></ul></div>
+    </div>
+
+    <div class="card result" id="r-times">
+      <div class="rhead"><div class="rtitle"><span>07</span>Best posting times</div><button class="copybtn" onclick="copyResult('times')">Copy</button></div>
+      <div class="rbody"><ul id="out-times"></ul></div>
+    </div>
+
+    <p class="disclaimer">AmpliBoost optimises your episode for what recommendation systems reward. No tool can guarantee virality — but great packaging raises every episode's chances.</p>
+  </div>
+</main>
+
+<footer>
+  © CastAmplify · <a href="index.html">Home</a> · <a href="guides.html">Podcasting Guides</a>
+</footer>
+
+<script>
+function toggleTheme(){
+  const r=document.documentElement;
+  r.setAttribute('data-theme', r.getAttribute('data-theme')==='dark'?'light':'dark');
+}
+
+const plain = {}; // plain-text versions for the copy buttons
+
+async function runBoost(){
+  const title=document.getElementById('btitle').value.trim();
+  const status=document.getElementById('bstatus');
+  const btn=document.getElementById('boostBtn');
+  if(!title){ status.textContent='Please enter your episode title first.'; return; }
+
+  btn.disabled=true;
+  status.textContent='⚡ Boosting... the AI back office is packaging your episode (10–20 seconds)';
+  document.querySelectorAll('.result').forEach(el=>el.classList.remove('show'));
+
+  try{
+    const r=await fetch('/api/boost',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        title:title,
+        summary:document.getElementById('bsummary').value.trim(),
+        niche:document.getElementById('bniche').value.trim(),
+        audience:document.getElementById('baudience').value.trim()
+      })
+    });
+    if(!r.ok) throw new Error('API '+r.status);
+    const d=await r.json();
+
+    // 01 Titles
+    document.getElementById('out-titles').innerHTML=(d.titles||[]).map(t=>'<li>'+esc(t)+'</li>').join('');
+    plain.titles=(d.titles||[]).join('\n');
+
+    // 02 YouTube
+    document.getElementById('out-yt').textContent=d.youtubeDescription||'';
+    plain.yt=d.youtubeDescription||'';
+
+    // 03 Spotify
+    document.getElementById('out-spotify').textContent=d.spotifySummary||'';
+    plain.spotify=d.spotifySummary||'';
+
+    // 04 Tags
+    document.getElementById('out-tags').innerHTML=(d.tags||[]).map(t=>'<span class="pill">'+esc(t)+'</span>').join('');
+    plain.tags=(d.tags||[]).join(', ');
+
+    // 05 Hashtags
+    const tk=(d.hashtags&&d.hashtags.tiktok)||[], ig=(d.hashtags&&d.hashtags.instagram)||[];
+    document.getElementById('out-hash').innerHTML=
+      '<strong>TikTok</strong><br>'+tk.map(h=>'<span class="pill">'+esc(h)+'</span>').join('')+
+      '<br><br><strong>Instagram</strong><br>'+ig.map(h=>'<span class="pill">'+esc(h)+'</span>').join('');
+    plain.hash='TikTok: '+tk.join(' ')+'\nInstagram: '+ig.join(' ');
+
+    // 06 Hooks
+    document.getElementById('out-hooks').innerHTML=(d.hooks||[]).map(h=>'<li>'+esc(h)+'</li>').join('');
+    plain.hooks=(d.hooks||[]).join('\n');
+
+    // 07 Times
+    document.getElementById('out-times').innerHTML=(d.postingTimes||[]).map(p=>'<li>'+esc(p)+'</li>').join('');
+    plain.times=(d.postingTimes||[]).join('\n');
+
+    document.querySelectorAll('.result').forEach(el=>el.classList.add('show'));
+    status.textContent='✅ Launch kit ready — use the Copy buttons on each section.';
+  }catch(e){
+    console.error(e);
+    status.textContent='Something went wrong — please try again in a moment.';
+  }finally{
+    btn.disabled=false;
+  }
+}
+
+function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+function copyResult(key){
+  if(!plain[key]) return;
+  navigator.clipboard.writeText(plain[key]).then(()=>{
+    const status=document.getElementById('bstatus');
+    status.textContent='📋 Copied to clipboard.';
+    setTimeout(()=>{ if(status.textContent==='📋 Copied to clipboard.') status.textContent=''; },2000);
+  });
+}
+</script>
+</body>
+</html>
