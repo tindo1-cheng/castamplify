@@ -1397,6 +1397,46 @@ document.addEventListener("DOMContentLoaded", function() {
         applyLang();
     });
 
+    // ===== HERO ROTATION (EN only) — 9 transmissions from the mothership =====
+    const HERO_ROTATION = [
+        { t: "The operating system behind the world's most influential voices.",
+          s: "One contract. Eight pillars of infrastructure. 190+ markets. Built for news organisations, NGOs, elected officials, and independent creators alike — try free for 30 days, no card required." },
+        { t: "Publish once. Be heard in 190+ markets.",
+          s: "CastAmplify takes one recording and spreads it across 102 channels in 233 languages — growing your audience while the AI back office handles everything else. Try free for 30 days, no card required." },
+        { t: "Your voice, everywhere it matters — and growing every week.",
+          s: "Record once. We spread it to 190+ markets, grow your audience, and turn listeners into income. One contract, whether you're a newsroom, an NGO, an elected official, or a solo creator." },
+        { t: "Start where you are. We amplify you everywhere.",
+          s: "Whether you're on episode one or episode one thousand, CastAmplify grows your reach, builds your audience in 233 languages, and opens the doors to sponsorship and income." },
+        { t: "The mothership for the world's creators.",
+          s: "Every tool docks here — distribution, growth, audience and income — carrying your voice to 190+ markets. Board free for 30 days, no card required." },
+        { t: "You talk. The mothership does the rest.",
+          s: "Editing, publishing, translating, distributing, analysing — a 100% AI back office working around the clock so you only do the part you love: speaking." },
+        { t: "233 languages. 102 channels. One you.",
+          s: "Your ideas deserve more than one platform and one language. CastAmplify multiplies every episode across the world — automatically." },
+        { t: "Turn listeners into a living.",
+          s: "Audience growth is only half the story. CastAmplify is building the rails for sponsorships, listener support and payouts — so your voice pays you back." },
+        { t: "Episode one today. Everywhere tomorrow.",
+          s: "Every influential voice started with a single recording. Start yours free for 30 days — no card required — and let the mothership carry it to the world." }
+    ];
+    let heroIdx = 0;
+    const heroTEl = document.getElementById('heroTitle');
+    const heroSEl = document.getElementById('heroSub');
+    if (heroTEl && heroSEl) {
+        heroTEl.style.transition = 'opacity 0.5s';
+        heroSEl.style.transition = 'opacity 0.5s';
+        setInterval(() => {
+            if (lang !== 'en') return;
+            heroIdx = (heroIdx + 1) % HERO_ROTATION.length;
+            heroTEl.style.opacity = 0;
+            heroSEl.style.opacity = 0;
+            setTimeout(() => {
+                heroTEl.textContent = HERO_ROTATION[heroIdx].t;
+                heroSEl.textContent = HERO_ROTATION[heroIdx].s;
+                heroTEl.style.opacity = 1;
+                heroSEl.style.opacity = 1;
+            }, 500);
+        }, 9000);
+    }
     // ===== VISIT COUNTER (honest — counts real page loads) =====
     (async () => {
         try {
