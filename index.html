@@ -231,7 +231,7 @@ f<!DOCTYPE html>
         </div>
         <div class="stats">
             <div class="stat"><div class="stat-num">190+</div><div class="stat-lab">Markets</div></div>
-            <div class="stat"><div class="stat-num">233</div><div class="stat-lab">Languages</div></div>
+            <div class="stat"><div class="stat-num">100</div><div class="stat-lab">Languages</div></div>
             <div class="stat"><div class="stat-num">102</div><div class="stat-lab">Channels</div></div>
             <div class="stat"><div class="stat-num">8</div><div class="stat-lab">Pillars</div></div>
             <div class="stat"><div class="stat-num">100%</div><div class="stat-lab">AI Back Office</div></div>
@@ -927,7 +927,7 @@ f<!DOCTYPE html>
                 </div>
                 <div class="ai-ticker">
                     <div><strong style="color:var(--sc);font-size:13px">● Live Infrastructure Running</strong></div>
-                    <div class="pbar"><p>Languages active <span id="lC">0/233</span></p><div class="bar"><div class="fill" id="lP"></div></div></div>
+                    <div class="pbar"><p>Languages active <span id="lC">0/100</span></p><div class="bar"><div class="fill" id="lP"></div></div></div>
                     <div class="pbar"><p>Channels active <span id="cC">0/102</span></p><div class="bar"><div class="fill" id="cP"></div></div></div>
                     <div class="pbar"><p>AI Completions <span id="aC">0/10</span></p><div class="bar"><div class="fill" id="aP"></div></div></div>
                 </div>
@@ -1196,7 +1196,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('down').innerText = '0';
         let l = 0, c = 0, a = 0;
         const lTimer = setInterval(() => {
-            if (l < 233) { l = Math.min(l + 4, 233); document.getElementById('lC').innerText = `${l}/233`; document.getElementById('lP').style.width = `${(l/233)*100}%`; }
+            if (l < 100) { l = Math.min(l + 4, 100); document.getElementById('lC').innerText = `${l}/100`; document.getElementById('lP').style.width = `${(l/100)*100}%`; }
             else clearInterval(lTimer);
         }, 400);
         const cTimer = setInterval(() => {
