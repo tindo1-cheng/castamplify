@@ -3,7 +3,7 @@
 // Marks a creator as paid in Supabase when their Stripe checkout completes.
 
 const SUPABASE_URL = 'https://wuzzdlihjckgtzmdbxwm.supabase.co';
-const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind1enpkbGloamNrZ3R6bWRieHdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4NTAzMTYsImV4cCI6MjA5ODQyNjMxNn0.noRzWezGQkmUsvW-oO6yA4U_-wpCFcKyk0QU-P6II1s';
+const SUPABASE_ANON = process.env.SUPABASE_SERVICE_KEY;
 
 module.exports = async (req, res) => {
     if (req.method !== 'POST') {
