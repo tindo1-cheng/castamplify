@@ -28,7 +28,7 @@ audio{width:100%;margin:14px 0 6px}
 (async function(){
   var app=document.getElementById('app');
   var feed=new URLSearchParams(location.search).get('feed');
-  if(!feed){app.innerHTML='<p class="msg">Add ?feed=YOUR_RSS_URL to use this player.</p>';return;}
+  if(!feed){app.innerHTML='<p class="msg">🎧 This is the CastAmplify embed player. Give it any podcast RSS feed by adding ?feed=YOUR_RSS_URL to the address — it will load the show's artwork, episodes and audio instantly. Free with every CastAmplify plan.</p>';return;}
   try{
     var r=await fetch('/api/rss?url='+encodeURIComponent(feed));
     var d=await r.json();
