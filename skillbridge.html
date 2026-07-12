@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkillBridge Institute — Learn a trade. Prove it. Get placed.</title>
+<meta name="description" content="200 vocational courses. $15 start to finish. AI-guided learning, real workplace placements, and a graduate jobs board.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,700;125,900&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16324A; --ink2:#0F2436; --brass:#C98F2D; --brass2:#A87418;
+  --mist:#EEF3F6; --line:#D4DEE5; --white:#FFFFFF; --ok:#2E7D4F;
+  --body:'Public Sans',system-ui,sans-serif; --disp:'Archivo',sans-serif; --mono:'IBM Plex Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{font-family:var(--body);color:var(--ink);background:var(--white);line-height:1.6}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* Nav */
+nav{position:sticky;top:0;z-index:50;background:var(--ink);color:#fff;border-bottom:3px solid var(--brass)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:58px}
+.logo{font-family:var(--disp);font-weight:900;font-size:1.05rem;letter-spacing:.02em;text-decoration:none;display:flex;align-items:center;gap:8px}
+.logo svg{flex:none}
+.nav-links{display:flex;gap:18px;font-size:.85rem;font-weight:600}
+.nav-links a{text-decoration:none;opacity:.85}
+.nav-links a:hover,.nav-links a:focus{opacity:1;color:var(--brass)}
+@media(max-width:640px){.nav-links{display:none}}
+
+/* Hero */
+.hero{background:linear-gradient(180deg,var(--ink) 0%,var(--ink2) 100%);color:#fff;padding:56px 0 0;overflow:hidden}
+.hero h1{font-family:var(--disp);font-weight:900;font-size:clamp(1.9rem,5.5vw,3.4rem);line-height:1.08;max-width:14ch}
+.hero p.lead{margin:18px 0 26px;font-size:1.05rem;max-width:52ch;color:#CBD9E4}
+.price-tag{display:inline-flex;align-items:baseline;gap:10px;background:var(--brass);color:var(--ink2);font-family:var(--disp);font-weight:900;padding:10px 18px;border-radius:6px;font-size:1.4rem}
+.price-tag small{font-family:var(--body);font-weight:600;font-size:.75rem;letter-spacing:.04em;text-transform:uppercase}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:44px}
+.btn{display:inline-block;text-decoration:none;font-weight:700;font-size:.95rem;padding:12px 22px;border-radius:6px;border:2px solid transparent}
+.btn-brass{background:var(--brass);color:var(--ink2)}
+.btn-brass:hover{background:#DBA23E}
+.btn-ghost{border-color:#4C6A82;color:#fff}
+.btn-ghost:hover{border-color:var(--brass);color:var(--brass)}
+
+/* Bridge signature */
+.bridge{position:relative;padding:0 0 26px}
+.bridge svg{display:block;width:100%;height:auto}
+.bridge-labels{display:grid;grid-template-columns:1fr 1fr 1fr;text-align:center;font-size:.78rem;color:#9FB6C6;margin-top:6px;gap:6px}
+.bridge-labels b{display:block;color:#fff;font-size:.92rem;font-family:var(--disp);font-weight:700}
+.bridge-labels .gate{color:var(--brass);font-family:var(--mono);font-size:.68rem;letter-spacing:.03em}
+
+/* Stats strip */
+.stats{background:var(--mist);border-bottom:1px solid var(--line)}
+.stats-in{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:20px 0;text-align:center}
+.stat b{font-family:var(--disp);font-weight:900;font-size:1.5rem;display:block;color:var(--ink)}
+.stat span{font-size:.74rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#5A7387}
+@media(max-width:640px){.stats-in{grid-template-columns:repeat(2,1fr)}}
+
+/* Sections */
+section{padding:56px 0}
+.eyebrow{font-family:var(--mono);font-weight:600;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brass2);display:block;margin-bottom:10px}
+h2{font-family:var(--disp);font-weight:900;font-size:clamp(1.5rem,3.8vw,2.2rem);line-height:1.15;margin-bottom:14px}
+.sub{color:#4C6378;max-width:60ch;margin-bottom:28px}
+
+/* Stages */
+.stages{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:760px){.stages{grid-template-columns:1fr}}
+.stage{border:1px solid var(--line);border-top:4px solid var(--ink);border-radius:8px;padding:22px;background:#fff}
+.stage:nth-child(2){border-top-color:var(--brass)}
+.stage:nth-child(3){border-top-color:var(--ok)}
+.stage .tag{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.06em;color:#5A7387}
+.stage h3{font-family:var(--disp);font-weight:700;font-size:1.12rem;margin:6px 0 10px}
+.stage p{font-size:.9rem;color:#3D5468}
+.stage .gate{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);font-size:.8rem;font-weight:600;color:var(--brass2)}
+
+/* Score */
+.score-wrap{background:var(--ink);color:#fff;border-radius:12px;padding:34px 28px;display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center}
+@media(max-width:760px){.score-wrap{grid-template-columns:1fr}}
+.score-wrap h2{color:#fff}
+.score-wrap p{color:#BFD2DF;font-size:.95rem}
+.score-bars div{margin-bottom:12px}
+.score-bars .lbl{display:flex;justify-content:space-between;font-size:.78rem;font-weight:600;margin-bottom:4px;color:#DCE8F0}
+.bar{height:10px;background:#274B66;border-radius:5px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--brass);border-radius:5px}
+
+/* Catalogue */
+#catalogue{background:var(--mist)}
+.filter-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.search{flex:1;min-width:220px;padding:12px 16px;border:1px solid var(--line);border-radius:8px;font-family:var(--body);font-size:.95rem;background:#fff}
+.search:focus{outline:2px solid var(--brass)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:8px 0 16px;-webkit-overflow-scrolling:touch}
+.chip{flex:none;border:1px solid var(--line);background:#fff;border-radius:99px;padding:7px 14px;font-size:.78rem;font-weight:600;cursor:pointer;color:#3D5468}
+.chip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.count-line{font-family:var(--mono);font-size:.75rem;color:#5A7387;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:6px}
+.card .no{font-family:var(--mono);font-weight:600;font-size:.7rem;color:var(--brass2);letter-spacing:.06em}
+.card h4{font-family:var(--disp);font-weight:700;font-size:.98rem;line-height:1.25}
+.card .spec{font-size:.78rem;color:#5A7387}
+.card .cat{font-size:.68rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#8AA0B1;margin-top:auto;padding-top:8px}
+.more-btn{margin:22px auto 0;display:block}
+
+/* Featured course */
+.feat{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.feat-head{background:var(--ink);color:#fff;padding:26px 28px}
+.feat-head .no{font-family:var(--mono);color:var(--brass);font-size:.75rem;letter-spacing:.08em}
+.feat-head h3{font-family:var(--disp);font-weight:900;font-size:1.5rem;margin:4px 0 6px}
+.feat-head p{color:#BFD2DF;font-size:.9rem;max-width:60ch}
+.feat-body{padding:24px 28px;display:grid;grid-template-columns:1fr 1fr;gap:8px 28px}
+@media(max-width:700px){.feat-body{grid-template-columns:1fr}}
+.mod{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--mist);font-size:.88rem}
+.mod .wk{font-family:var(--mono);font-size:.72rem;color:var(--brass2);flex:none;width:74px;padding-top:2px}
+.feat-foot{padding:18px 28px;background:var(--mist);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:.85rem}
+
+/* Employers */
+.emp{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}
+@media(max-width:760px){.emp{grid-template-columns:1fr}}
+.emp ul{list-style:none;margin-top:6px}
+.emp li{padding:9px 0 9px 26px;position:relative;font-size:.92rem;color:#3D5468}
+.emp li::before{content:"";position:absolute;left:0;top:15px;width:14px;height:3px;background:var(--brass);border-radius:2px}
+
+/* Footer */
+footer{background:var(--ink2);color:#93A9BA;padding:40px 0;font-size:.82rem}
+footer .wrap{display:grid;gap:16px}
+footer b{color:#fff}
+footer a{color:#C9D8E3}
+.legal{border-top:1px solid #274B66;padding-top:16px;font-size:.75rem;line-height:1.7}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-in">
+    <a class="logo" href="#top" aria-label="SkillBridge Institute home">
+      <svg width="26" height="18" viewBox="0 0 26 18" fill="none" aria-hidden="true"><path d="M1 17C1 8 6 3 13 3s12 5 12 14" stroke="#C98F2D" stroke-width="2.6" stroke-linecap="round"/><rect x="0" y="15" width="5" height="3" fill="#fff"/><rect x="21" y="15" width="5" height="3" fill="#fff"/></svg>
+      SKILLBRIDGE INSTITUTE
+    </a>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#catalogue">Courses</a>
+      <a href="#featured">Featured</a>
+      <a href="#employers">Employers</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <h1>Learn a trade. Prove it. Get placed.</h1>
+    <p class="lead">SkillBridge Institute teaches 200 practical, vocational skills online — then bridges you into a real, paid workplace placement. No placement, no certificate. That's why employers trust our graduates.</p>
+    <div class="hero-cta">
+      <span class="price-tag">$15 <small>per course · start to finish</small></span>
+      <a class="btn btn-ghost" href="#catalogue">Browse 200 courses</a>
+    </div>
+    <div class="bridge" aria-hidden="true">
+      <svg viewBox="0 0 1000 150" preserveAspectRatio="xMidYMax meet">
+        <path d="M20 140 C 250 10, 750 10, 980 140" stroke="#C98F2D" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <line x1="20" y1="140" x2="980" y2="140" stroke="#4C6A82" stroke-width="2"/>
+        <line x1="335" y1="140" x2="335" y2="63" stroke="#4C6A82" stroke-width="2"/>
+        <line x1="500" y1="140" x2="500" y2="47" stroke="#4C6A82" stroke-width="2"/>
+        <line x1="665" y1="140" x2="665" y2="63" stroke="#4C6A82" stroke-width="2"/>
+        <circle cx="20" cy="140" r="9" fill="#EEF3F6"/>
+        <circle cx="500" cy="47" r="9" fill="#C98F2D"/>
+        <circle cx="980" cy="140" r="9" fill="#2E7D4F"/>
+      </svg>
+      <div class="bridge-labels">
+        <div><b>Stage 1 · Theory</b>12 weeks, 6 modules, AI-marked<span class="gate">GATE: PASS 60%+ ON TIME</span></div>
+        <div><b>Stage 2 · Placement</b>Documented search, paid work<span class="gate">GATE: PLACEMENT + EMPLOYER REPORT</span></div>
+        <div><b>Stage 3 · Certification</b>Advanced modules + capstone<span class="gate">CERTIFICATE + JOBS BOARD</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="wrap stats-in">
+    <div class="stat"><b>200</b><span>Vocational courses</span></div>
+    <div class="stat"><b>$15</b><span>Full course, no extras</span></div>
+    <div class="stat"><b>24/7</b><span>AI tutor &amp; marking</span></div>
+    <div class="stat"><b>~9 mo</b><span>Theory to certificate</span></div>
+  </div>
+</div>
+
+<section id="how">
+  <div class="wrap">
+    <span class="eyebrow">How it works</span>
+    <h2>Three stages. Two gates. One certificate that means something.</h2>
+    <p class="sub">Every course runs on a published clock — two weeks per module, hard deadlines, one paid re-sit. Your punctuality, marks, and effort build your SkillBridge Score, which employers use to pick placement candidates. Being on the ball is the curriculum.</p>
+    <div class="stages">
+      <div class="stage">
+        <span class="tag">STAGE 1 · WEEKS 1–12</span>
+        <h3>Theory, on the clock</h3>
+        <p>Six two-week modules: lessons, practice question banks, and an AI tutor inside every module for whenever you're stuck. Quizzes marked instantly; written tasks marked by AI against a published rubric.</p>
+        <div class="gate">Gate: pass every module at 60%+, on time.</div>
+      </div>
+      <div class="stage">
+        <span class="tag">STAGE 2 · WEEKS 13–32</span>
+        <h3>Search, then work</h3>
+        <p>Build your Showcase Profile, keep a weekly Placement Search Record with evidence, and secure a placement through our Placement Board — at a wage you and the employer agree upfront.</p>
+        <div class="gate">Gate: no placement, no progression. Effort is tracked.</div>
+      </div>
+      <div class="stage">
+        <span class="tag">STAGE 3 · WEEKS 33–40</span>
+        <h3>Advance and certify</h3>
+        <p>Advanced modules plus a capstone built from your own placement. Pass it and your certificate is issued, your profile turns Graduate, and you join the Graduate Jobs Board.</p>
+        <div class="gate">Outcome: certificate + lifetime jobs board access.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="score-wrap">
+      <div>
+        <span class="eyebrow" style="color:var(--brass)">The SkillBridge Score</span>
+        <h2>Employers don't read CVs here. They read your Score.</h2>
+        <p>Every student carries a live score out of 100, updated automatically as you study. It measures what employers actually care about: do you know your trade, and do you show up on time?</p>
+      </div>
+      <div class="score-bars" aria-label="Score components">
+        <div><div class="lbl"><span>Academic results</span><span>40</span></div><div class="bar"><i style="width:40%"></i></div></div>
+        <div><div class="lbl"><span>Punctuality — on the ball</span><span>25</span></div><div class="bar"><i style="width:25%"></i></div></div>
+        <div><div class="lbl"><span>Placement search effort</span><span>15</span></div><div class="bar"><i style="width:15%"></i></div></div>
+        <div><div class="lbl"><span>Employer report</span><span>15</span></div><div class="bar"><i style="width:15%"></i></div></div>
+        <div><div class="lbl"><span>Conduct &amp; completion pledge</span><span>5</span></div><div class="bar"><i style="width:5%"></i></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="catalogue">
+  <div class="wrap">
+    <span class="eyebrow">The catalogue</span>
+    <h2>200 courses. Pick your trade.</h2>
+    <p class="sub">From broiler production to solar installation, bricklaying to bookkeeping. Every course: $15, start to finish.</p>
+    <div class="filter-row">
+      <input class="search" id="q" type="search" placeholder="Search courses — try 'broiler', 'welding', 'solar'…" aria-label="Search courses">
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Filter by category"></div>
+    <div class="count-line" id="count"></div>
+    <div class="grid" id="grid"></div>
+    <button class="btn btn-brass more-btn" id="more" type="button">Show more courses</button>
+  </div>
+</section>
+
+<section id="featured">
+  <div class="wrap">
+    <span class="eyebrow">Featured course</span>
+    <h2>Inside a SkillBridge course</h2>
+    <p class="sub">Here's Course 018 mapped end to end — every course in the catalogue follows this same gated journey.</p>
+    <div class="feat">
+      <div class="feat-head">
+        <span class="no">COURSE 018 · ANIMAL HUSBANDRY &amp; LIVESTOCK</span>
+        <h3>Poultry: Broiler Production</h3>
+        <p>Day-old chick to market bird in seven weeks — and you, from beginner to certified broiler producer with real farm experience behind you.</p>
+      </div>
+      <div class="feat-body">
+        <div class="mod"><span class="wk">WKS 1–2</span><span><b>B1</b> — Introduction to Broiler Farming: the industry, the production cycle, breeds, independent vs contract growing</span></div>
+        <div class="mod"><span class="wk">WKS 3–4</span><span><b>B2</b> — Housing &amp; Equipment: house design, ventilation, litter, feeders and drinkers</span></div>
+        <div class="mod"><span class="wk">WKS 5–6</span><span><b>B3</b> — Brooding &amp; Chick Management: temperature, lighting, first-week care</span></div>
+        <div class="mod"><span class="wk">WKS 7–8</span><span><b>B4</b> — Feeding &amp; Growth: feed phases, FCR, weighing to target weight</span></div>
+        <div class="mod"><span class="wk">WKS 9–10</span><span><b>B5</b> — Health, Vaccination &amp; Biosecurity: Gumboro, Newcastle, farm biosecurity</span></div>
+        <div class="mod"><span class="wk">WKS 11–12</span><span><b>B6</b> — Slaughter, Marketing &amp; Records: costing, pricing, the full-cycle budget</span></div>
+        <div class="mod"><span class="wk">WKS 13–32</span><span><b>Stage 2</b> — Placement search + 8–12 weeks paid work on a broiler operation</span></div>
+        <div class="mod"><span class="wk">WKS 33–40</span><span><b>Stage 3</b> — Problem solving, scaling, enterprise management + capstone report</span></div>
+      </div>
+      <div class="feat-foot">
+        <span><b>$15</b> covers all three stages, AI tutor, marking, and certification.</span>
+        <a class="btn btn-brass" href="mailto:hello@castamplify.com?subject=SkillBridge%20founding%20enrolment%20—%20Broiler%20Production">Register founding interest</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="employers" style="background:var(--mist)">
+  <div class="wrap emp">
+    <div>
+      <span class="eyebrow">For employers</span>
+      <h2>Placement candidates who've already proven they show up.</h2>
+      <p class="sub" style="margin-bottom:0">Post your placement interest, set the trade and wage range, and choose from candidates ranked by their SkillBridge Score.</p>
+    </div>
+    <ul>
+      <li>Free to post placement interest during our founding period</li>
+      <li>Candidates arrive with 12 weeks of passed, dated theory behind them</li>
+      <li>Wages agreed directly between you and the student, recorded on-platform</li>
+      <li>A standard Placement Agreement covers hours, supervision, and your end-of-placement report</li>
+      <li>Hire your best placement students permanently from the Graduate Jobs Board</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><b>SkillBridge Institute</b> — practical skills, proven people.</div>
+    <div>Founding enrolment enquiries: <a href="mailto:hello@castamplify.com">hello@castamplify.com</a></div>
+    <div class="legal">
+      SkillBridge Institute is a private online training provider operated by CastAmplify Ltd, registered in England and Wales. Certificates are issued by SkillBridge Institute as a private provider; no government accreditation is claimed. Course content is protected by copyright; copying or redistribution is prohibited. Placements are agreements between student and employer under the SkillBridge Placement Agreement. Progression rules, deadlines, and refund terms are set out in the Institute Regulations provided at enrolment.
+    </div>
+  </div>
+</footer>
+
+<script>
+const COURSES = [{"n":1,"c":"Agriculture & Crop Production","t":"Maize Production","s":"Commercial / Smallholder"},{"n":2,"c":"Agriculture & Crop Production","t":"Wheat & Small Grains Production","s":"Wheat / Barley / Sorghum / Millet"},{"n":3,"c":"Agriculture & Crop Production","t":"Horticulture: Vegetable Production","s":"Tomatoes / Onions / Leafy greens / Brassicas"},{"n":4,"c":"Agriculture & Crop Production","t":"Potato Production","s":""},{"n":5,"c":"Agriculture & Crop Production","t":"Tobacco Production & Curing","s":"Flue-cured / Burley"},{"n":6,"c":"Agriculture & Crop Production","t":"Cotton Production","s":""},{"n":7,"c":"Agriculture & Crop Production","t":"Soya Bean & Legume Production","s":"Soya / Groundnuts / Sugar beans"},{"n":8,"c":"Agriculture & Crop Production","t":"Fruit Orchard Management","s":"Citrus / Avocado / Mango / Bananas"},{"n":9,"c":"Agriculture & Crop Production","t":"Berry & High-Value Crop Production","s":"Blueberries / Strawberries"},{"n":10,"c":"Agriculture & Crop Production","t":"Greenhouse & Protected Cropping","s":"Tunnel farming / Hydroponics"},{"n":11,"c":"Agriculture & Crop Production","t":"Irrigation Design & Management","s":"Drip / Centre pivot / Flood"},{"n":12,"c":"Agriculture & Crop Production","t":"Soil Science & Fertiliser Management","s":""},{"n":13,"c":"Agriculture & Crop Production","t":"Crop Pest & Disease Management","s":"Integrated pest management"},{"n":14,"c":"Agriculture & Crop Production","t":"Seed Production & Nursery Management","s":""},{"n":15,"c":"Agriculture & Crop Production","t":"Organic Farming & Certification","s":""},{"n":16,"c":"Animal Husbandry & Livestock","t":"Piggery: Commercial Pig Production","s":"Breeding / Grower-finisher / Farrow-to-finish"},{"n":17,"c":"Animal Husbandry & Livestock","t":"Piggery: Pig Health & Biosecurity","s":""},{"n":18,"c":"Animal Husbandry & Livestock","t":"Poultry: Broiler Production","s":"Small-scale / Commercial contract growing"},{"n":19,"c":"Animal Husbandry & Livestock","t":"Poultry: Layer & Egg Production","s":"Battery / Deep litter / Free range"},{"n":20,"c":"Animal Husbandry & Livestock","t":"Poultry: Hatchery Management & Incubation","s":""},{"n":21,"c":"Animal Husbandry & Livestock","t":"Poultry: Indigenous & Free-Range Chickens","s":"Roadrunner / Dual purpose"},{"n":22,"c":"Animal Husbandry & Livestock","t":"Beef Cattle Production","s":"Pen fattening / Ranching"},{"n":23,"c":"Animal Husbandry & Livestock","t":"Dairy Farming & Milk Production","s":"Herd management / Milk hygiene"},{"n":24,"c":"Animal Husbandry & Livestock","t":"Goat Production","s":"Meat (Boer) / Dairy"},{"n":25,"c":"Animal Husbandry & Livestock","t":"Sheep Production","s":"Meat / Wool"},{"n":26,"c":"Animal Husbandry & Livestock","t":"Rabbit Production","s":""},{"n":27,"c":"Animal Husbandry & Livestock","t":"Fish Farming (Aquaculture)","s":"Tilapia / Catfish / Pond & cage systems"},{"n":28,"c":"Animal Husbandry & Livestock","t":"Beekeeping & Honey Production","s":""},{"n":29,"c":"Animal Husbandry & Livestock","t":"Animal Nutrition & Feed Formulation","s":"Pigs / Poultry / Ruminants"},{"n":30,"c":"Animal Husbandry & Livestock","t":"Livestock Health & Basic Veterinary Care","s":"Vaccination / Parasite control"},{"n":31,"c":"Construction & Building Trades","t":"Bricklaying & Blockwork","s":""},{"n":32,"c":"Construction & Building Trades","t":"Carpentry & Joinery","s":"Roofing / Formwork / Furniture"},{"n":33,"c":"Construction & Building Trades","t":"Plastering & Rendering","s":""},{"n":34,"c":"Construction & Building Trades","t":"Painting & Decorating","s":""},{"n":35,"c":"Construction & Building Trades","t":"Tiling: Wall & Floor","s":""},{"n":36,"c":"Construction & Building Trades","t":"Roofing & Waterproofing","s":"Tiles / Sheeting / Thatch"},{"n":37,"c":"Construction & Building Trades","t":"Steel Fixing & Reinforcement","s":""},{"n":38,"c":"Construction & Building Trades","t":"Concrete Work & Formwork","s":""},{"n":39,"c":"Construction & Building Trades","t":"Building Site Supervision","s":""},{"n":40,"c":"Construction & Building Trades","t":"Quantity Surveying Basics & Estimating","s":""},{"n":41,"c":"Construction & Building Trades","t":"Building Plans Reading & Draughting","s":""},{"n":42,"c":"Construction & Building Trades","t":"Welding & Fabrication","s":"Arc / MIG / TIG"},{"n":43,"c":"Construction & Building Trades","t":"Glazing & Aluminium Fitting","s":"Windows / Shopfronts / Partitions"},{"n":44,"c":"Construction & Building Trades","t":"Paving & Landscaping Construction","s":""},{"n":45,"c":"Electrical, Solar & Energy","t":"Domestic Electrical Installation","s":""},{"n":46,"c":"Electrical, Solar & Energy","t":"Commercial & Industrial Wiring","s":""},{"n":47,"c":"Electrical, Solar & Energy","t":"Solar PV Installation & Maintenance","s":"Off-grid / Grid-tied / Solar pumping"},{"n":48,"c":"Electrical, Solar & Energy","t":"Solar Water Heating Systems","s":""},{"n":49,"c":"Electrical, Solar & Energy","t":"Inverter & Battery Systems","s":"Lithium / Lead-acid / Backup design"},{"n":50,"c":"Electrical, Solar & Energy","t":"Electrical Fault Finding & Testing","s":""},{"n":51,"c":"Electrical, Solar & Energy","t":"Motor Rewinding & Repair","s":""},{"n":52,"c":"Electrical, Solar & Energy","t":"Generator Installation & Servicing","s":""},{"n":53,"c":"Electrical, Solar & Energy","t":"Borehole Pump Installation","s":"Submersible / Solar pumps"},{"n":54,"c":"Electrical, Solar & Energy","t":"Air Conditioning & Refrigeration","s":"Split units / Cold rooms"},{"n":55,"c":"Electrical, Solar & Energy","t":"Electrical Safety & Compliance","s":""},{"n":56,"c":"Electrical, Solar & Energy","t":"Home Automation & Smart Systems","s":""},{"n":57,"c":"Mechanical, Automotive & Engineering","t":"Motor Vehicle Mechanics (Petrol)","s":""},{"n":58,"c":"Mechanical, Automotive & Engineering","t":"Diesel Mechanics","s":"Trucks / Tractors / Plant"},{"n":59,"c":"Mechanical, Automotive & Engineering","t":"Auto Electrics & Diagnostics","s":""},{"n":60,"c":"Mechanical, Automotive & Engineering","t":"Motorcycle Mechanics","s":""},{"n":61,"c":"Mechanical, Automotive & Engineering","t":"Panel Beating & Spray Painting","s":""},{"n":62,"c":"Mechanical, Automotive & Engineering","t":"Tyre Fitting & Wheel Alignment","s":""},{"n":63,"c":"Mechanical, Automotive & Engineering","t":"Tractor & Farm Machinery Maintenance","s":""},{"n":64,"c":"Mechanical, Automotive & Engineering","t":"Earthmoving Plant Mechanics","s":"Excavators / Graders / Loaders"},{"n":65,"c":"Mechanical, Automotive & Engineering","t":"Fitting & Turning (Machining)","s":"Lathe / Milling"},{"n":66,"c":"Mechanical, Automotive & Engineering","t":"Boilermaking","s":""},{"n":67,"c":"Mechanical, Automotive & Engineering","t":"Hydraulics & Pneumatics","s":""},{"n":68,"c":"Mechanical, Automotive & Engineering","t":"Small Engine Repair","s":"Pumps / Generators / Mowers / Chainsaws"},{"n":69,"c":"Mechanical, Automotive & Engineering","t":"Bicycle Assembly & Repair","s":""},{"n":70,"c":"Mechanical, Automotive & Engineering","t":"Vehicle Valuation & Inspection","s":""},{"n":71,"c":"Plumbing & Water Systems","t":"Domestic Plumbing","s":""},{"n":72,"c":"Plumbing & Water Systems","t":"Commercial Plumbing & Drainage","s":""},{"n":73,"c":"Plumbing & Water Systems","t":"Water Reticulation & Pipe Laying","s":""},{"n":74,"c":"Plumbing & Water Systems","t":"Septic Tanks & On-Site Sanitation","s":""},{"n":75,"c":"Plumbing & Water Systems","t":"Rainwater Harvesting Systems","s":""},{"n":76,"c":"Plumbing & Water Systems","t":"Geyser & Hot Water Systems","s":""},{"n":77,"c":"Plumbing & Water Systems","t":"Irrigation Plumbing","s":""},{"n":78,"c":"Plumbing & Water Systems","t":"Borehole Siting & Development Basics","s":""},{"n":79,"c":"Hospitality, Catering & Food Processing","t":"Professional Cookery","s":"Hot kitchen / Cold kitchen"},{"n":80,"c":"Hospitality, Catering & Food Processing","t":"Baking & Confectionery","s":"Bread / Cakes / Pastries"},{"n":81,"c":"Hospitality, Catering & Food Processing","t":"Butchery & Meat Processing","s":"Cutting / Sausages / Biltong & curing"},{"n":82,"c":"Hospitality, Catering & Food Processing","t":"Food & Beverage Service","s":""},{"n":83,"c":"Hospitality, Catering & Food Processing","t":"Barista Skills & Coffee Service","s":""},{"n":84,"c":"Hospitality, Catering & Food Processing","t":"Bartending & Mixology","s":""},{"n":85,"c":"Hospitality, Catering & Food Processing","t":"Front Office & Reception","s":""},{"n":86,"c":"Hospitality, Catering & Food Processing","t":"Housekeeping & Accommodation Services","s":""},{"n":87,"c":"Hospitality, Catering & Food Processing","t":"Event Planning & Management","s":"Weddings / Corporate"},{"n":88,"c":"Hospitality, Catering & Food Processing","t":"Catering Business Management","s":""},{"n":89,"c":"Hospitality, Catering & Food Processing","t":"Food Safety & Hygiene (HACCP)","s":""},{"n":90,"c":"Hospitality, Catering & Food Processing","t":"Dairy Processing","s":"Yoghurt / Cheese / Maas"},{"n":91,"c":"Hospitality, Catering & Food Processing","t":"Fruit & Vegetable Processing","s":"Jams / Juices / Drying"},{"n":92,"c":"Hospitality, Catering & Food Processing","t":"Grain Milling & Stockfeed Production","s":""},{"n":93,"c":"Beauty, Hair & Wellness","t":"Hairdressing","s":"Cutting / Colouring / Braiding & weaves"},{"n":94,"c":"Beauty, Hair & Wellness","t":"Barbering","s":""},{"n":95,"c":"Beauty, Hair & Wellness","t":"Nail Technology","s":"Manicure / Acrylics / Gel"},{"n":96,"c":"Beauty, Hair & Wellness","t":"Make-Up Artistry","s":"Bridal / Editorial"},{"n":97,"c":"Beauty, Hair & Wellness","t":"Skincare & Facial Therapy","s":""},{"n":98,"c":"Beauty, Hair & Wellness","t":"Massage Therapy","s":"Swedish / Sports / Reflexology"},{"n":99,"c":"Beauty, Hair & Wellness","t":"Cosmetology & Salon Management","s":""},{"n":100,"c":"Beauty, Hair & Wellness","t":"Soap & Cosmetics Making","s":"Soaps / Lotions / Petroleum jelly"},{"n":101,"c":"Beauty, Hair & Wellness","t":"Personal Training & Fitness Instruction","s":""},{"n":102,"c":"Beauty, Hair & Wellness","t":"Nutrition & Wellness Coaching","s":""},{"n":103,"c":"Fashion, Textiles & Leatherwork","t":"Garment Construction & Dressmaking","s":""},{"n":104,"c":"Fashion, Textiles & Leatherwork","t":"Pattern Making & Grading","s":""},{"n":105,"c":"Fashion, Textiles & Leatherwork","t":"Tailoring (Menswear)","s":""},{"n":106,"c":"Fashion, Textiles & Leatherwork","t":"Fashion Design & Illustration","s":""},{"n":107,"c":"Fashion, Textiles & Leatherwork","t":"Industrial Sewing Machine Operation","s":""},{"n":108,"c":"Fashion, Textiles & Leatherwork","t":"Knitting & Crochet Production","s":""},{"n":109,"c":"Fashion, Textiles & Leatherwork","t":"Upholstery","s":"Furniture / Vehicle"},{"n":110,"c":"Fashion, Textiles & Leatherwork","t":"Leatherwork & Shoemaking","s":"Shoes / Bags / Belts"},{"n":111,"c":"Fashion, Textiles & Leatherwork","t":"Curtain & Blind Making","s":""},{"n":112,"c":"Fashion, Textiles & Leatherwork","t":"Screen Printing & Fabric Printing","s":"T-shirts / Signage"},{"n":113,"c":"Health & Social Care","t":"Nurse Aide / Care Assistant","s":""},{"n":114,"c":"Health & Social Care","t":"Home-Based Care for the Elderly","s":""},{"n":115,"c":"Health & Social Care","t":"First Aid & Emergency Response","s":"Workplace / Advanced"},{"n":116,"c":"Health & Social Care","t":"Community Health Work","s":""},{"n":117,"c":"Health & Social Care","t":"Pharmacy Assistant Skills","s":""},{"n":118,"c":"Health & Social Care","t":"Dental Assistant Skills","s":""},{"n":119,"c":"Health & Social Care","t":"Medical Records & Health Administration","s":""},{"n":120,"c":"Health & Social Care","t":"Counselling Skills Foundation","s":""},{"n":121,"c":"Health & Social Care","t":"Disability Support Work","s":""},{"n":122,"c":"Health & Social Care","t":"HIV/AIDS Care & Support","s":""},{"n":123,"c":"Health & Social Care","t":"Maternal & Child Health Support","s":""},{"n":124,"c":"Health & Social Care","t":"Health & Safety Officer Training","s":""},{"n":125,"c":"Childcare & Education Support","t":"Early Childhood Development (ECD)","s":""},{"n":126,"c":"Childcare & Education Support","t":"Teaching Assistant Skills","s":""},{"n":127,"c":"Childcare & Education Support","t":"Childminding & Nanny Training","s":""},{"n":128,"c":"Childcare & Education Support","t":"Special Needs Support","s":""},{"n":129,"c":"Childcare & Education Support","t":"Play-Based Learning & Activity Planning","s":""},{"n":130,"c":"Childcare & Education Support","t":"School Administration","s":""},{"n":131,"c":"Business, Office & Entrepreneurship","t":"Small Business Start-Up & Management","s":""},{"n":132,"c":"Business, Office & Entrepreneurship","t":"Bookkeeping & Basic Accounting","s":"Manual / Computerised"},{"n":133,"c":"Business, Office & Entrepreneurship","t":"Payroll Administration","s":""},{"n":134,"c":"Business, Office & Entrepreneurship","t":"Office Administration & Secretarial","s":""},{"n":135,"c":"Business, Office & Entrepreneurship","t":"Receptionist & Customer Service","s":""},{"n":136,"c":"Business, Office & Entrepreneurship","t":"Sales & Marketing Fundamentals","s":""},{"n":137,"c":"Business, Office & Entrepreneurship","t":"Retail & Shop Management","s":""},{"n":138,"c":"Business, Office & Entrepreneurship","t":"Stock Control & Inventory Management","s":""},{"n":139,"c":"Business, Office & Entrepreneurship","t":"Buying & Selling: Import/Export Basics","s":"Cross-border trading"},{"n":140,"c":"Business, Office & Entrepreneurship","t":"Project Management Fundamentals","s":""},{"n":141,"c":"Business, Office & Entrepreneurship","t":"Human Resources Assistant","s":""},{"n":142,"c":"Business, Office & Entrepreneurship","t":"Real Estate Agency Basics","s":""},{"n":143,"c":"Business, Office & Entrepreneurship","t":"Insurance & Financial Services Agent","s":""},{"n":144,"c":"Business, Office & Entrepreneurship","t":"Farm Business Management & Records","s":""},{"n":145,"c":"Digital & IT Skills","t":"Computer Basics & Digital Literacy","s":""},{"n":146,"c":"Digital & IT Skills","t":"Microsoft Office / Google Workspace","s":"Word / Excel / PowerPoint"},{"n":147,"c":"Digital & IT Skills","t":"Advanced Excel & Spreadsheets","s":""},{"n":148,"c":"Digital & IT Skills","t":"Web Design Fundamentals","s":"HTML & CSS / Website builders"},{"n":149,"c":"Digital & IT Skills","t":"Web Development with JavaScript","s":""},{"n":150,"c":"Digital & IT Skills","t":"Graphic Design","s":"Canva / Photoshop / CorelDRAW"},{"n":151,"c":"Digital & IT Skills","t":"Social Media Management","s":""},{"n":152,"c":"Digital & IT Skills","t":"Digital Marketing & SEO","s":""},{"n":153,"c":"Digital & IT Skills","t":"E-Commerce & Online Selling","s":""},{"n":154,"c":"Digital & IT Skills","t":"Computer Repair & Maintenance","s":"Hardware / Software"},{"n":155,"c":"Digital & IT Skills","t":"Networking & Internet Installation","s":"LAN / Wi-Fi / Starlink & VSAT"},{"n":156,"c":"Digital & IT Skills","t":"Cybersecurity Awareness & Basics","s":""},{"n":157,"c":"Digital & IT Skills","t":"Data Entry & Database Basics","s":""},{"n":158,"c":"Digital & IT Skills","t":"Mobile Phone Repair","s":""},{"n":159,"c":"Creative, Media & Design","t":"Photography","s":"Events / Portrait / Product"},{"n":160,"c":"Creative, Media & Design","t":"Videography & Video Editing","s":""},{"n":161,"c":"Creative, Media & Design","t":"Podcast Production","s":"Recording / Editing / Publishing"},{"n":162,"c":"Creative, Media & Design","t":"Music Production & Sound Engineering","s":""},{"n":163,"c":"Creative, Media & Design","t":"Radio & Broadcast Presenting","s":""},{"n":164,"c":"Creative, Media & Design","t":"Journalism & Content Writing","s":""},{"n":165,"c":"Creative, Media & Design","t":"Signwriting & Signage Production","s":""},{"n":166,"c":"Creative, Media & Design","t":"Interior Decorating","s":""},{"n":167,"c":"Creative, Media & Design","t":"Floristry & Event Décor","s":""},{"n":168,"c":"Creative, Media & Design","t":"Arts & Crafts Production","s":"Pottery / Woodcraft / Beadwork"},{"n":169,"c":"Transport, Logistics & Warehousing","t":"Professional Driving Theory & Defensive Driving","s":""},{"n":170,"c":"Transport, Logistics & Warehousing","t":"Heavy Vehicle Operations","s":"Rigid / Articulated"},{"n":171,"c":"Transport, Logistics & Warehousing","t":"Forklift & Materials Handling","s":""},{"n":172,"c":"Transport, Logistics & Warehousing","t":"Warehouse Operations","s":""},{"n":173,"c":"Transport, Logistics & Warehousing","t":"Logistics & Supply Chain Basics","s":""},{"n":174,"c":"Transport, Logistics & Warehousing","t":"Freight Forwarding & Customs Clearing","s":""},{"n":175,"c":"Transport, Logistics & Warehousing","t":"Courier & Last-Mile Delivery Operations","s":""},{"n":176,"c":"Transport, Logistics & Warehousing","t":"Fleet Management","s":""},{"n":177,"c":"Transport, Logistics & Warehousing","t":"Cross-Border Transport Documentation","s":""},{"n":178,"c":"Transport, Logistics & Warehousing","t":"Fuel Station Operations & Management","s":""},{"n":179,"c":"Cleaning & Facilities Management","t":"Commercial Cleaning Operations","s":"Offices / Retail / Industrial"},{"n":180,"c":"Cleaning & Facilities Management","t":"Specialist Cleaning","s":"Carpets / Windows / Deep cleans"},{"n":181,"c":"Cleaning & Facilities Management","t":"Housekeeping Supervision","s":""},{"n":182,"c":"Cleaning & Facilities Management","t":"Laundry & Dry-Cleaning Operations","s":""},{"n":183,"c":"Cleaning & Facilities Management","t":"Pest Control & Fumigation","s":""},{"n":184,"c":"Cleaning & Facilities Management","t":"Grounds Maintenance & Gardening Services","s":""},{"n":185,"c":"Cleaning & Facilities Management","t":"Facilities & Property Maintenance","s":""},{"n":186,"c":"Cleaning & Facilities Management","t":"Waste Management & Recycling Operations","s":""},{"n":187,"c":"Security & Safety","t":"Security Guard Training","s":""},{"n":188,"c":"Security & Safety","t":"CCTV Installation & Monitoring","s":""},{"n":189,"c":"Security & Safety","t":"Alarm & Electric Fence Installation","s":""},{"n":190,"c":"Security & Safety","t":"Fire Safety & Fire Marshal Training","s":""},{"n":191,"c":"Security & Safety","t":"Occupational Health & Safety (SHE Rep)","s":""},{"n":192,"c":"Security & Safety","t":"Close Protection & VIP Security Basics","s":""},{"n":193,"c":"Environment, Land & Mining","t":"Forestry & Timber Production","s":""},{"n":194,"c":"Environment, Land & Mining","t":"Wildlife & Game Ranch Management","s":""},{"n":195,"c":"Environment, Land & Mining","t":"Tour Guiding & Safari Operations","s":""},{"n":196,"c":"Environment, Land & Mining","t":"Environmental Management Basics","s":""},{"n":197,"c":"Environment, Land & Mining","t":"Land Surveying Basics & GPS Mapping","s":""},{"n":198,"c":"Environment, Land & Mining","t":"Small-Scale Mining Operations","s":"Gold / Chrome / Alluvial"},{"n":199,"c":"Environment, Land & Mining","t":"Mineral Prospecting Fundamentals","s":""},{"n":200,"c":"Environment, Land & Mining","t":"Gemstone Cutting & Jewellery Making","s":""}];
+const grid = document.getElementById('grid');
+const chipsEl = document.getElementById('chips');
+const countEl = document.getElementById('count');
+const moreBtn = document.getElementById('more');
+const qEl = document.getElementById('q');
+let activeCat = 'All';
+let shown = 24;
+
+const cats = ['All', ...[...new Set(COURSES.map(c=>c.c))]];
+cats.forEach(cat=>{
+  const b = document.createElement('button');
+  b.className='chip'; b.type='button'; b.textContent = cat==='All' ? 'All categories' : cat;
+  b.setAttribute('aria-pressed', cat===activeCat);
+  b.onclick = ()=>{ activeCat=cat; shown=24; [...chipsEl.children].forEach(x=>x.setAttribute('aria-pressed', x===b)); render(); };
+  chipsEl.appendChild(b);
+});
+
+function filtered(){
+  const q = qEl.value.trim().toLowerCase();
+  return COURSES.filter(c =>
+    (activeCat==='All' || c.c===activeCat) &&
+    (!q || (c.t+' '+c.s+' '+c.c).toLowerCase().includes(q))
+  );
+}
+function render(){
+  const list = filtered();
+  countEl.textContent = list.length + ' of 200 courses' + (activeCat!=='All' ? ' · ' + activeCat : '') ;
+  grid.innerHTML = '';
+  list.slice(0, shown).forEach(c=>{
+    const d = document.createElement('div');
+    d.className='card';
+    d.innerHTML = '<span class="no">COURSE '+String(c.n).padStart(3,'0')+'</span><h4></h4>'+(c.s?'<div class="spec"></div>':'')+'<span class="cat"></span>';
+    d.querySelector('h4').textContent = c.t;
+    if(c.s) d.querySelector('.spec').textContent = c.s;
+    d.querySelector('.cat').textContent = c.c;
+    grid.appendChild(d);
+  });
+  moreBtn.style.display = list.length > shown ? 'block' : 'none';
+}
+moreBtn.onclick = ()=>{ shown += 24; render(); };
+qEl.addEventListener('input', ()=>{ shown=24; render(); });
+render();
+</script>
+</body>
+</html>
