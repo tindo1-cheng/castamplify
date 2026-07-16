@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>SkillBridge · Complete Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; background: #f4f7fc; color: #0b1a2b; transition: background 0.2s, color 0.2s; -webkit-font-smoothing: antialiased; }
+        body.dark { background: #0e1a26; color: #e6edf5; }
+        .app { display: flex; min-height: 100vh; }
+        .sidebar { width: 260px; background: #ffffff; border-right: 1px solid #e2e8f0; padding: 24px 16px; display: flex; flex-direction: column; gap: 32px; flex-shrink: 0; height: 100vh; position: sticky; top: 0; overflow-y: auto; transition: background 0.2s; }
+        body.dark .sidebar { background: #132433; border-color: #2a4055; }
+        .logo { font-weight: 700; font-size: 22px; display: flex; align-items: center; gap: 8px; }
+        .logo i { color: #2d7a3e; }
+        .sidebar nav { display: flex; flex-direction: column; gap: 6px; }
+        .sidebar nav a { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 10px; color: #1e3a5f; font-weight: 500; text-decoration: none; cursor: pointer; transition: 0.15s; }
+        body.dark .sidebar nav a { color: #cbdae9; }
+        .sidebar nav a i { width: 20px; font-size: 16px; }
+        .sidebar nav a:hover, .sidebar nav a.active { background: #eef4fb; color: #0f6b3a; }
+        body.dark .sidebar nav a:hover, body.dark .sidebar nav a.active { background: #1f3850; color: #8bcb9e; }
+        .sidebar-footer { margin-top: auto; font-size: 13px; color: #6a7f9b; border-top: 1px solid #e2e8f0; padding-top: 16px; }
+        body.dark .sidebar-footer { border-color: #2a4055; color: #8ba0b8; }
+        .main { flex: 1; padding: 16px 20px; max-width: 100%; overflow-x: hidden; }
+        @media (min-width: 768px) { .main { padding: 24px 32px; } }
+        .topbar { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+        @media (min-width: 768px) { .topbar { flex-direction: row; justify-content: space-between; align-items: center; } }
+        .topbar h1 { font-size: 20px; font-weight: 600; }
+        @media (min-width: 768px) { .topbar h1 { font-size: 24px; } }
+        .topbar-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+        .topbar-actions button, .topbar-actions select { background: white; border: 1px solid #d0dbe8; border-radius: 40px; padding: 6px 12px; font-weight: 500; display: flex; align-items: center; gap: 6px; cursor: pointer; font-family: inherit; font-size: 13px; white-space: nowrap; }
+        body.dark .topbar-actions button, body.dark .topbar-actions select { background: #1f3850; border-color: #37516b; color: #e6edf5; }
+        .badge { background: #2d7a3e; color: white; border-radius: 40px; padding: 2px 10px; font-size: 11px; font-weight: 600; }
+        .page-content { display: block; }
+        .page-content.hidden { display: none; }
+
+        /* Search Bar */
+        .search-bar { display: flex; gap: 8px; align-items: center; background: white; border-radius: 40px; padding: 4px 4px 4px 16px; border: 1px solid #d0dbe8; max-width: 400px; }
+        body.dark .search-bar { background: #1f3850; border-color: #37516b; }
+        .search-bar input { border: none; background: transparent; padding: 8px 0; flex: 1; font-family: inherit; font-size: 14px; outline: none; color: inherit; }
+        .search-bar button { background: #2d7a3e; border: none; color: white; padding: 6px 16px; border-radius: 30px; font-weight: 500; cursor: pointer; font-size: 13px; font-family: inherit; }
+        .search-bar button:hover { background: #236b32; }
+
+        /* Newsletter */
+        .newsletter-section { background: white; border-radius: 16px; padding: 16px 20px; border: 1px solid #e6edf5; margin: 16px 0; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+        body.dark .newsletter-section { background: #142b3b; border-color: #2a4055; }
+        .newsletter-section h4 { font-size: 14px; display: flex; align-items: center; gap: 8px; }
+        .newsletter-section .newsletter-form { display: flex; gap: 8px; flex: 1; max-width: 450px; }
+        .newsletter-section .newsletter-form input { flex: 1; padding: 8px 14px; border-radius: 30px; border: 1px solid #d0dbe8; font-family: inherit; font-size: 13px; background: #f8faff; }
+        body.dark .newsletter-section .newsletter-form input { background: #1a3143; border-color: #3d5a75; color: #e6edf5; }
+        .newsletter-section .newsletter-form button { background: #2d7a3e; border: none; color: white; padding: 8px 20px; border-radius: 30px; font-weight: 600; cursor: pointer; font-size: 13px; }
+
+        /* Help / Question Tab (Bottom Right) */
+        .help-tab { position: fixed; bottom: 24px; right: 24px; z-index: 999; }
+        .help-tab button { background: #2d7a3e; border: none; color: white; width: 56px; height: 56px; border-radius: 50%; font-size: 24px; cursor: pointer; box-shadow: 0 4px 16px rgba(45, 122, 62, 0.4); transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+        .help-tab button:hover { transform: scale(1.05); background: #236b32; }
+        .help-tab button .badge { position: absolute; top: -4px; right: -4px; font-size: 10px; padding: 2px 8px; }
+
+        /* Help Modal (Chat) */
+        .help-chat { position: fixed; bottom: 90px; right: 24px; width: 360px; max-width: calc(100vw - 48px); max-height: 500px; background: white; border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); z-index: 1000; display: none; flex-direction: column; overflow: hidden; border: 1px solid #e6edf5; }
+        body.dark .help-chat { background: #142b3b; border-color: #2a4055; }
+        .help-chat.active { display: flex; }
+        .help-chat-header { background: #2d7a3e; color: white; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .help-chat-header h4 { font-size: 15px; display: flex; align-items: center; gap: 8px; }
+        .help-chat-header .close-chat { background: none; border: none; color: white; font-size: 20px; cursor: pointer; }
+        .help-chat-messages { flex: 1; padding: 16px 20px; overflow-y: auto; max-height: 300px; min-height: 200px; }
+        .help-chat-messages .msg { margin-bottom: 10px; padding: 10px 14px; border-radius: 12px; max-width: 85%; font-size: 14px; line-height: 1.5; }
+        .help-chat-messages .msg.user { background: #e3ecf5; margin-left: auto; }
+        body.dark .help-chat-messages .msg.user { background: #1f3850; }
+        .help-chat-messages .msg.bot { background: #f0f7fe; }
+        body.dark .help-chat-messages .msg.bot { background: #0f2333; }
+        .help-chat-input { display: flex; padding: 12px 16px; border-top: 1px solid #e6edf5; gap: 8px; }
+        body.dark .help-chat-input { border-color: #2a4055; }
+        .help-chat-input input { flex: 1; padding: 8px 14px; border-radius: 30px; border: 1px solid #d0dbe8; font-family: inherit; font-size: 14px; outline: none; }
+        body.dark .help-chat-input input { background: #1a3143; border-color: #3d5a75; color: #e6edf5; }
+        .help-chat-input button { background: #2d7a3e; border: none; color: white; padding: 8px 16px; border-radius: 30px; cursor: pointer; font-weight: 600; }
+
+        /* Calendar */
+        .calendar-section { background: white; border-radius: 16px; border: 1px solid #e6edf5; padding: 16px; margin-top: 16px; max-width: 400px; }
+        body.dark .calendar-section { background: #142b3b; border-color: #2a4055; }
+        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .calendar-header h4 { font-size: 16px; }
+        .calendar-header button { background: none; border: 1px solid #d0dbe8; border-radius: 30px; padding: 4px 12px; cursor: pointer; font-size: 14px; font-family: inherit; }
+        body.dark .calendar-header button { border-color: #37516b; color: #e6edf5; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; }
+        .calendar-grid .day-name { font-size: 11px; font-weight: 600; color: #4d6682; padding: 4px 0; }
+        body.dark .calendar-grid .day-name { color: #a5b9ce; }
+        .calendar-grid .day { padding: 6px 0; border-radius: 30px; font-size: 13px; cursor: pointer; transition: 0.1s; }
+        .calendar-grid .day:hover { background: #eef4fb; }
+        body.dark .calendar-grid .day:hover { background: #1f3850; }
+        .calendar-grid .day.today { background: #2d7a3e; color: white; font-weight: 600; }
+        .calendar-grid .day.other-month { color: #b0c4d8; }
+        body.dark .calendar-grid .day.other-month { color: #5a7a94; }
+        .calendar-grid .day.has-event::after { content: '•'; color: #2d7a3e; font-size: 18px; display: block; line-height: 0; margin-top: -4px; }
+        body.dark .calendar-grid .day.has-event::after { color: #8bcb9e; }
+
+        .tag { background: #e1f0e6; color: #1d6b3a; padding: 0 10px; border-radius: 20px; font-size: 11px; font-weight: 600; display: inline-block; }
+        body.dark .tag { background: #1a4a2a; color: #9bddb2; }
+        .btn-primary { background: #2d7a3e; border: none; color: white; padding: 8px 20px; border-radius: 40px; font-weight: 600; cursor: pointer; font-size: 14px; }
+        .btn-primary:hover { background: #236b32; }
+
+        .student-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-top: 16px; }
+        .student-card { background: white; border-radius: 16px; border: 1px solid #e6edf5; padding: 16px; transition: 0.15s; }
+        body.dark .student-card { background: #142b3b; border-color: #2a4055; }
+        .student-card .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .student-card .name { font-weight: 600; font-size: 16px; }
+        .student-card .course { font-size: 13px; color: #4d6682; }
+        .student-card .progress-section { margin: 10px 0; }
+        .student-card .progress-bar { background: #e3eaf2; height: 6px; border-radius: 20px; width: 100%; }
+        body.dark .student-card .progress-bar { background: #2a4a62; }
+        .student-card .progress-fill { height: 6px; border-radius: 20px; background: #2d7a3e; width: 0%; }
+        .student-card .checkin-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0; font-size: 12px; }
+        .student-card .checkin-row .check { background: #e1f0e6; padding: 2px 10px; border-radius: 20px; }
+        body.dark .student-card .checkin-row .check { background: #1a4a2a; color: #9bddb2; }
+        .student-card .checkin-row .miss { background: #fde8e8; padding: 2px 10px; border-radius: 20px; color: #c0392b; }
+        .student-card .actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+        .student-card .actions button { background: #eef4fb; border: none; padding: 4px 12px; border-radius: 20px; font-size: 12px; cursor: pointer; font-family: inherit; }
+        body.dark .student-card .actions button { background: #1f3850; color: #e6edf5; }
+
+        .course-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-top: 12px; }
+        @media (min-width: 768px) { .course-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; } }
+        .course-card { background: white; padding: 12px 14px; border-radius: 14px; border: 1px solid #e6edf5; cursor: pointer; transition: 0.15s; }
+        body.dark .course-card { background: #142b3b; border-color: #2a4055; }
+        .course-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-2px); }
+        .course-card h4 { font-size: 13px; font-weight: 600; }
+        .course-card .meta { font-size: 11px; color: #4d6682; margin-top: 4px; display: flex; justify-content: space-between; }
+
+        .course-detail { background: white; border-radius: 16px; border: 1px solid #e6edf5; padding: 16px; margin-top: 16px; display: none; }
+        body.dark .course-detail { background: #142b3b; border-color: #2a4055; }
+        .course-detail.visible { display: block; }
+        .module-block { background: #f8faff; border-radius: 12px; padding: 12px 16px; margin-bottom: 10px; border-left: 4px solid #2d7a3e; }
+        body.dark .module-block { background: #0f2333; border-left-color: #5baa78; }
+        .module-block h4 { font-size: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; }
+        .lesson-item { display: flex; gap: 10px; align-items: baseline; padding: 4px 0 4px 8px; border-bottom: 1px dashed #e2e8f0; font-size: 13px; flex-wrap: wrap; }
+        body.dark .lesson-item { border-color: #2a4055; }
+        .lesson-item .type { font-size: 10px; background: #e3ecf5; padding: 0 10px; border-radius: 30px; color: #1a3a5a; white-space: nowrap; }
+        body.dark .lesson-item .type { background: #1f3850; color: #b6d0e5; }
+
+        .table-wrap { background: white; border-radius: 14px; border: 1px solid #e6edf5; overflow-x: auto; padding: 4px 0; margin-top: 12px; }
+        body.dark .table-wrap { background: #142b3b; border-color: #2a4055; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 400px; }
+        th { text-align: left; padding: 10px 12px; font-weight: 600; color: #2e4a6a; }
+        body.dark th { color: #b6ccdf; }
+        td { padding: 8px 12px; border-top: 1px solid #eef2f6; }
+        body.dark td { border-color: #24405a; }
+
+        .country-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin-top: 12px; }
+        .country-chip { background: white; padding: 8px 12px; border-radius: 30px; border: 1px solid #e2e8f0; display: flex; align-items: center; gap: 6px; font-size: 13px; }
+        body.dark .country-chip { background: #142b3b; border-color: #2a4055; }
+
+        .qa-panel { background: white; border-radius: 16px; border: 1px solid #e6edf5; padding: 16px; margin-top: 12px; }
+        body.dark .qa-panel { background: #142b3b; border-color: #2a4055; }
+        .qa-panel textarea { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #d0dbe8; font-family: inherit; resize: vertical; min-height: 70px; font-size: 14px; }
+        body.dark .qa-panel textarea { background: #1a3143; border-color: #3d5a75; color: #e6edf5; }
+        .qa-response { background: #eef4fb; padding: 14px; border-radius: 14px; margin-top: 10px; min-height: 50px; font-size: 14px; line-height: 1.6; }
+        body.dark .qa-response { background: #1f3850; }
+
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: white; border-radius: 20px; padding: 28px 32px; max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; animation: modalIn 0.3s ease; }
+        body.dark .modal { background: #142b3b; }
+        @keyframes modalIn { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-close { position: absolute; top: 12px; right: 16px; font-size: 24px; cursor: pointer; color: #6a7f9b; }
+        .modal label { display: block; font-weight: 500; margin: 12px 0 4px; font-size: 14px; }
+        .modal input, .modal select, .modal textarea { width: 100%; padding: 10px 14px; border-radius: 12px; border: 1px solid #d0dbe8; font-family: inherit; font-size: 14px; }
+        body.dark .modal input, body.dark .modal select, body.dark .modal textarea { background: #1a3143; border-color: #3d5a75; color: #e6edf5; }
+        .modal textarea { min-height: 80px; resize: vertical; }
+        .modal .btn-submit { background: #2d7a3e; color: white; border: none; padding: 10px 28px; border-radius: 40px; font-weight: 600; cursor: pointer; font-size: 16px; margin-top: 16px; width: 100%; }
+
+        .offline-badge { position: fixed; bottom: 90px; left: 20px; background: #2d7a3e; color: white; padding: 6px 14px; border-radius: 40px; font-size: 11px; font-weight: 600; z-index: 999; display: none; }
+        .offline-badge.show { display: block; }
+
+        .category-filter { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 16px; }
+        .category-filter button { background: white; border: 1px solid #d0dbe8; border-radius: 30px; padding: 4px 14px; font-size: 12px; font-weight: 500; cursor: pointer; transition: 0.15s; font-family: inherit; white-space: nowrap; }
+        body.dark .category-filter button { background: #1f3850; border-color: #37516b; color: #e6edf5; }
+        .category-filter button.active { background: #2d7a3e; color: white; border-color: #2d7a3e; }
+
+        .help-banner { background: linear-gradient(135deg, #1a4a2a, #2d7a3e); color: white; padding: 16px 20px; border-radius: 16px; margin: 16px 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+        .help-banner h3 { font-size: 16px; display: flex; align-items: center; gap: 10px; }
+        .help-banner .sub { font-size: 13px; opacity: 0.9; }
+        .btn-help { background: white; color: #1a4a2a; border: none; padding: 8px 20px; border-radius: 40px; font-weight: 700; cursor: pointer; font-size: 14px; }
+
+        .payment-methods { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+        .payment-methods span { background: #eef4fb; padding: 4px 14px; border-radius: 30px; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
+        body.dark .payment-methods span { background: #1f3850; }
+        .ad-banner { background: #e5f2e9; padding: 12px 16px; border-radius: 40px; margin: 16px 0 8px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 14px; }
+        body.dark .ad-banner { background: #133023; }
+        .ad-banner i { color: #1f6b3a; }
+
+        .progress-header { display: flex; justify-content: space-between; margin: 10px 0 4px; font-size: 14px; }
+        .progress-bar-bg { background: #e3eaf2; height: 8px; border-radius: 20px; width: 100%; }
+        body.dark .progress-bar-bg { background: #2a4a62; }
+        .progress-fill { height: 8px; border-radius: 20px; background: #2d7a3e; width: 0%; transition: width 0.5s ease; }
+
+        @media (max-width: 480px) {
+            .sidebar { width: 60px; padding: 12px 6px; }
+            .sidebar nav a span { display: none; }
+            .logo span { display: none; }
+            .sidebar-footer { font-size: 10px; }
+            .main { padding: 12px; }
+            .student-grid { grid-template-columns: 1fr; }
+            .modal { padding: 20px; }
+            .help-chat { width: calc(100vw - 32px); right: 16px; bottom: 80px; }
+            .search-bar { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="logo"><i class="fas fa-seedling"></i><span>SkillBridge</span></div>
+            <nav id="sidebarNav">
+                <a data-page="dashboard" class="active"><i class="fas fa-chart-simple"></i><span>Dashboard</span></a>
+                <a data-page="students"><i class="fas fa-users"></i><span>Students</span></a>
+                <a data-page="progress"><i class="fas fa-chart-line"></i><span>Progress</span></a>
+                <a data-page="assessments"><i class="fas fa-clipboard-check"></i><span>Assessments</span></a>
+                <a data-page="courses"><i class="fas fa-book-open"></i><span>Courses</span></a>
+                <a data-page="placements"><i class="fas fa-briefcase"></i><span>Placements</span></a>
+                <a data-page="graduates"><i class="fas fa-graduation-cap"></i><span>Graduates</span></a>
+                <a data-page="countries"><i class="fas fa-flag"></i><span>Countries</span></a>
+                <a data-page="qa"><i class="fas fa-robot"></i><span>AI Q&A</span></a>
+            </nav>
+            <div class="sidebar-footer"><i class="fas fa-shield-alt"></i> v7.0 · Complete</div>
+        </aside>
+
+        <main class="main" id="mainContent">
+            <div class="topbar">
+                <h1 id="pageTitle"><i class="fas fa-gauge-high" style="color:#2d7a3e;"></i> Dashboard</h1>
+                <div class="topbar-actions">
+                    <!-- Search Bar -->
+                    <div class="search-bar" id="searchBar">
+                        <input type="text" id="searchInput" placeholder="Search courses, students..." />
+                        <button id="searchBtn"><i class="fas fa-search"></i></button>
+                    </div>
+                    <button id="darkModeToggle"><i class="fas fa-moon"></i></button>
+                    <select id="langSelect">
+                        <option value="en">English</option><option value="fr">Français</option>
+                        <option value="pt">Português</option><option value="ar">العربية</option>
+                        <option value="sw">Kiswahili</option><option value="sn">Shona</option><option value="tn">Tswana</option>
+                    </select>
+                    <select id="countrySelect">
+                        <option value="ZW">🇿🇼 Zimbabwe</option><option value="KE">🇰🇪 Kenya</option>
+                        <option value="NG">🇳🇬 Nigeria</option><option value="ZA">🇿🇦 South Africa</option>
+                        <option value="GH">🇬🇭 Ghana</option><option value="TZ">🇹🇿 Tanzania</option>
+                        <option value="UG">🇺🇬 Uganda</option><option value="MW">🇲🇼 Malawi</option>
+                        <option value="ZM">🇿🇲 Zambia</option><option value="AO">🇦🇴 Angola</option>
+                        <option value="DZ">🇩🇿 Algeria</option><option value="EG">🇪🇬 Egypt</option>
+                        <option value="MA">🇲🇦 Morocco</option><option value="CI">🇨🇮 Côte d'Ivoire</option>
+                        <option value="CM">🇨🇲 Cameroon</option><option value="SN">🇸🇳 Senegal</option>
+                        <option value="ET">🇪🇹 Ethiopia</option><option value="BW">🇧🇼 Botswana</option>
+                        <option value="NA">🇳🇦 Namibia</option><option value="MZ">🇲🇿 Mozambique</option>
+                    </select>
+                    <button><i class="fas fa-user"></i></button>
+                </div>
+            </div>
+
+            <!-- Newsletter Section -->
+            <div class="newsletter-section">
+                <h4><i class="fas fa-envelope" style="color:#2d7a3e;"></i> Newsletter</h4>
+                <div class="newsletter-form">
+                    <input type="email" id="newsletterEmail" placeholder="Enter your email for updates" />
+                    <button id="newsletterBtn">Subscribe</button>
+                </div>
+                <span style="font-size:12px; color:#4d6682;">Get course updates, tips & offers</span>
+            </div>
+
+            <div class="help-banner">
+                <div><h3><i class="fas fa-hands-helping"></i> Help a Fellow Human</h3><div class="sub">We sponsor 10 struggling students every month.</div></div>
+                <button class="btn-help" id="helpBtn">Nominate Someone</button>
+            </div>
+
+            <div class="ad-banner">
+                <i class="fas fa-bullhorn"></i>
+                <span><strong>Ad space:</strong> Jobs · Training · Produce for sale</span>
+                <span style="margin-left:auto; background:#1f6b3a; color:white; padding:2px 16px; border-radius:40px; font-size:13px;">post now</span>
+            </div>
+
+            <div class="payment-methods">
+                <span><i class="fas fa-mobile-alt"></i> EcoCash</span><span><i class="fas fa-mobile-alt"></i> M-Pesa</span>
+                <span><i class="fas fa-mobile-alt"></i> MoMo</span><span><i class="fas fa-credit-card"></i> Visa/Mastercard</span>
+                <span><i class="fas fa-mobile-alt"></i> Orange Money</span><span><i class="fas fa-mobile-alt"></i> Airtel Money</span>
+                <span><i class="fas fa-mobile-alt"></i> MTN Mobile</span><span><i class="fas fa-university"></i> Bank Transfer</span>
+            </div>
+
+            <!-- PAGE: Dashboard -->
+            <div id="page-dashboard" class="page-content">
+                <div class="stats" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px,1fr)); gap:12px; margin-bottom:24px;">
+                    <div class="stat-card" style="background:white; padding:14px 12px; border-radius:14px; border:1px solid #eef2f6;">
+                        <div class="num" style="font-size:24px; font-weight:700;">213</div><div class="label" style="font-size:13px; color:#5b708b;">Courses</div>
+                    </div>
+                    <div class="stat-card" style="background:white; padding:14px 12px; border-radius:14px; border:1px solid #eef2f6;">
+                        <div class="num" style="font-size:24px; font-weight:700;">1,842</div><div class="label" style="font-size:13px; color:#5b708b;">Active students</div>
+                    </div>
+                    <div class="stat-card" style="background:white; padding:14px 12px; border-radius:14px; border:1px solid #eef2f6;">
+                        <div class="num" style="font-size:24px; font-weight:700;">54</div><div class="label" style="font-size:13px; color:#5b708b;">Countries</div>
+                    </div>
+                    <div class="stat-card" style="background:white; padding:14px 12px; border-radius:14px; border:1px solid #eef2f6;">
+                        <div class="num" style="font-size:24px; font-weight:700;">87%</div><div class="label" style="font-size:13px; color:#5b708b;">Completion</div>
+                    </div>
+                </div>
+
+                <!-- Calendar -->
+                <div class="calendar-section" id="calendarSection">
+                    <div class="calendar-header">
+                        <button id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+                        <h4 id="calendarTitle">July 2026</h4>
+                        <button id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid"></div>
+                </div>
+
+                <div style="background:white; border-radius:16px; padding:16px; border:1px solid #e6edf5; margin-top:16px;">
+                    <h3><i class="fas fa-robot" style="color:#2d7a3e;"></i> AI Tutor · 24/7</h3>
+                    <p style="color:#4d6682; font-size:14px;">Unlimited Q&A · auto-reminders · progress tracking</p>
+                    <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;">
+                        <span class="tag">10 modules per course</span><span class="tag">3-stage gate</span><span class="tag">$15 start to finish</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE: Students -->
+            <div id="page-students" class="page-content hidden">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                    <h3>Student Enrollment · Progress Folders</h3>
+                    <button class="btn-primary" id="enrollBtn"><i class="fas fa-user-plus"></i> Enroll New Student</button>
+                </div>
+                <div class="student-grid" id="studentGrid"></div>
+            </div>
+
+            <!-- PAGE: Progress -->
+            <div id="page-progress" class="page-content hidden">
+                <h3>Progress Monitoring · Weekly Check-ins</h3>
+                <div class="table-wrap">
+                    <table><thead><tr><th>Student</th><th>Course</th><th>Progress</th><th>Last Check-in</th><th>Check-ins (2x/week)</th><th>Status</th></tr></thead>
+                        <tbody id="progressTableBody"></tbody></table>
+                </div>
+            </div>
+
+            <!-- PAGE: Assessments -->
+            <div id="page-assessments" class="page-content hidden">
+                <h3>Assessment Forms & Reports</h3>
+                <div class="table-wrap">
+                    <table><thead><tr><th>Student</th><th>Course</th><th>Assessment Type</th><th>Date</th><th>Score</th><th>Status</th></tr></thead>
+                        <tbody id="assessmentTableBody"></tbody></table>
+                </div>
+                <button class="btn-primary" style="margin-top:16px;" id="addAssessmentBtn"><i class="fas fa-plus"></i> Add Assessment</button>
+            </div>
+
+            <!-- PAGE: Courses -->
+            <div id="page-courses" class="page-content hidden">
+                <h3>Course Catalogue</h3>
+                <div class="category-filter" id="categoryFilter"></div>
+                <div class="course-grid" id="courseGrid"></div>
+                <div class="course-detail" id="courseDetail">
+                    <h2 id="detailTitle">Advanced Maize Production</h2>
+                    <div class="subtitle" id="detailSubtitle">9 months · 10 modules · 3 stages · $15</div>
+                    <div class="progress-header"><span><strong>Your Progress</strong></span><span id="progressText">100%</span></div>
+                    <div class="progress-bar-bg"><div class="progress-fill" id="progressFill" style="width:100%;"></div></div>
+                    <div id="moduleContainer" style="margin-top:14px;"></div>
+                </div>
+            </div>
+
+            <!-- PAGE: Placements -->
+            <div id="page-placements" class="page-content hidden">
+                <h3>Placement Board</h3>
+                <div class="table-wrap"><table><thead><tr><th>Student</th><th>Employer</th><th>Location</th><th>Wage</th><th>Report</th></tr></thead>
+                    <tbody id="placementTableBody"></tbody></table></div>
+            </div>
+
+            <!-- PAGE: Graduates -->
+            <div id="page-graduates" class="page-content hidden">
+                <h3>Graduate Jobs Board</h3>
+                <div class="table-wrap"><table><thead><tr><th>Graduate</th><th>Course</th><th>Score</th><th>Badge</th><th>Status</th></tr></thead>
+                    <tbody id="graduateTableBody"></tbody></table></div>
+            </div>
+
+            <!-- PAGE: Countries -->
+            <div id="page-countries" class="page-content hidden">
+                <h3>54 African Countries</h3>
+                <div class="country-grid" id="countryGrid"></div>
+            </div>
+
+            <!-- PAGE: AI Q&A -->
+            <div id="page-qa" class="page-content hidden">
+                <h3><i class="fas fa-robot" style="color:#2d7a3e;"></i> Unlimited AI Q&A</h3>
+                <div class="qa-panel">
+                    <p style="color:#4d6682; margin-bottom:8px; font-size:14px;">Ask anything about courses, placements, or agriculture.</p>
+                    <textarea id="qaInput" placeholder="e.g. 'What is a female pig called?'"></textarea>
+                    <button id="qaSubmit" class="btn-primary" style="margin-top:10px;">Ask AI</button>
+                    <div class="qa-response" id="qaResponse">💬 AI will respond here. It knows all 213 courses.</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Help / Question Tab (Bottom Right) -->
+    <div class="help-tab">
+        <button id="helpTabBtn">
+            <i class="fas fa-question"></i>
+            <span class="badge" style="background:#e74c3c; color:white; font-size:10px; padding:2px 6px; border-radius:50%; position:absolute; top:-4px; right:-4px;">?</span>
+        </button>
+    </div>
+
+    <!-- Help Chat Modal -->
+    <div class="help-chat" id="helpChat">
+        <div class="help-chat-header">
+            <h4><i class="fas fa-life-ring"></i> Need Help?</h4>
+            <button class="close-chat" id="closeHelpChat">&times;</button>
+        </div>
+        <div class="help-chat-messages" id="helpMessages">
+            <div class="msg bot">👋 Hi! I'm your SkillBridge assistant. How can I help you today?</div>
+        </div>
+        <div class="help-chat-input">
+            <input type="text" id="helpChatInput" placeholder="Type your question..." />
+            <button id="helpChatSend"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- Offline Badge -->
+    <div class="offline-badge" id="offlineBadge"><i class="fas fa-wifi"></i> Offline Mode</div>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="enrollModal">
+        <div class="modal">
+            <span class="modal-close" id="enrollModalClose">&times;</span>
+            <h2><i class="fas fa-user-plus" style="color:#2d7a3e;"></i> Enroll New Student</h2>
+            <form id="enrollForm">
+                <label>Full Name *</label><input type="text" id="enrollName" required />
+                <label>Country *</label>
+                <select id="enrollCountry" required>
+                    <option value="">Select</option>
+                    <option value="Zimbabwe">🇿🇼 Zimbabwe</option><option value="Kenya">🇰🇪 Kenya</option>
+                    <option value="Nigeria">🇳🇬 Nigeria</option><option value="South Africa">🇿🇦 South Africa</option>
+                </select>
+                <label>Course *</label>
+                <select id="enrollCourse" required>
+                    <option value="">Select</option>
+                    <option value="Maize Production">Maize Production</option><option value="Poultry Production">Poultry Production</option>
+                    <option value="Dairy Milk">Dairy Milk</option><option value="Pig Production">Pig Production</option>
+                    <option value="Tilapia">Tilapia</option><option value="Tomato">Tomato</option>
+                </select>
+                <label>Enrollment Date *</label><input type="date" id="enrollDate" required />
+                <button type="submit" class="btn-submit">Enroll & Create Folder</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="assessmentModal">
+        <div class="modal">
+            <span class="modal-close" id="assessmentModalClose">&times;</span>
+            <h2><i class="fas fa-clipboard-check" style="color:#2d7a3e;"></i> Add Assessment</h2>
+            <form id="assessmentForm">
+                <label>Student *</label>
+                <select id="assessmentStudent" required>
+                    <option value="">Select</option>
+                    <option value="Thandive M.">Thandive M.</option>
+                    <option value="Kwame A.">Kwame A.</option>
+                    <option value="Fatima H.">Fatima H.</option>
+                    <option value="James O.">James O.</option>
+                    <option value="Maria S.">Maria S.</option>
+                </select>
+                <label>Assessment Type *</label>
+                <select id="assessmentType" required>
+                    <option value="Quiz">Quiz</option><option value="Practical">Practical</option>
+                    <option value="Written Exam">Written Exam</option><option value="Capstone">Capstone</option>
+                </select>
+                <label>Score (%) *</label><input type="number" id="assessmentScore" min="0" max="100" required />
+                <label>Date *</label><input type="date" id="assessmentDate" required />
+                <label>Notes</label><textarea id="assessmentNotes"></textarea>
+                <button type="submit" class="btn-submit">Save Assessment</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="helpModal">
+        <div class="modal">
+            <span class="modal-close" id="modalClose">&times;</span>
+            <h2><i class="fas fa-hands-helping" style="color:#2d7a3e;"></i> Nominate a Fellow Human</h2>
+            <form id="helpForm">
+                <label>Full Name *</label><input type="text" id="nomineeName" required />
+                <label>Country *</label>
+                <select id="nomineeCountry" required>
+                    <option value="">Select</option>
+                    <option value="Zimbabwe">🇿🇼 Zimbabwe</option><option value="Kenya">🇰🇪 Kenya</option>
+                    <option value="Nigeria">🇳🇬 Nigeria</option><option value="South Africa">🇿🇦 South Africa</option>
+                </select>
+                <label>Course *</label>
+                <select id="nomineeCourse" required>
+                    <option value="">Select</option>
+                    <option value="Maize Production">Maize Production</option>
+                    <option value="Poultry Production">Poultry Production</option>
+                </select>
+                <label>Reason *</label><textarea id="nomineeReason" required></textarea>
+                <button type="submit" class="btn-submit">Submit Nomination</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ---------- CALENDAR ----------
+            let currentDate = new Date();
+            let currentMonth = currentDate.getMonth();
+            let currentYear = currentDate.getFullYear();
+
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
+                'November', 'December'
+            ];
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+            // Sample events (assessment deadlines)
+            const events = {
+                '2026-07-15': ['Quiz: Broiler Production'],
+                '2026-07-20': ['Practical: Dairy Milk'],
+                '2026-07-25': ['Capstone Submission'],
+                '2026-07-28': ['Final Exam']
+            };
+
+            function renderCalendar(month, year) {
+                const grid = document.getElementById('calendarGrid');
+                const title = document.getElementById('calendarTitle');
+                title.textContent = `${monthNames[month]} ${year}`;
+
+                const firstDay = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+                let html = '';
+                // Day names
+                dayNames.forEach(d => {
+                    html += `<div class="day-name">${d}</div>`;
+                });
+
+                // Previous month days
+                const startOffset = firstDay;
+                for (let i = startOffset - 1; i >= 0; i--) {
+                    const day = daysInPrevMonth - i;
+                    html += `<div class="day other-month">${day}</div>`;
+                }
+
+                // Current month days
+                const today = new Date();
+                for (let i = 1; i <= daysInMonth; i++) {
+                    const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
+                    const isToday = (year === today.getFullYear() && month === today.getMonth() && i === today.getDate());
+                    const hasEvent = events[dateStr] && events[dateStr].length > 0;
+                    let classes = 'day';
+                    if (isToday) classes += ' today';
+                    if (hasEvent) classes += ' has-event';
+                    html += `<div class="${classes}" data-date="${dateStr}">${i}</div>`;
+                }
+
+                // Next month days
+                const totalCells = startOffset + daysInMonth;
+                const remainingCells = (7 - (totalCells % 7)) % 7;
+                for (let i = 1; i <= remainingCells; i++) {
+                    html += `<div class="day other-month">${i}</div>`;
+                }
+
+                grid.innerHTML = html;
+
+                // Add click events to days
+                grid.querySelectorAll('.day:not(.other-month)').forEach(el => {
+                    el.addEventListener('click', function() {
+                        const date = this.dataset.date;
+                        if (events[date]) {
+                            alert(`📅 Events on ${date}:\n${events[date].join('\n')}`);
+                        } else {
+                            alert(`📅 ${date} - No events scheduled.`);
+                        }
+                    });
+                });
+            }
+
+            document.getElementById('prevMonth').addEventListener('click', function() {
+                currentMonth--;
+                if (currentMonth < 0) { currentMonth = 11;
+                    currentYear--; }
+                renderCalendar(currentMonth, currentYear);
+            });
+
+            document.getElementById('nextMonth').addEventListener('click', function() {
+                currentMonth++;
+                if (currentMonth > 11) { currentMonth = 0;
+                    currentYear++; }
+                renderCalendar(currentMonth, currentYear);
+            });
+
+            renderCalendar(currentMonth, currentYear);
+
+            // ---------- SEARCH BAR ----------
+            const searchInput = document.getElementById('searchInput');
+            const searchBtn = document.getElementById('searchBtn');
+
+            function performSearch() {
+                const query = searchInput.value.trim().toLowerCase();
+                if (!query) { alert('Please enter a search term.'); return; }
+
+                // Search through courses
+                const courses = document.querySelectorAll('.course-card h4');
+                let found = [];
+                courses.forEach(el => {
+                    if (el.textContent.toLowerCase().includes(query)) {
+                        found.push(el.textContent);
+                        el.closest('.course-card').style.border = '2px solid #2d7a3e';
+                    } else {
+                        el.closest('.course-card').style.border = '';
+                    }
+                });
+
+                // Search through students
+                const students = document.querySelectorAll('.student-card .name');
+                students.forEach(el => {
+                    if (el.textContent.toLowerCase().includes(query)) {
+                        el.closest('.student-card').style.border = '2px solid #2d7a3e';
+                    } else {
+                        el.closest('.student-card').style.border = '';
+                    }
+                });
+
+                if (found.length === 0) {
+                    alert(`No results found for "${query}". Try a different term.`);
+                } else {
+                    alert(`✅ Found ${found.length} result(s) for "${query}":\n${found.slice(0,10).join('\n')}${found.length > 10 ? '\n... and more' : ''}`);
+                }
+            }
+
+            searchBtn.addEventListener('click', performSearch);
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') performSearch();
+            });
+
+            // ---------- NEWSLETTER ----------
+            document.getElementById('newsletterBtn').addEventListener('click', function() {
+                const email = document.getElementById('newsletterEmail').value.trim();
+                if (!email || !email.includes('@')) {
+                    alert('Please enter a valid email address.');
+                    return;
+                }
+                alert(`✅ Thank you for subscribing! Updates will be sent to ${email}`);
+                document.getElementById('newsletterEmail').value = '';
+            });
+
+            // ---------- HELP CHAT ----------
+            const helpTabBtn = document.getElementById('helpTabBtn');
+            const helpChat = document.getElementById('helpChat');
+            const closeHelpChat = document.getElementById('closeHelpChat');
+            const helpChatInput = document.getElementById('helpChatInput');
+            const helpChatSend = document.getElementById('helpChatSend');
+            const helpMessages = document.getElementById('helpMessages');
+
+            helpTabBtn.addEventListener('click', function() {
+                helpChat.classList.toggle('active');
+                if (helpChat.classList.contains('active')) {
+                    helpChatInput.focus();
+                }
+            });
+
+            closeHelpChat.addEventListener('click', function() {
+                helpChat.classList.remove('active');
+            });
+
+            function sendHelpMessage() {
+                const msg = helpChatInput.value.trim();
+                if (!msg) return;
+
+                // Add user message
+                const userDiv = document.createElement('div');
+                userDiv.className = 'msg user';
+                userDiv.textContent = msg;
+                helpMessages.appendChild(userDiv);
+
+                helpChatInput.value = '';
+                helpMessages.scrollTop = helpMessages.scrollHeight;
+
+                // Simulate bot response
+                setTimeout(() => {
+                    const botDiv = document.createElement('div');
+                    botDiv.className = 'msg bot';
+
+                    const lower = msg.toLowerCase();
+                    let response = '';
+                    if (lower.includes('course') || lower.includes('enroll')) {
+                        response =
+                        'We have 213 vocational courses. Each costs $15 from start to finish. You can enroll through the Courses page.';
+                    } else if (lower.includes('payment') || lower.includes('pay')) {
+                        response = 'We accept EcoCash, M-Pesa, MoMo, Visa/Mastercard, Orange Money, Airtel Money, MTN Mobile, and bank transfers.';
+                    } else if (lower.includes('help') || lower.includes('support')) {
+                        response = 'I\'m here to help! You can ask about courses, enrollment, payments, placements, or anything else about SkillBridge.';
+                    } else if (lower.includes('placement')) {
+                        response = 'Stage 2 (Placement): You need to document 2+ applications per week, secure a real placement with an agreed wage, and get a satisfactory employer report. No placement = no Stage 3.';
+                    } else if (lower.includes('certificate')) {
+                        response = 'You receive your certificate after completing Stage 3 Capstone at 60%+. Your profile converts to a Graduate Profile and you appear on the Graduate Jobs Board.';
+                    } else {
+                        response =
+                        'Thanks for your question! I\'m your SkillBridge assistant. I can help with courses, enrollment, payments, placements, certificates, and more. What would you like to know?';
+                    }
+                    botDiv.textContent = response;
+                    helpMessages.appendChild(botDiv);
+                    helpMessages.scrollTop = helpMessages.scrollHeight;
+                }, 500);
+            }
+
+            helpChatSend.addEventListener('click', sendHelpMessage);
+            helpChatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') sendHelpMessage();
+            });
+
+            // ---------- STUDENT DATA ----------
+            let students = [
+                { id: 1, name: 'Thandive M.', course: 'Broiler Production', country: '🇿🇦 SA', progress: 94,
+                    status: 'Stage 2', enrolled: '2026-01-15', checkins: ['2026-07-14', '2026-07-12', '2026-07-10',
+                        '2026-07-07'
+                    ], assessments: [{ type: 'Quiz', score: 85, date: '2026-07-01' }, { type: 'Practical', score: 90,
+                        date: '2026-07-08' }] },
+                { id: 2, name: 'Kwame A.', course: 'Dairy Milk', country: '🇬🇭 GH', progress: 88, status: 'Placement',
+                    enrolled: '2026-01-20', checkins: ['2026-07-14', '2026-07-11', '2026-07-08'], assessments: [{ type: 'Quiz',
+                        score: 78, date: '2026-06-28' }] },
+                { id: 3, name: 'Fatima H.', course: 'Tomato Production', country: '🇰🇪 KE', progress: 97,
+                    status: 'Certification', enrolled: '2025-12-01', checkins: ['2026-07-14', '2026-07-13', '2026-07-11',
+                        '2026-07-09'
+                    ], assessments: [{ type: 'Capstone', score: 92, date: '2026-07-05' }, { type: 'Written Exam',
+                        score: 88, date: '2026-06-30' }] },
+                { id: 4, name: 'James O.', course: 'Tilapia', country: '🇳🇬 NG', progress: 45, status: 'Theory',
+                    enrolled: '2026-02-10', checkins: ['2026-07-10'], assessments: [{ type: 'Quiz', score: 55,
+                        date: '2026-07-02' }] },
+                { id: 5, name: 'Maria S.', course: 'Organic Crop', country: '🇲🇿 MZ', progress: 72, status: 'Stage 2',
+                    enrolled: '2026-01-05', checkins: ['2026-07-13', '2026-07-09', '2026-07-06'], assessments: [{ type: 'Quiz',
+                        score: 75, date: '2026-07-03' }, { type: 'Practical', score: 80, date: '2026-07-10' }] }
+            ];
+
+            // ---------- RENDER FUNCTIONS ----------
+            function renderStudents() {
+                const grid = document.getElementById('studentGrid');
+                grid.innerHTML = '';
+                students.forEach(s => {
+                    const card = document.createElement('div');
+                    card.className = 'student-card';
+                    const checkinsThisWeek = s.checkins.filter(d => new Date(d) >= new Date(Date.now() - 7 * 24 * 60 *
+                        60 * 1000)).length;
+                    card.innerHTML = `
+                        <div class="header"><span class="name">${s.name}</span><span class="tag">${s.status}</span></div>
+                        <div class="course">${s.course} · ${s.country}</div>
+                        <div class="progress-section">
+                            <div style="display:flex;justify-content:space-between;font-size:13px;"><span>Progress</span><span>${s.progress}%</span></div>
+                            <div class="progress-bar"><div class="progress-fill" style="width:${s.progress}%;"></div></div>
+                        </div>
+                        <div class="checkin-row">
+                            <span><i class="fas fa-calendar-check"></i> Check-ins:</span>
+                            ${checkinsThisWeek >= 2 ? `<span class="check">✅ ${checkinsThisWeek}/2</span>` : `<span class="miss">⚠️ ${checkinsThisWeek}/2</span>`}
+                        </div>
+                        <div class="actions">
+                            <button onclick="recordCheckin(${s.id})"><i class="fas fa-calendar-plus"></i> Check-in</button>
+                            <button onclick="viewAssessments(${s.id})"><i class="fas fa-clipboard-list"></i> Assessments</button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+
+            window.recordCheckin = function(id) {
+                const student = students.find(s => s.id === id);
+                if (!student) return;
+                const date = new Date().toISOString().split('T')[0];
+                student.checkins.push(date);
+                student.progress = Math.min(student.progress + 1, 100);
+                renderStudents();
+                renderProgressTable();
+                alert(`✅ Check-in recorded for ${student.name} on ${date}`);
+            };
+
+            window.viewAssessments = function(id) {
+                const student = students.find(s => s.id === id);
+                if (!student) return;
+                alert(`📋 Assessments for ${student.name}:\n${student.assessments.map(a => `${a.type}: ${a.score}% (${a.date})`).join('\n') || 'No assessments yet'}`);
+            };
+
+            function renderProgressTable() {
+                const tbody = document.getElementById('progressTableBody');
+                tbody.innerHTML = '';
+                students.forEach(s => {
+                    const checkinsThisWeek = s.checkins.filter(d => new Date(d) >= new Date(Date.now() - 7 * 24 * 60 *
+                        60 * 1000)).length;
+                    const onTrack = checkinsThisWeek >= 2;
+                    tbody.innerHTML += `
+                        <tr>
+                            <td><b>${s.name}</b></td><td>${s.course}</td><td>${s.progress}%</td>
+                            <td>${s.checkins.length > 0 ? s.checkins[s.checkins.length-1] : 'None'}</td>
+                            <td>${checkinsThisWeek}/2 ${onTrack ? '✅' : '⚠️'}</td>
+                            <td><span class="tag">${onTrack ? 'On Track' : 'At Risk'}</span></td>
+                        </tr>
+                    `;
+                });
+            }
+
+            function renderAssessments() {
+                const tbody = document.getElementById('assessmentTableBody');
+                tbody.innerHTML = '';
+                students.forEach(s => {
+                    s.assessments.forEach(a => {
+                        tbody.innerHTML += `
+                            <tr><td><b>${s.name}</b></td><td>${s.course}</td><td>${a.type}</td><td>${a.date}</td><td>${a.score}%</td><td><span class="tag">${a.score >= 60 ? 'Pass' : 'Needs Review'}</span></td></tr>
+                        `;
+                    });
+                });
+                if (tbody.innerHTML === '') {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#4d6682;">No assessments recorded</td></tr>';
+                }
+            }
+
+            // ---------- PLACEMENTS, GRADUATES, COUNTRIES ----------
+            const placements = [
+                { student: 'Thandive M.', employer: 'Sunrise Poultry', location: 'Johannesburg, SA', wage: '$450/mo',
+                    report: 'Satisfactory' },
+                { student: 'Kwame A.', employer: 'Green Pastures Dairy', location: 'Kumasi, GH', wage: '$400/mo',
+                    report: 'Pending' }
+            ];
+            const pt = document.getElementById('placementTableBody');
+            placements.forEach(p => {
+                pt.innerHTML += `<tr><td><b>${p.student}</b></td><td>${p.employer}</td><td>${p.location}</td><td>${p.wage}</td><td><span class="tag">${p.report}</span></td></tr>`;
+            });
+
+            const graduates = [
+                { name: 'Fatima H.', course: 'Tomato Production', score: 97, badge: 'Gold', status: 'Employed' },
+                { name: 'David M.', course: 'Tractor Operation', score: 85, badge: 'Gold', status: 'Seeking' }
+            ];
+            const gt = document.getElementById('graduateTableBody');
+            graduates.forEach(g => {
+                gt.innerHTML += `<tr><td><b>${g.name}</b></td><td>${g.course}</td><td>${g.score}</td><td><span class="tag">${g.badge}</span></td><td>${g.status}</td></tr>`;
+            });
+
+            const countryNames = [
+                "Algeria", "Angola", "Benin", "Botswana", "Burkina Faso", "Burundi", "Cabo Verde", "Cameroon",
+                "Central African Republic", "Chad", "Comoros", "Congo", "Côte d'Ivoire", "Djibouti", "Egypt",
+                "Equatorial Guinea", "Eritrea", "Eswatini", "Ethiopia", "Gabon", "Gambia", "Ghana", "Guinea",
+                "Guinea-Bissau", "Kenya", "Lesotho", "Liberia", "Libya", "Madagascar", "Malawi", "Mali",
+                "Mauritania", "Mauritius", "Morocco", "Mozambique", "Namibia", "Niger", "Nigeria", "Rwanda",
+                "Sao Tome & Principe", "Senegal", "Seychelles", "Sierra Leone", "Somalia", "South Africa",
+                "South Sudan", "Sudan", "Tanzania", "Togo", "Tunisia", "Uganda", "Zambia", "Zimbabwe"
+            ];
+            const cg = document.getElementById('countryGrid');
+            countryNames.forEach(c => {
+                const chip = document.createElement('div');
+                chip.className = 'country-chip';
+                chip.innerHTML = `<span>🇦🇫</span> ${c}`;
+                cg.appendChild(chip);
+            });
+
+            // ---------- SIDEBAR NAV ----------
+            const navLinks = document.querySelectorAll('#sidebarNav a');
+            const pages = {
+                dashboard: document.getElementById('page-dashboard'),
+                students: document.getElementById('page-students'),
+                progress: document.getElementById('page-progress'),
+                assessments: document.getElementById('page-assessments'),
+                courses: document.getElementById('page-courses'),
+                placements: document.getElementById('page-placements'),
+                graduates: document.getElementById('page-graduates'),
+                countries: document.getElementById('page-countries'),
+                qa: document.getElementById('page-qa')
+            };
+            const pageTitle = document.getElementById('pageTitle');
+
+            function showPage(pageId) {
+                Object.keys(pages).forEach(id => pages[id].classList.add('hidden'));
+                if (pages[pageId]) pages[pageId].classList.remove('hidden');
+                navLinks.forEach(a => a.classList.remove('active'));
+                const activeLink = document.querySelector(`#sidebarNav a[data-page="${pageId}"]`);
+                if (activeLink) activeLink.classList.add('active');
+                const titles = {
+                    dashboard: 'Dashboard',
+                    students: 'Students',
+                    progress: 'Progress Monitoring',
+                    assessments: 'Assessments',
+                    courses: 'Courses',
+                    placements: 'Placements',
+                    graduates: 'Graduates',
+                    countries: 'Countries (54)',
+                    qa: 'Unlimited AI Q&A'
+                };
+                pageTitle.innerHTML =
+                    `<i class="fas fa-${pageId === 'dashboard' ? 'gauge-high' : 'circle'}" style="color:#2d7a3e;"></i> ${titles[pageId] || 'Dashboard'}`;
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.dataset.page;
+                    if (page) showPage(page);
+                });
+            });
+
+            // ---------- COURSES ----------
+            const categoryData = {
+                'Crop Production': ['Maize Production', 'Wheat Production', 'Rice (Paddy)', 'Soybean Production'],
+                'Poultry Production': ['Broiler Production', 'Layer Production', 'Breeder Flock Management',
+                    'Hatchery Operations'
+                ],
+                'Cattle & Dairy': ['Dairy Milk Production', 'Calf Rearing', 'Beef Feedlot Management',
+                    'Beef Ranch & Pastoral Systems'
+                ],
+                'Pig Production': ['Pig Production', 'Breeder & Boar Management', 'Farrowing & Weaner Production'],
+                'Aquaculture & Fisheries': ['Tilapia Production', 'Catfish Production', 'Aquaponics Systems'],
+                'Vegetable Production': ['Tomato Production', 'Onion Production', 'Cabbage Production'],
+                'Sustainable Agriculture': ['Sustainable Farming', 'Conservation Agriculture', 'Agroecology']
+            };
+
+            let allCourses = [];
+            let courseCategory = {};
+            const prefixes = ['', 'Advanced ', 'Professional '];
+
+            Object.entries(categoryData).forEach(([cat, baseNames]) => {
+                baseNames.forEach(baseName => {
+                    prefixes.forEach(prefix => {
+                        const fullName = prefix + baseName;
+                        if (!allCourses.includes(fullName)) {
+                            allCourses.push(fullName);
+                            courseCategory[fullName] = cat;
+                        }
+                    });
+                });
+            });
+
+            // Fill to 213
+            while (allCourses.length < 213) {
+                allCourses.push('Skill ' + (allCourses.length + 1));
+                courseCategory['Skill ' + allCourses.length] = 'Sustainable Agriculture';
+            }
+            allCourses = allCourses.slice(0, 213);
+
+            // ---------- RENDER COURSES ----------
+            const grid = document.getElementById('courseGrid');
+            const detail = document.getElementById('courseDetail');
+            const detailTitle = document.getElementById('detailTitle');
+            const detailSubtitle = document.getElementById('detailSubtitle');
+            const moduleContainer = document.getElementById('moduleContainer');
+
+            const moduleTopics = ['Introduction & Overview', 'Core Principles & Equipment', 'Practical Application',
+                'Advanced Techniques', 'Health & Safety Protocols', 'Quality Control & Standards',
+                'Business & Marketing Strategy', 'Case Studies & Analysis', 'Capstone Planning',
+                'Final Review & Assessment'
+            ];
+            const moduleIcons = ['📖', '🔧', '🔬', '⚡', '🛡️', '📊', '💰', '📋', '🎯', '✅'];
+
+            function getCompleteModules(courseName) {
+                return moduleTopics.map((t, i) => {
+                    const lessons = [];
+                    for (let j = 0; j < 2; j++) {
+                        const num = i * 3 + j + 1;
+                        const type = j === 0 ? 'Theory & Concepts' : 'Practical Application';
+                        lessons.push({ text: `Lesson ${num}: ${t} — ${type}`, type: 'lesson' });
+                    }
+                    lessons.push({ text: `Quiz: ${t} — 10 questions (auto-graded)`, type: 'quiz' });
+                    if (i === 8) {
+                        lessons.push({ text: '📌 Capstone Project: Outline & Proposal', type: 'assignment' });
+                        lessons.push({ text: '📌 Capstone: Research & Data Collection', type: 'assignment' });
+                    }
+                    if (i === 9) {
+                        lessons.push({ text: '📝 Final Exam (60% pass required)', type: 'exam' });
+                        lessons.push({ text: '📝 Certificate Application & Review', type: 'exam' });
+                    }
+                    while (lessons.length < 5) {
+                        lessons.push({ text: `Review: ${t} — Key Takeaways`, type: 'review' });
+                    }
+                    return {
+                        title: t,
+                        weeks: `${i*2+1}-${i*2+2}`,
+                        icon: moduleIcons[i % moduleIcons.length],
+                        lessons: lessons
+                    };
+                });
+            }
+
+            function renderCourseDetail(courseName) {
+                detail.classList.add('visible');
+                detailTitle.textContent = courseName;
+                const cat = courseCategory[courseName] || 'Vocational';
+                detailSubtitle.textContent = `9 months · 10 modules · 3 stages · $15 · ${cat}`;
+                const modules = getCompleteModules(courseName);
+                moduleContainer.innerHTML = '';
+                modules.forEach((m, i) => {
+                    const block = document.createElement('div');
+                    block.className = 'module-block';
+                    let lessonsHTML = '';
+                    m.lessons.forEach(l => {
+                        lessonsHTML += `
+                            <div class="lesson-item"><span>•</span> ${l.text} <span class="type">${l.type}</span></div>
+                        `;
+                    });
+                    block.innerHTML = `
+                        <h4><span>${m.icon} Module ${i+1}: ${m.title}</span> <span class="weeks">Weeks ${m.weeks}</span></h4>
+                        ${lessonsHTML}
+                    `;
+                    moduleContainer.appendChild(block);
+                });
+                document.getElementById('progressFill').style.width = '100%';
+                document.getElementById('progressText').textContent = '100%';
+            }
+
+            function renderCourses(category = 'all') {
+                let filtered = category === 'all' ? allCourses : allCourses.filter(c => courseCategory[c] === category);
+                grid.innerHTML = '';
+                filtered.forEach(c => {
+                    const card = document.createElement('div');
+                    card.className = 'course-card';
+                    const cat = courseCategory[c] || 'Vocational';
+                    card.innerHTML = `
+                        <h4>${c}</h4>
+                        <div class="meta"><span>${cat}</span><span>$15</span></div>
+                        <div style="font-size:11px; color:#4d6682; margin-top:4px;">10 modules · 9 mo</div>
+                    `;
+                    card.addEventListener('click', function() {
+                        renderCourseDetail(c);
+                        detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    });
+                    grid.appendChild(card);
+                });
+                document.querySelectorAll('.category-filter button').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.category === category);
+                });
+            }
+
+            // Build category filter
+            const filterContainer = document.getElementById('categoryFilter');
+            filterContainer.innerHTML = '';
+            const allBtn = document.createElement('button');
+            allBtn.className = 'active';
+            allBtn.dataset.category = 'all';
+            allBtn.textContent = `All (${allCourses.length})`;
+            allBtn.addEventListener('click', () => renderCourses('all'));
+            filterContainer.appendChild(allBtn);
+
+            const catKeys = Object.keys(categoryData);
+            catKeys.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.dataset.category = cat;
+                const count = allCourses.filter(c => courseCategory[c] === cat).length;
+                btn.textContent = `${cat} (${count})`;
+                btn.addEventListener('click', () => renderCourses(cat));
+                filterContainer.appendChild(btn);
+            });
+
+            renderCourses('all');
+            if (allCourses.length) renderCourseDetail(allCourses[0]);
+
+            // ---------- AI Q&A ----------
+            const qaInput = document.getElementById('qaInput');
+            const qaSubmit = document.getElementById('qaSubmit');
+            const qaResponse = document.getElementById('qaResponse');
+
+            const knowledgeBase = {
+                'female pig': "A female pig is called a GILT before farrowing, and a SOW after.",
+                'male pig': "A male pig is called a BOAR. Castrated males are BARROWS.",
+                'piglet': "A baby pig is called a PIGLET. The birth process is FARROWING.",
+                'placement': "Stage 2: document 2+ applications/week, secure a placement with agreed wage.",
+                'capstone': "Work-based project from placement. Pass at 60%+ for certificate.",
+                'soil': "Soil Science covers: soil types, nutrient cycling, pH, organic matter, fertilizer.",
+                'maize': "Maize Production covers: land preparation, planting, fertilizer, pest control, harvesting.",
+                'broiler': "Broiler Production covers: chick management, feeding, vaccination, housing, processing.",
+                'dairy': "Dairy Milk covers: herd management, milking, milk quality, processing.",
+                'tilapia': "Tilapia covers: pond construction, fingerlings, feeding, water quality, harvesting.",
+                'tomato': "Tomato covers: nursery, transplanting, pest control, irrigation, marketing."
+            };
+
+            function answerQuestion(q) {
+                const lower = q.toLowerCase();
+                for (const [key, answer] of Object.entries(knowledgeBase)) {
+                    if (lower.includes(key)) return answer;
+                }
+                if (lower.includes('what is') || lower.includes('define')) {
+                    if (lower.includes('gilt') || lower.includes('sow')) return knowledgeBase['female pig'];
+                    if (lower.includes('boar')) return knowledgeBase['male pig'];
+                    if (lower.includes('piglet')) return knowledgeBase['piglet'];
+                }
+                if (lower.includes('how to') || lower.includes('how do')) {
+                    if (lower.includes('placement')) return knowledgeBase['placement'];
+                    if (lower.includes('start')) return "Enrol for $15, access all 10 modules, complete lessons and quizzes, pass at 60%+ to progress.";
+                }
+                if (lower.includes('cost') || lower.includes('price')) return "Each course is $15 from start to finish.";
+                if (lower.includes('certificate')) return knowledgeBase['capstone'];
+                return "I'm your AI tutor. I know all 213 courses. Ask about specific courses, placements, grading, or any agricultural topic.";
+            }
+
+            qaSubmit.addEventListener('click', function() {
+                const q = qaInput.value.trim();
+                if (!q) { qaResponse.textContent = 'Please type a question.'; return; }
+                qaResponse.textContent = 'Thinking...';
+                setTimeout(() => {
+                    const answer = answerQuestion(q);
+                    qaResponse.textContent = answer;
+                }, 300);
+            });
+
+            qaInput.addEventListener('keypress', function(e) { if (e.key === 'Enter') qaSubmit.click(); });
+
+            // ---------- ENROLLMENT ----------
+            const enrollBtn = document.getElementById('enrollBtn');
+            const enrollModal = document.getElementById('enrollModal');
+            const enrollModalClose = document.getElementById('enrollModalClose');
+            const enrollForm = document.getElementById('enrollForm');
+
+            enrollBtn.addEventListener('click', () => {
+                enrollModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                document.getElementById('enrollDate').value = new Date().toISOString().split('T')[0];
+            });
+
+            enrollModalClose.addEventListener('click', () => {
+                enrollModal.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+            enrollModal.addEventListener('click', (e) => { if (e.target === e.currentTarget) { enrollModal.classList.remove(
+                        'active');
+                    document.body.style.overflow = ''; } });
+
+            enrollForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('enrollName').value.trim();
+                const country = document.getElementById('enrollCountry').value;
+                const course = document.getElementById('enrollCourse').value;
+                const date = document.getElementById('enrollDate').value;
+                if (!name || !country || !course) { alert('Please fill in all required fields.'); return; }
+                const newStudent = {
+                    id: students.length + 1,
+                    name: name,
+                    course: course,
+                    country: country,
+                    progress: 0,
+                    status: 'Theory',
+                    enrolled: date,
+                    checkins: [],
+                    assessments: []
+                };
+                students.push(newStudent);
+                renderStudents();
+                renderProgressTable();
+                renderAssessments();
+                alert(`✅ ${name} enrolled successfully! Progress folder created.`);
+                enrollForm.reset();
+                enrollModal.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+
+            // ---------- ASSESSMENT ----------
+            const addAssessmentBtn = document.getElementById('addAssessmentBtn');
+            const assessmentModal = document.getElementById('assessmentModal');
+            const assessmentModalClose = document.getElementById('assessmentModalClose');
+            const assessmentForm = document.getElementById('assessmentForm');
+
+            addAssessmentBtn.addEventListener('click', () => {
+                assessmentModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                document.getElementById('assessmentDate').value = new Date().toISOString().split('T')[0];
+            });
+
+            assessmentModalClose.addEventListener('click', () => {
+                assessmentModal.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+            assessmentModal.addEventListener('click', (e) => { if (e.target === e.currentTarget) { assessmentModal.classList
+                        .remove('active');
+                    document.body.style.overflow = ''; } });
+
+            assessmentForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const studentName = document.getElementById('assessmentStudent').value;
+                const type = document.getElementById('assessmentType').value;
+                const score = parseInt(document.getElementById('assessmentScore').value);
+                const date = document.getElementById('assessmentDate').value;
+                const student = students.find(s => s.name === studentName);
+                if (!student) { alert('Student not found.'); return; }
+                student.assessments.push({ type, score, date });
+                const avgScore = student.assessments.reduce((sum, a) => sum + a.score, 0) / student.assessments.length;
+                student.progress = Math.min(Math.round(avgScore * 0.9 + 10), 100);
+                renderStudents();
+                renderProgressTable();
+                renderAssessments();
+                alert(`✅ Assessment recorded for ${studentName}`);
+                assessmentForm.reset();
+                assessmentModal.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+
+            // ---------- HELP MODAL ----------
+            const helpBtn = document.getElementById('helpBtn');
+            const helpModal = document.getElementById('helpModal');
+            const modalClose = document.getElementById('modalClose');
+            const helpForm = document.getElementById('helpForm');
+
+            helpBtn.addEventListener('click', () => {
+                helpModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+
+            function closeHelpModal() {
+                helpModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+            modalClose.addEventListener('click', closeHelpModal);
+            helpModal.addEventListener('click', (e) => { if (e.target === e.currentTarget) closeHelpModal(); });
+
+            helpForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('nomineeName').value.trim();
+                if (!name) { alert('Please fill in all required fields.'); return; }
+                alert(`✅ ${name} has been nominated for the "Help a Fellow Human" program.`);
+                helpForm.reset();
+                closeHelpModal();
+            });
+
+            // ---------- DARK MODE ----------
+            document.getElementById('darkModeToggle').addEventListener('click', () => {
+                document.body.classList.toggle('dark');
+            });
+
+            document.getElementById('langSelect').addEventListener('change', (e) => {
+                alert(`🌍 Language: ${e.target.value.toUpperCase()}`);
+            });
+
+            document.getElementById('countrySelect').addEventListener('change', (e) => {
+                alert(`📍 Region set to ${e.target.options[e.target.selectedIndex].text}`);
+            });
+
+            // ---------- OFFLINE ----------
+            const offlineBadge = document.getElementById('offlineBadge');
+
+            function updateOnlineStatus() {
+                if (navigator.onLine) {
+                    offlineBadge.classList.remove('show');
+                } else {
+                    offlineBadge.classList.add('show');
+                }
+            }
+            window.addEventListener('online', updateOnlineStatus);
+            window.addEventListener('offline', updateOnlineStatus);
+            updateOnlineStatus();
+
+            // ---------- INITIALIZE ----------
+            renderStudents();
+            renderProgressTable();
+            renderAssessments();
+
+            console.log('SkillBridge · Newsletter, Search, Help Chat, Calendar added');
+        })();
+    </script>
+</body>
+</html>
