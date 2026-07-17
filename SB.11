@@ -1,0 +1,1835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>SkillBridge · 320+ Courses</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+    <style>
+        /* --- All styles are exactly the same as the previous version --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; background: #f4f7fc; color: #0b1a2b; transition: background 0.2s, color 0.2s; -webkit-font-smoothing: antialiased; }
+        body.dark { background: #0e1a26; color: #e6edf5; }
+        .app { display: flex; min-height: 100vh; }
+        .sidebar { width: 260px; background: #ffffff; border-right: 1px solid #e2e8f0; padding: 24px 16px; display: flex; flex-direction: column; gap: 32px; flex-shrink: 0; height: 100vh; position: sticky; top: 0; overflow-y: auto; transition: background 0.2s; z-index: 100; }
+        body.dark .sidebar { background: #132433; border-color: #2a4055; }
+        .logo { font-weight: 700; font-size: 22px; display: flex; align-items: center; gap: 8px; }
+        .logo i { color: #2d7a3e; }
+        .sidebar nav { display: flex; flex-direction: column; gap: 4px; }
+        .sidebar nav a { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 10px; color: #1e3a5f; font-weight: 500; text-decoration: none; cursor: pointer; transition: 0.15s; }
+        body.dark .sidebar nav a { color: #cbdae9; }
+        .sidebar nav a i { width: 20px; font-size: 16px; }
+        .sidebar nav a:hover, .sidebar nav a.active { background: #eef4fb; color: #0f6b3a; }
+        body.dark .sidebar nav a:hover, body.dark .sidebar nav a.active { background: #1f3850; color: #8bcb9e; }
+        .sidebar-footer { margin-top: auto; font-size: 13px; color: #6a7f9b; border-top: 1px solid #e2e8f0; padding-top: 16px; }
+        body.dark .sidebar-footer { border-color: #2a4055; color: #8ba0b8; }
+        .sidebar .enrol-link { margin-top: 4px; background: linear-gradient(135deg, #1a4a2a, #2d7a3e); border-radius: 10px; }
+        .sidebar .enrol-link a { color: white !important; font-weight: 700; }
+        .sidebar .enrol-link a:hover { background: rgba(255,255,255,0.1) !important; color: white !important; }
+        .sidebar .enrol-link a i { color: white; }
+        .main { flex: 1; padding: 16px 20px; max-width: 100%; overflow-x: hidden; }
+        @media (min-width: 768px) { .main { padding: 24px 32px; } }
+
+        .topbar { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+        @media (min-width: 768px) { .topbar { flex-direction: row; justify-content: space-between; align-items: center; } }
+        .topbar h1 { font-size: 20px; font-weight: 600; }
+        @media (min-width: 768px) { .topbar h1 { font-size: 24px; } }
+        .topbar-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+        .topbar-actions button, .topbar-actions select { background: white; border: 1px solid #d0dbe8; border-radius: 40px; padding: 6px 12px; font-weight: 500; display: flex; align-items: center; gap: 6px; cursor: pointer; font-family: inherit; font-size: 13px; white-space: nowrap; }
+        body.dark .topbar-actions button, body.dark .topbar-actions select { background: #1f3850; border-color: #37516b; color: #e6edf5; }
+        .badge { background: #2d7a3e; color: white; border-radius: 40px; padding: 2px 10px; font-size: 11px; font-weight: 600; }
+        .page-content { display: block; }
+        .page-content.hidden { display: none; }
+
+        .qr-section { display: flex; align-items: center; gap: 20px; background: white; padding: 14px 20px; border-radius: 40px; border: 1px solid #e2e8f0; margin-top: 12px; flex-wrap: wrap; }
+        body.dark .qr-section { background: #132433; border-color: #2a4055; }
+        .qr-code { font-size: 42px; color: #1c6b3a; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 10px; }
+        .qr-code:hover { transform: scale(1.05); }
+
+        .enrol-banner { background: linear-gradient(135deg, #0f2a1a, #1a4a2a, #2d7a3e); color: white; border-radius: 16px; padding: 20px 24px; margin: 12px 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; box-shadow: 0 4px 20px rgba(45, 122, 62, 0.3); }
+        .enrol-banner .content { flex: 1; }
+        .enrol-banner .content h2 { font-size: 26px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.5px; }
+        .enrol-banner .content h2 span { color: #ffd700; }
+        .enrol-banner .content p { font-size: 14px; opacity: 0.9; max-width: 600px; line-height: 1.6; }
+        .enrol-banner .content .features { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+        .enrol-banner .content .features span { background: rgba(255,255,255,0.12); padding: 2px 12px; border-radius: 30px; font-size: 12px; }
+        .enrol-banner .btn-enrol { background: #ffd700; color: #0f2a1a; border: none; padding: 12px 32px; border-radius: 50px; font-weight: 700; font-size: 16px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 16px rgba(255, 215, 0, 0.3); font-family: inherit; }
+        .enrol-banner .btn-enrol:hover { transform: scale(1.03); background: #ffe44d; }
+        @media (max-width: 600px) { .enrol-banner { padding: 16px; flex-direction: column; text-align: center; gap: 12px; } .enrol-banner .btn-enrol { width: 100%; } }
+
+        .help-banner { background: linear-gradient(135deg, #1a4a2a, #2d7a3e); color: white; padding: 14px 18px; border-radius: 16px; margin: 12px 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+        .help-banner h3 { font-size: 15px; display: flex; align-items: center; gap: 8px; }
+        .help-banner .sub { font-size: 12px; opacity: 0.9; }
+        .btn-help { background: white; color: #1a4a2a; border: none; padding: 6px 18px; border-radius: 40px; font-weight: 700; cursor: pointer; font-size: 13px; }
+
+        .payment-methods { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+        .payment-methods span { background: #eef4fb; padding: 3px 12px; border-radius: 30px; font-size: 11px; font-weight: 500; display: flex; align-items: center; gap: 4px; }
+        body.dark .payment-methods span { background: #1f3850; }
+
+        .ad-banner { background: #e5f2e9; padding: 10px 14px; border-radius: 40px; margin: 10px 0; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 13px; }
+        body.dark .ad-banner { background: #133023; }
+        .ad-banner i { color: #1f6b3a; }
+
+        .tag { background: #e1f0e6; color: #1d6b3a; padding: 0 10px; border-radius: 20px; font-size: 11px; font-weight: 600; display: inline-block; }
+        body.dark .tag { background: #1a4a2a; color: #9bddb2; }
+        .btn-primary { background: #2d7a3e; border: none; color: white; padding: 8px 20px; border-radius: 40px; font-weight: 600; cursor: pointer; font-size: 14px; }
+        .btn-primary:hover { background: #236b32; }
+        .btn-gold { background: #ffd700; color: #0f2a1a; border: none; padding: 8px 20px; border-radius: 40px; font-weight: 700; cursor: pointer; font-size: 14px; }
+        .btn-gold:hover { background: #ffe44d; }
+
+        .category-filter { display: flex; flex-wrap: wrap; gap: 4px; margin: 10px 0 12px; max-height: 250px; overflow-y: auto; padding: 4px; }
+        .category-filter button { background: white; border: 1px solid #d0dbe8; border-radius: 30px; padding: 3px 12px; font-size: 11px; font-weight: 500; cursor: pointer; transition: 0.15s; font-family: inherit; white-space: nowrap; }
+        body.dark .category-filter button { background: #1f3850; border-color: #37516b; color: #e6edf5; }
+        .category-filter button.active { background: #2d7a3e; color: white; border-color: #2d7a3e; }
+
+        .course-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; margin-top: 10px; }
+        @media (min-width: 768px) { .course-grid { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; } }
+        .course-card { background: white; padding: 10px 12px; border-radius: 12px; border: 1px solid #e6edf5; cursor: pointer; transition: 0.15s; }
+        body.dark .course-card { background: #142b3b; border-color: #2a4055; }
+        .course-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-2px); }
+        .course-card h4 { font-size: 13px; font-weight: 600; }
+        .course-card .meta { font-size: 11px; color: #4d6682; margin-top: 3px; display: flex; justify-content: space-between; }
+        .course-card .course-id { font-size: 10px; color: #2d7a3e; font-weight: 700; background: #e1f0e6; padding: 0 8px; border-radius: 20px; display: inline-block; }
+        body.dark .course-card .course-id { background: #1a4a2a; color: #9bddb2; }
+        .course-card .whatsapp-share-btn { margin-top: 4px; background: #25D366; border: none; color: white; padding: 3px 10px; border-radius: 20px; font-size: 10px; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 4px; }
+        .course-card .whatsapp-share-btn:hover { background: #128C7E; }
+
+        .course-detail { background: white; border-radius: 14px; border: 1px solid #e6edf5; padding: 16px; margin-top: 14px; display: none; max-height: 75vh; overflow-y: auto; }
+        body.dark .course-detail { background: #142b3b; border-color: #2a4055; }
+        .course-detail.visible { display: block; }
+        .course-detail h2 { font-size: 18px; margin-bottom: 4px; }
+        .course-detail .subtitle { color: #4d6682; font-size: 14px; margin-bottom: 10px; }
+        .course-detail .course-id-badge { background: #2d7a3e; color: white; padding: 2px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; display: inline-block; margin-bottom: 6px; }
+        body.dark .course-detail .course-id-badge { background: #5baa78; }
+        .course-detail .share-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+
+        .module-block { background: #f8faff; border-radius: 10px; padding: 10px 14px; margin-bottom: 8px; border-left: 3px solid #2d7a3e; }
+        body.dark .module-block { background: #0f2333; border-left-color: #5baa78; }
+        .module-block h4 { font-size: 13px; display: flex; flex-wrap: wrap; justify-content: space-between; }
+        .module-block .weeks { font-weight: 400; font-size: 11px; color: #4d6682; }
+        .lesson-item { display: flex; gap: 8px; align-items: baseline; padding: 3px 0 3px 8px; border-bottom: 1px dashed #e2e8f0; font-size: 12px; flex-wrap: wrap; }
+        body.dark .lesson-item { border-color: #2a4055; }
+        .lesson-item .type { font-size: 9px; background: #e3ecf5; padding: 0 8px; border-radius: 30px; color: #1a3a5a; white-space: nowrap; }
+        body.dark .lesson-item .type { background: #1f3850; color: #b6d0e5; }
+
+        .progress-header { display: flex; justify-content: space-between; margin: 8px 0 4px; font-size: 13px; }
+        .progress-bar-bg { background: #e3eaf2; height: 6px; border-radius: 20px; width: 100%; }
+        body.dark .progress-bar-bg { background: #2a4a62; }
+        .progress-fill { height: 6px; border-radius: 20px; background: #2d7a3e; width: 0%; transition: width 0.5s ease; }
+
+        .search-bar { display: flex; gap: 6px; align-items: center; background: white; border-radius: 40px; padding: 3px 3px 3px 14px; border: 1px solid #d0dbe8; max-width: 380px; }
+        body.dark .search-bar { background: #1f3850; border-color: #37516b; }
+        .search-bar input { border: none; background: transparent; padding: 6px 0; flex: 1; font-family: inherit; font-size: 13px; outline: none; color: inherit; }
+        .search-bar button { background: #2d7a3e; border: none; color: white; padding: 5px 14px; border-radius: 30px; font-weight: 500; cursor: pointer; font-size: 12px; font-family: inherit; }
+
+        .newsletter-section { background: white; border-radius: 14px; padding: 14px 18px; border: 1px solid #e6edf5; margin: 12px 0; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+        body.dark .newsletter-section { background: #142b3b; border-color: #2a4055; }
+        .newsletter-section .newsletter-form { display: flex; gap: 6px; flex: 1; max-width: 400px; }
+        .newsletter-section .newsletter-form input { flex: 1; padding: 6px 12px; border-radius: 30px; border: 1px solid #d0dbe8; font-family: inherit; font-size: 12px; background: #f8faff; }
+        body.dark .newsletter-section .newsletter-form input { background: #1a3143; border-color: #3d5a75; color: #e6edf5; }
+        .newsletter-section .newsletter-form button { background: #2d7a3e; border: none; color: white; padding: 6px 16px; border-radius: 30px; font-weight: 600; cursor: pointer; font-size: 12px; }
+
+        .help-tab { position: fixed; bottom: 20px; right: 20px; z-index: 999; }
+        .help-tab button { background: #2d7a3e; border: none; color: white; width: 52px; height: 52px; border-radius: 50%; font-size: 22px; cursor: pointer; box-shadow: 0 4px 16px rgba(45,122,62,0.4); transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+        .help-tab button:hover { transform: scale(1.05); }
+
+        .help-chat { position: fixed; bottom: 82px; right: 20px; width: 340px; max-width: calc(100vw - 40px); max-height: 460px; background: white; border-radius: 18px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); z-index: 1000; display: none; flex-direction: column; overflow: hidden; border: 1px solid #e6edf5; }
+        body.dark .help-chat { background: #142b3b; border-color: #2a4055; }
+        .help-chat.active { display: flex; }
+        .help-chat-header { background: #2d7a3e; color: white; padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; }
+        .help-chat-header .close-chat { background: none; border: none; color: white; font-size: 18px; cursor: pointer; }
+        .help-chat-messages { flex: 1; padding: 12px 16px; overflow-y: auto; max-height: 260px; min-height: 160px; }
+        .help-chat-messages .msg { margin-bottom: 8px; padding: 8px 12px; border-radius: 10px; max-width: 85%; font-size: 13px; line-height: 1.5; }
+        .help-chat-messages .msg.user { background: #e3ecf5; margin-left: auto; }
+        body.dark .help-chat-messages .msg.user { background: #1f3850; }
+        .help-chat-messages .msg.bot { background: #f0f7fe; }
+        body.dark .help-chat-messages .msg.bot { background: #0f2333; }
+        .help-chat-input { display: flex; padding: 10px 14px; border-top: 1px solid #e6edf5; gap: 6px; }
+        body.dark .help-chat-input { border-color: #2a4055; }
+        .help-chat-input input { flex: 1; padding: 6px 12px; border-radius: 30px; border: 1px solid #d0dbe8; font-family: inherit; font-size: 13px; outline: none; }
+        body.dark .help-chat-input input { background: #1a3143; border-color: #3d5a75; color: #e6edf5; }
+        .help-chat-input button { background: #2d7a3e; border: none; color: white; padding: 6px 14px; border-radius: 30px; cursor: pointer; font-weight: 600; font-size: 13px; }
+
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: white; border-radius: 18px; padding: 24px 28px; max-width: 480px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; animation: modalIn 0.3s ease; }
+        body.dark .modal { background: #142b3b; }
+        @keyframes modalIn { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-close { position: absolute; top: 10px; right: 14px; font-size: 22px; cursor: pointer; color: #6a7f9b; }
+        .modal label { display: block; font-weight: 500; margin: 10px 0 4px; font-size: 13px; }
+        .modal input, .modal select, .modal textarea { width: 100%; padding: 8px 12px; border-radius: 10px; border: 1px solid #d0dbe8; font-family: inherit; font-size: 13px; }
+        body.dark .modal input, body.dark .modal select, body.dark .modal textarea { background: #1a3143; border-color: #3d5a75; color: #e6edf5; }
+        .modal textarea { min-height: 60px; resize: vertical; }
+        .modal .btn-submit { background: #2d7a3e; color: white; border: none; padding: 10px 24px; border-radius: 40px; font-weight: 600; cursor: pointer; font-size: 15px; margin-top: 12px; width: 100%; }
+
+        .offline-badge { position: fixed; bottom: 82px; left: 20px; background: #2d7a3e; color: white; padding: 4px 12px; border-radius: 40px; font-size: 10px; font-weight: 600; z-index: 999; display: none; }
+        .offline-badge.show { display: block; }
+
+        .qa-panel { background: white; border-radius: 14px; border: 1px solid #e6edf5; padding: 14px; margin-top: 10px; }
+        body.dark .qa-panel { background: #142b3b; border-color: #2a4055; }
+        .qa-panel textarea { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #d0dbe8; font-family: inherit; resize: vertical; min-height: 60px; font-size: 13px; }
+        body.dark .qa-panel textarea { background: #1a3143; border-color: #3d5a75; color: #e6edf5; }
+        .qa-response { background: #eef4fb; padding: 12px; border-radius: 12px; margin-top: 8px; min-height: 40px; font-size: 13px; line-height: 1.6; }
+        body.dark .qa-response { background: #1f3850; }
+
+        .country-map-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-top: 12px; }
+        .country-map-item { background: white; border-radius: 14px; border: 1px solid #e6edf5; padding: 12px 10px; text-align: center; cursor: pointer; transition: 0.2s; }
+        body.dark .country-map-item { background: #142b3b; border-color: #2a4055; }
+        .country-map-item:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); border-color: #2d7a3e; }
+        .country-map-item .flag { font-size: 40px; display: block; margin-bottom: 4px; }
+        .country-map-item .country-name { font-weight: 600; font-size: 13px; }
+        .country-map-item .country-greeting { font-size: 10px; color: #4d6682; margin-top: 2px; }
+        body.dark .country-map-item .country-greeting { color: #a5b9ce; }
+        .country-map-item .country-code { font-size: 9px; color: #4d6682; background: #eef4fb; padding: 1px 8px; border-radius: 20px; display: inline-block; margin-top: 2px; }
+        body.dark .country-map-item .country-code { background: #1f3850; color: #b6ccdf; }
+
+        .showcase-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; margin-top: 16px; }
+        .showcase-card { background: white; border-radius: 16px; border: 1px solid #e6edf5; padding: 20px; transition: 0.2s; }
+        body.dark .showcase-card { background: #142b3b; border-color: #2a4055; }
+        .showcase-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.08); transform: translateY(-3px); }
+        .showcase-card .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
+        .showcase-card .student-name { font-size: 18px; font-weight: 700; }
+        .showcase-card .student-course { font-size: 14px; color: #4d6682; font-weight: 500; }
+        body.dark .showcase-card .student-course { color: #a5b9ce; }
+        .showcase-card .badge-container { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+        .showcase-card .stage-badge { font-size: 12px; font-weight: 600; padding: 2px 12px; border-radius: 20px; background: #eef4fb; color: #1a3a5a; }
+        body.dark .showcase-card .stage-badge { background: #1f3850; color: #b6d0e5; }
+        .showcase-card .gold-badge { background: linear-gradient(135deg, #ffd700, #f5a623); color: #0f2a1a; font-size: 11px; font-weight: 700; padding: 1px 12px; border-radius: 20px; text-transform: uppercase; }
+        .showcase-card .silver-badge { background: linear-gradient(135deg, #c0c0c0, #a8a8a8); color: #1a1a1a; font-size: 11px; font-weight: 700; padding: 1px 12px; border-radius: 20px; text-transform: uppercase; }
+        .showcase-card .bronze-badge { background: linear-gradient(135deg, #cd7f32, #b8860b); color: white; font-size: 11px; font-weight: 700; padding: 1px 12px; border-radius: 20px; text-transform: uppercase; }
+        .showcase-card .student-quote { font-size: 14px; color: #4d6682; font-style: italic; margin: 8px 0 12px; padding-left: 12px; border-left: 3px solid #2d7a3e; line-height: 1.5; }
+        body.dark .showcase-card .student-quote { color: #a5b9ce; border-left-color: #5baa78; }
+        .showcase-card .stats-row { display: flex; gap: 16px; margin: 10px 0; flex-wrap: wrap; }
+        .showcase-card .stat-item { display: flex; flex-direction: column; align-items: center; background: #f8faff; padding: 6px 16px; border-radius: 10px; min-width: 70px; }
+        body.dark .showcase-card .stat-item { background: #0f2333; }
+        .showcase-card .stat-item .stat-number { font-size: 20px; font-weight: 700; color: #2d7a3e; }
+        body.dark .showcase-card .stat-item .stat-number { color: #8bcb9e; }
+        .showcase-card .stat-item .stat-label { font-size: 10px; color: #4d6682; text-transform: uppercase; font-weight: 600; }
+        body.dark .showcase-card .stat-item .stat-label { color: #a5b9ce; }
+        .showcase-card .placement-info { font-size: 13px; color: #4d6682; margin-top: 8px; padding-top: 10px; border-top: 1px solid #eef2f6; display: flex; align-items: center; gap: 8px; }
+        body.dark .showcase-card .placement-info { border-color: #24405a; color: #a5b9ce; }
+        .showcase-card .placement-info i { color: #2d7a3e; }
+        .showcase-card .card-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+        .showcase-card .card-actions button { background: #eef4fb; border: none; padding: 4px 14px; border-radius: 20px; font-size: 12px; cursor: pointer; font-family: inherit; transition: 0.15s; }
+        body.dark .showcase-card .card-actions button { background: #1f3850; color: #e6edf5; }
+        .showcase-card .card-actions button:hover { background: #d5e2f0; }
+        body.dark .showcase-card .card-actions button:hover { background: #2a4a62; }
+
+        .blueprint-section { background: linear-gradient(135deg, #fef9e7, #fdf2d0); border-radius: 14px; border: 2px solid #ffd700; padding: 16px; margin-top: 14px; display: none; }
+        body.dark .blueprint-section { background: #1a2a1a; border-color: #ffd700; }
+        .blueprint-section.visible { display: block; }
+        .blueprint-section h3 { color: #1a4a2a; font-size: 17px; display: flex; align-items: center; gap: 8px; }
+        body.dark .blueprint-section h3 { color: #ffd700; }
+        .blueprint-section .blueprint-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
+        @media (max-width: 600px) { .blueprint-section .blueprint-grid { grid-template-columns: 1fr; } }
+        .blueprint-card { background: white; border-radius: 10px; padding: 12px 14px; border: 1px solid #e6edf5; }
+        body.dark .blueprint-card { background: #142b3b; border-color: #2a4055; }
+        .blueprint-card h4 { font-size: 13px; color: #2d7a3e; margin-bottom: 3px; }
+        body.dark .blueprint-card h4 { color: #8bcb9e; }
+        .blueprint-card .amount { font-size: 18px; font-weight: 700; color: #1a4a2a; }
+        body.dark .blueprint-card .amount { color: #ffd700; }
+        .blueprint-card ul { list-style: none; padding: 0; font-size: 12px; }
+        .blueprint-card ul li { padding: 2px 0; border-bottom: 1px dashed #eef2f6; display: flex; justify-content: space-between; }
+        body.dark .blueprint-card ul li { border-color: #24405a; }
+        .blueprint-card .total-row { font-weight: 700; border-top: 2px solid #2d7a3e; padding-top: 4px; margin-top: 3px; }
+        .blueprint-steps { margin-top: 10px; }
+        .blueprint-steps .step { display: flex; gap: 10px; padding: 6px 0; border-bottom: 1px solid #eef2f6; font-size: 12px; }
+        body.dark .blueprint-steps .step { border-color: #24405a; }
+        .blueprint-steps .step .num { background: #2d7a3e; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11px; flex-shrink: 0; }
+        .btn-download-blueprint { background: #2d7a3e; color: white; border: none; padding: 8px 20px; border-radius: 40px; font-weight: 600; cursor: pointer; font-size: 13px; margin-top: 10px; width: 100%; }
+        .btn-download-blueprint:hover { background: #236b32; }
+
+        .table-wrap { background: white; border-radius: 12px; border: 1px solid #e6edf5; overflow-x: auto; padding: 4px 0; margin-top: 10px; }
+        body.dark .table-wrap { background: #142b3b; border-color: #2a4055; }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 350px; }
+        th { text-align: left; padding: 8px 12px; font-weight: 600; color: #2e4a6a; }
+        body.dark th { color: #b6ccdf; }
+        td { padding: 6px 12px; border-top: 1px solid #eef2f6; }
+        body.dark td { border-color: #24405a; }
+
+        .job-card { background: white; border-radius: 12px; border: 1px solid #e6edf5; padding: 14px; margin-bottom: 10px; transition: 0.15s; }
+        body.dark .job-card { background: #142b3b; border-color: #2a4055; }
+        .job-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .job-card .job-title { font-size: 15px; font-weight: 600; }
+        .job-card .job-company { font-size: 13px; color: #4d6682; }
+        .job-card .job-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; font-size: 12px; color: #4d6682; }
+        .job-card .job-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+        .job-card .job-tags span { background: #eef4fb; padding: 1px 10px; border-radius: 20px; font-size: 10px; }
+        body.dark .job-card .job-tags span { background: #1f3850; }
+
+        .country-detail-modal .modal { max-width: 400px; text-align: center; }
+        .country-detail-modal .modal .big-flag { font-size: 64px; display: block; margin: 4px 0; }
+        .country-detail-modal .modal .country-full-name { font-size: 20px; font-weight: 700; }
+        .country-detail-modal .modal .country-greeting-text { font-size: 15px; color: #4d6682; margin: 4px 0; }
+        body.dark .country-detail-modal .modal .country-greeting-text { color: #a5b9ce; }
+        .country-detail-modal .modal .country-info { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 10px 0; text-align: left; }
+        .country-detail-modal .modal .country-info .info-item { background: #f8faff; padding: 6px 10px; border-radius: 8px; font-size: 12px; }
+        body.dark .country-detail-modal .modal .country-info .info-item { background: #0f2333; }
+
+        .whatsapp-float { position: fixed; bottom: 90px; left: 20px; z-index: 999; display: flex; flex-direction: column; gap: 8px; }
+        .whatsapp-float a { background: #25D366; color: white; width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 4px 16px rgba(37, 211, 102, 0.4); transition: 0.2s; text-decoration: none; }
+        .whatsapp-float a:hover { transform: scale(1.08); }
+        .whatsapp-float a.share-btn { background: #128C7E; font-size: 20px; box-shadow: 0 4px 16px rgba(18, 140, 126, 0.4); }
+        .whatsapp-float .tooltip { font-size: 10px; color: #4d6682; background: white; padding: 2px 10px; border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; display: none; }
+        .whatsapp-float:hover .tooltip { display: block; }
+        body.dark .whatsapp-float .tooltip { background: #1a3143; color: #b6ccdf; }
+
+        @media (max-width: 480px) {
+            .sidebar { width: 60px; padding: 12px 6px; }
+            .sidebar nav a span { display: none; }
+            .logo span { display: none; }
+            .sidebar-footer { font-size: 9px; }
+            .sidebar .enrol-link a span { display: none; }
+            .main { padding: 10px; }
+            .course-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+            .showcase-grid { grid-template-columns: 1fr; }
+            .help-chat { width: calc(100vw - 32px); right: 16px; bottom: 72px; }
+            .country-map-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+            .blueprint-section .blueprint-grid { grid-template-columns: 1fr; }
+            .qr-section { flex-direction: column; text-align: center; }
+            .whatsapp-float { bottom: 82px; left: 10px; }
+            .whatsapp-float a { width: 44px; height: 44px; font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="logo"><i class="fas fa-seedling"></i><span>SkillBridge</span></div>
+            <nav id="sidebarNav">
+                <a data-page="dashboard" class="active"><i class="fas fa-chart-simple"></i><span>Dashboard</span></a>
+                <a data-page="showcase"><i class="fas fa-users"></i><span>Student Showcase</span></a>
+                <a data-page="courses"><i class="fas fa-book-open"></i><span>Courses</span></a>
+                <a data-page="placements"><i class="fas fa-briefcase"></i><span>Placements</span></a>
+                <a data-page="graduates"><i class="fas fa-graduation-cap"></i><span>Graduates</span></a>
+                <a data-page="jobboard"><i class="fas fa-bullhorn"></i><span>Job Board</span></a>
+                <a data-page="countries"><i class="fas fa-flag"></i><span>Countries</span></a>
+                <a data-page="qa"><i class="fas fa-robot"></i><span>AI Q&A</span></a>
+                <div class="enrol-link">
+                    <a data-page="enrol"><i class="fas fa-user-plus"></i><span>Enrol Now — $15</span></a>
+                </div>
+            </nav>
+            <div class="sidebar-footer"><i class="fas fa-shield-alt"></i> v20.0 · 320+ Courses</div>
+        </aside>
+
+        <main class="main" id="mainContent">
+            <div class="topbar">
+                <h1 id="pageTitle"><i class="fas fa-gauge-high" style="color:#2d7a3e;"></i> Dashboard</h1>
+                <div class="topbar-actions">
+                    <div class="search-bar">
+                        <input type="text" id="searchInput" placeholder="Search 320+ courses..." />
+                        <button id="searchBtn"><i class="fas fa-search"></i></button>
+                    </div>
+                    <button id="darkModeToggle"><i class="fas fa-moon"></i></button>
+                    <select id="langSelect">
+                        <option value="en">English</option><option value="fr">Français</option>
+                        <option value="pt">Português</option><option value="ar">العربية</option>
+                        <option value="sw">Kiswahili</option><option value="sn">Shona</option><option value="tn">Tswana</option>
+                    </select>
+                    <select id="countrySelect">
+                        <option value="ZW">🇿🇼 Zimbabwe</option><option value="KE">🇰🇪 Kenya</option>
+                        <option value="NG">🇳🇬 Nigeria</option><option value="ZA">🇿🇦 South Africa</option>
+                        <option value="GH">🇬🇭 Ghana</option><option value="TZ">🇹🇿 Tanzania</option>
+                        <option value="UG">🇺🇬 Uganda</option><option value="MW">🇲🇼 Malawi</option>
+                        <option value="ZM">🇿🇲 Zambia</option><option value="AO">🇦🇴 Angola</option>
+                        <option value="DZ">🇩🇿 Algeria</option><option value="EG">🇪🇬 Egypt</option>
+                        <option value="MA">🇲🇦 Morocco</option><option value="CI">🇨🇮 Côte d'Ivoire</option>
+                        <option value="CM">🇨🇲 Cameroon</option><option value="SN">🇸🇳 Senegal</option>
+                        <option value="ET">🇪🇹 Ethiopia</option><option value="BW">🇧🇼 Botswana</option>
+                        <option value="NA">🇳🇦 Namibia</option><option value="MZ">🇲🇿 Mozambique</option>
+                    </select>
+                    <button><i class="fas fa-user"></i></button>
+                </div>
+            </div>
+
+            <!-- WhatsApp Float -->
+            <div class="whatsapp-float">
+                <a href="https://wa.me/263712345678?text=Hi%20SkillBridge!%20I%20want%20to%20enrol%20for%20a%20course" target="_blank" title="Chat on WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="#" class="share-btn" onclick="shareViaWhatsApp()" title="Share SkillBridge">
+                    <i class="fas fa-share-alt"></i>
+                </a>
+                <span class="tooltip">WhatsApp</span>
+            </div>
+
+            <!-- QR Code -->
+            <div class="qr-section">
+                <div class="qr-code" id="qrCodeContainer">
+                    <i class="fas fa-qrcode"></i>
+                    <span style="font-size:13px; font-weight:600;">Scan to Enrol</span>
+                </div>
+                <div>
+                    <strong>Share course (48h) </strong><span class="badge">$3.50</span>
+                    <span style="margin-left:10px; font-size:13px;">10 courses $35</span>
+                </div>
+                <div style="margin-left:auto; display:flex; gap:6px; flex-wrap:wrap;">
+                    <input type="text" id="qrCheckInput" placeholder="Enter course ID" style="border-radius:40px; padding:5px 12px; border:1px solid #d0dbe8; font-size:12px; min-width:100px; background:white; color:inherit;">
+                    <button id="qrCheckBtn" style="background:#2d7a3e; border:none; color:white; padding:5px 16px; border-radius:40px; font-weight:600; cursor:pointer; font-size:12px;">Check</button>
+                    <button onclick="shareQRViaWhatsApp()" style="background:#25D366; border:none; color:white; padding:5px 14px; border-radius:40px; font-weight:600; cursor:pointer; font-size:12px;"><i class="fab fa-whatsapp"></i> Share QR</button>
+                </div>
+            </div>
+
+            <!-- Enrol Banner -->
+            <div class="enrol-banner" id="enrolBanner">
+                <div class="content">
+                    <h2><span>$15.</span> That's It.</h2>
+                    <p id="courseCountDisplay">Loading 320+ courses...</p>
+                    <div class="features">
+                        <span>📚 All 3 Stages</span><span>🤖 AI Tutor</span>
+                        <span>📋 Placement Board</span><span>🎓 Certificate</span>
+                        <span>🔧 320+ Skills</span><span>🌍 54 Countries</span>
+                        <span><i class="fab fa-whatsapp"></i> Share on WhatsApp</span>
+                        <span>🍞 Bakery</span><span>🔪 Butchery</span>
+                    </div>
+                </div>
+                <button class="btn-enrol" id="enrolBannerBtn"><i class="fas fa-user-plus"></i> Enrol Now — $15</button>
+            </div>
+
+            <!-- Newsletter, Help Banner, Ad Banner, Payment Methods -->
+            <div class="newsletter-section">
+                <h4><i class="fas fa-envelope" style="color:#2d7a3e;"></i> Newsletter</h4>
+                <div class="newsletter-form">
+                    <input type="email" id="newsletterEmail" placeholder="Enter your email for updates" />
+                    <button id="newsletterBtn">Subscribe</button>
+                </div>
+            </div>
+
+            <div class="help-banner">
+                <div><h3><i class="fas fa-hands-helping"></i> Help a Fellow Human</h3><div class="sub">We sponsor 10 struggling students every month.</div></div>
+                <button class="btn-help" id="helpBtn">Nominate Someone</button>
+            </div>
+
+            <div class="ad-banner">
+                <i class="fas fa-bullhorn"></i>
+                <span><strong>Ad space:</strong> Jobs · Training · Produce for sale</span>
+                <span style="margin-left:auto; background:#1f6b3a; color:white; padding:1px 14px; border-radius:40px; font-size:11px;">post now</span>
+            </div>
+
+            <div class="payment-methods">
+                <span><i class="fas fa-mobile-alt"></i> EcoCash</span>
+                <span><i class="fas fa-mobile-alt"></i> M-Pesa</span>
+                <span><i class="fas fa-mobile-alt"></i> MoMo</span>
+                <span><i class="fas fa-credit-card"></i> Visa/Mastercard</span>
+                <span><i class="fas fa-mobile-alt"></i> Orange Money</span>
+                <span><i class="fas fa-mobile-alt"></i> Airtel Money</span>
+                <span><i class="fas fa-mobile-alt"></i> MTN Mobile</span>
+                <span><i class="fas fa-university"></i> Bank Transfer</span>
+            </div>
+
+            <!-- PAGE: Dashboard -->
+            <div id="page-dashboard" class="page-content hidden">
+                <div class="stats" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(120px,1fr)); gap:10px; margin-bottom:16px;">
+                    <div class="stat-card" style="background:white; padding:12px; border-radius:12px; border:1px solid #eef2f6;">
+                        <div class="num" style="font-size:22px; font-weight:700;" id="totalCoursesStat">0</div><div class="label" style="font-size:12px; color:#5b708b;">Courses</div>
+                    </div>
+                    <div class="stat-card" style="background:white; padding:12px; border-radius:12px; border:1px solid #eef2f6;">
+                        <div class="num" style="font-size:22px; font-weight:700;">1,842</div><div class="label" style="font-size:12px; color:#5b708b;">Active students</div>
+                    </div>
+                    <div class="stat-card" style="background:white; padding:12px; border-radius:12px; border:1px solid #eef2f6;">
+                        <div class="num" style="font-size:22px; font-weight:700;">54</div><div class="label" style="font-size:12px; color:#5b708b;">Countries</div>
+                    </div>
+                    <div class="stat-card" style="background:white; padding:12px; border-radius:12px; border:1px solid #eef2f6;">
+                        <div class="num" style="font-size:22px; font-weight:700;">87%</div><div class="label" style="font-size:12px; color:#5b708b;">Completion</div>
+                    </div>
+                </div>
+                <div style="background:white; border-radius:14px; padding:14px; border:1px solid #e6edf5;">
+                    <h3><i class="fas fa-robot" style="color:#2d7a3e;"></i> AI Tutor · 24/7</h3>
+                    <p style="color:#4d6682; font-size:13px;">Unlimited Q&A · auto-reminders · progress tracking</p>
+                    <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;">
+                        <span class="tag">10 modules per course</span><span class="tag">3-stage gate</span>
+                        <span class="tag">$15 start to finish</span>
+                        <span class="tag" style="background:#ffd700; color:#0f2a1a;">📊 Blueprint Included</span>
+                        <span class="tag" style="background:#25D366; color:white;"><i class="fab fa-whatsapp"></i> WhatsApp</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE: Student Showcase -->
+            <div id="page-showcase" class="page-content">
+                <h3 style="font-size:16px; margin-bottom:4px;">Student Showcase Profiles</h3>
+                <p style="color:#4d6682; font-size:14px; margin-bottom:12px;">Browse students seeking placements. Their results, scores, and search effort are visible to employers.</p>
+                <div class="showcase-grid" id="showcaseGrid"></div>
+            </div>
+
+            <!-- PAGE: Courses -->
+            <div id="page-courses" class="page-content hidden">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+                    <h3 style="font-size:16px;" id="courseCategoryHeader">All Courses</h3>
+                    <span class="tag"><i class="fas fa-dollar-sign"></i> $15 each · 10 modules</span>
+                </div>
+                <div class="category-filter" id="categoryFilter"></div>
+                <div class="course-grid" id="courseGrid"></div>
+                <div class="course-detail" id="courseDetail">
+                    <div class="course-id-badge" id="detailCourseId">SB.001</div>
+                    <h2 id="detailTitle">Loading...</h2>
+                    <div class="subtitle" id="detailSubtitle">9 months · 10 modules · 3 stages · $15</div>
+                    <div class="share-actions">
+                        <button onclick="shareCourseViaWhatsApp()" class="whatsapp-share-btn" style="background:#25D366; padding:6px 16px; font-size:13px;"><i class="fab fa-whatsapp"></i> Share Course</button>
+                        <button onclick="shareBlueprintViaWhatsApp()" class="whatsapp-share-btn" style="background:#128C7E; padding:6px 16px; font-size:13px;"><i class="fab fa-whatsapp"></i> Share Blueprint</button>
+                    </div>
+                    <div class="progress-header"><span><strong>Your Progress</strong></span><span id="progressText">100%</span></div>
+                    <div class="progress-bar-bg"><div class="progress-fill" id="progressFill" style="width:100%;"></div></div>
+                    <div id="moduleContainer" style="margin-top:10px;"></div>
+                    <div class="blueprint-section" id="blueprintSection">
+                        <h3><i class="fas fa-rocket" style="color:#ffd700;"></i> 🚀 Business Launch Blueprint</h3>
+                        <p style="color:#4d6682; margin:3px 0 10px; font-size:13px;">You've completed the course! Here's your step-by-step business plan.</p>
+                        <div id="blueprintContent"></div>
+                        <button class="btn-download-blueprint" id="downloadBlueprintBtn"><i class="fas fa-download"></i> Download Blueprint as PDF ($5)</button>
+                        <button onclick="shareBlueprintViaWhatsApp()" class="whatsapp-share-btn" style="width:100%; margin-top:8px; justify-content:center; background:#25D366; padding:8px;"><i class="fab fa-whatsapp"></i> Share Blueprint on WhatsApp</button>
+                    </div>
+                    <button class="btn-gold" id="showBlueprintBtn" style="margin-top:10px; width:100%;"><i class="fas fa-rocket"></i> View Business Blueprint ($5)</button>
+                </div>
+            </div>
+
+            <!-- PAGE: Placements -->
+            <div id="page-placements" class="page-content hidden">
+                <h3 style="font-size:16px;">Placement Board</h3>
+                <div class="table-wrap">
+                    <table><thead><tr><th>Student</th><th>Employer</th><th>Location</th><th>Wage</th><th>Report</th></tr></thead>
+                        <tbody id="placementTableBody"></tbody></table>
+                </div>
+            </div>
+
+            <!-- PAGE: Graduates -->
+            <div id="page-graduates" class="page-content hidden">
+                <h3 style="font-size:16px;">Graduate Jobs Board</h3>
+                <div class="table-wrap">
+                    <table><thead><tr><th>Graduate</th><th>Course</th><th>Score</th><th>Badge</th><th>Status</th></tr></thead>
+                        <tbody id="graduateTableBody"></tbody></table>
+                </div>
+            </div>
+
+            <!-- PAGE: Job Board -->
+            <div id="page-jobboard" class="page-content hidden">
+                <h3 style="font-size:16px;"><i class="fas fa-bullhorn" style="color:#2d7a3e;"></i> Job Board & Opportunities</h3>
+                <p style="color:#4d6682; font-size:13px; margin-bottom:12px;">Find jobs, training opportunities, and produce sales from our graduates.</p>
+                <div id="jobBoardContainer">
+                    <div class="job-card">
+                        <div class="job-title">Butchery Manager</div>
+                        <div class="job-company">Prime Cuts Butchery · Nairobi, KE</div>
+                        <div class="job-meta"><span>💰 $500/mo</span><span>📅 Full-time</span><span>🎓 Butchery</span></div>
+                        <div class="job-tags"><span>#Butchery</span><span>#Meat</span><span>#Management</span></div>
+                    </div>
+                    <div class="job-card">
+                        <div class="job-title">Bakery Manager</div>
+                        <div class="job-company">Sweet Treats Bakery · Nairobi, KE</div>
+                        <div class="job-meta"><span>💰 $520/mo</span><span>📅 Full-time</span><span>🎓 Bakery</span></div>
+                        <div class="job-tags"><span>#Bakery</span><span>#Cake</span><span>#Production</span></div>
+                    </div>
+                    <div class="job-card">
+                        <div class="job-title">Street Food Vendor</div>
+                        <div class="job-company">Taste of Africa · Lagos, NG</div>
+                        <div class="job-meta"><span>💰 $450/mo</span><span>📅 Full-time</span><span>🎓 Street Food</span></div>
+                        <div class="job-tags"><span>#StreetFood</span><span>#FastFood</span><span>#Catering</span></div>
+                    </div>
+                    <div class="job-card">
+                        <div class="job-title">Fish Processing Manager</div>
+                        <div class="job-company">Lake Harvest Fisheries · Mwanza, TZ</div>
+                        <div class="job-meta"><span>💰 $480/mo</span><span>📅 Full-time</span><span>🎓 Fish Processing & Preservation</span></div>
+                        <div class="job-tags"><span>#Fisheries</span><span>#Processing</span><span>#Preservation</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE: Countries -->
+            <div id="page-countries" class="page-content hidden">
+                <h3 style="font-size:16px;"><i class="fas fa-map-marked-alt" style="color:#2d7a3e;"></i> 54 African Countries</h3>
+                <p style="color:#4d6682; font-size:13px; margin-bottom:10px;">Click on any country to see personalized information.</p>
+                <div class="country-map-grid" id="countryMapGrid"></div>
+            </div>
+
+            <!-- PAGE: AI Q&A -->
+            <div id="page-qa" class="page-content hidden">
+                <h3 style="font-size:16px;"><i class="fas fa-robot" style="color:#2d7a3e;"></i> AI Q&A</h3>
+                <div class="qa-panel">
+                    <textarea id="qaInput" placeholder="Ask anything about courses, business plans, or skills..."></textarea>
+                    <button id="qaSubmit" class="btn-primary" style="margin-top:8px;">Ask AI</button>
+                    <div class="qa-response" id="qaResponse">💬 AI will respond here.</div>
+                </div>
+            </div>
+
+            <!-- PAGE: Enrol -->
+            <div id="page-enrol" class="page-content hidden">
+                <h3 style="font-size:16px;">Enrol Now — $15</h3>
+                <p style="color:#4d6682;">One payment. One course. All three stages. All tutor. Placement board. Certificate.</p>
+                <button class="btn-primary" style="font-size:18px; padding:14px 36px; margin-top:16px;" id="enrolPageBtn">
+                    <i class="fas fa-user-plus"></i> Enrol Now — $15
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Help Tab, Chat, Modals -->
+    <div class="help-tab">
+        <button id="helpTabBtn"><i class="fas fa-question"></i></button>
+    </div>
+
+    <div class="help-chat" id="helpChat">
+        <div class="help-chat-header">
+            <h4><i class="fas fa-life-ring"></i> Need Help?</h4>
+            <button class="close-chat" id="closeHelpChat">&times;</button>
+        </div>
+        <div class="help-chat-messages" id="helpMessages">
+            <div class="msg bot">👋 Hi! I'm your SkillBridge assistant. How can I help?</div>
+        </div>
+        <div class="help-chat-input">
+            <input type="text" id="helpChatInput" placeholder="Type your question..." />
+            <button id="helpChatSend"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <div class="offline-badge" id="offlineBadge"><i class="fas fa-wifi"></i> Offline</div>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="enrollModal">
+        <div class="modal">
+            <span class="modal-close" id="enrollModalClose">&times;</span>
+            <h2><i class="fas fa-user-plus" style="color:#2d7a3e;"></i> Enrol Now</h2>
+            <form id="enrollForm">
+                <label>Full Name *</label><input type="text" id="enrollName" required />
+                <label>Email *</label><input type="email" id="enrollEmail" required />
+                <label>Country *</label>
+                <select id="enrollCountry" required>
+                    <option value="">Select</option>
+                    <option value="Zimbabwe">🇿🇼 Zimbabwe</option><option value="Kenya">🇰🇪 Kenya</option>
+                    <option value="Nigeria">🇳🇬 Nigeria</option><option value="South Africa">🇿🇦 South Africa</option>
+                    <option value="Ghana">🇬🇭 Ghana</option><option value="Tanzania">🇹🇿 Tanzania</option>
+                </select>
+                <label>Course *</label>
+                <select id="enrollCourse" required>
+                    <option value="">Select a course</option>
+                </select>
+                <label>Payment Method *</label>
+                <select id="enrollPayment" required>
+                    <option value="">Select</option>
+                    <option value="EcoCash">📱 EcoCash</option>
+                    <option value="M-Pesa">📱 M-Pesa</option>
+                    <option value="MoMo">📱 MoMo</option>
+                    <option value="Visa">💳 Visa/Mastercard</option>
+                    <option value="Orange Money">📱 Orange Money</option>
+                    <option value="Bank Transfer">🏦 Bank Transfer</option>
+                </select>
+                <button type="submit" class="btn-submit"><i class="fas fa-check"></i> Enrol Now</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="helpModal">
+        <div class="modal">
+            <span class="modal-close" id="modalClose">&times;</span>
+            <h2>Nominate Someone</h2>
+            <form id="helpForm">
+                <label>Full Name *</label><input type="text" id="nomineeName" required />
+                <label>Country *</label>
+                <select id="nomineeCountry" required>
+                    <option value="">Select</option>
+                    <option value="Zimbabwe">🇿🇼 Zimbabwe</option><option value="Kenya">🇰🇪 Kenya</option>
+                    <option value="Nigeria">🇳🇬 Nigeria</option><option value="South Africa">🇿🇦 South Africa</option>
+                </select>
+                <label>Reason *</label><textarea id="nomineeReason" required></textarea>
+                <button type="submit" class="btn-submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Country Detail Modal -->
+    <div class="modal-overlay country-detail-modal" id="countryDetailModal">
+        <div class="modal">
+            <span class="modal-close" id="countryModalClose">&times;</span>
+            <span class="big-flag" id="countryModalFlag">🇿🇼</span>
+            <div class="country-full-name" id="countryModalName">Zimbabwe</div>
+            <div class="country-greeting-text" id="countryModalGreeting">👋 Welcome to SkillBridge Zimbabwe!</div>
+            <div class="country-info" id="countryModalInfo">
+                <div class="info-item"><strong>🌍 Region:</strong> <span id="countryModalRegion">Southern Africa</span></div>
+                <div class="info-item"><strong>👥 Students:</strong> <span id="countryModalStudents">1,842</span></div>
+                <div class="info-item"><strong>📚 Courses:</strong> <span id="countryModalCourses">0</span></div>
+                <div class="info-item"><strong>💳 Payment:</strong> <span id="countryModalPayment">EcoCash, Visa</span></div>
+            </div>
+            <div style="margin-top:10px; background:#eef4fb; padding:10px; border-radius:10px; text-align:left; font-size:13px;">
+                <strong>📌 Did you know?</strong>
+                <p id="countryModalFact" style="margin-top:3px; color:#4d6682;">Zimbabwe has a rich agricultural heritage.</p>
+            </div>
+            <button class="btn-primary" style="margin-top:14px; width:100%;" id="countryEnrolBtn"><i class="fas fa-user-plus"></i> Enrol Now</button>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ---------- COMPLETE COURSE DATA ----------
+            const categoryData = {};
+
+            // 1. Agriculture & Crop Production
+            categoryData['Crop Production'] = [
+                'Maize Production', 'Wheat Production', 'Rice (Paddy)', 'Soybean Production',
+                'Sorghum Production', 'Sugarcane Production', 'Cotton Production', 'Sunflower Production',
+                'Groundnut Production', 'Cassava Production',
+                'Modern Vegetable Production', 'Maize & Cereal Crop Farming', 'Cassava & Root Crop Production',
+                'Rice Cultivation & Paddy Management', 'Horticulture & Greenhouse Farming', 'Organic Farming & Composting',
+                'Mushroom Cultivation', 'Fruit Tree & Orchard Management', 'Irrigation Systems & Water Management',
+                'Soil Health & Fertilizer Management', 'Integrated Pest & Disease Management',
+                'Farm Records & Agribusiness Management', 'Post-Harvest Handling & Storage',
+                'Agroforestry & Tree Crop Integration'
+            ];
+
+            categoryData['Vegetable Production'] = [
+                'Tomato Production', 'Onion Production', 'Cabbage Production', 'Pepper (Capsicum) Production',
+                'Carrot Production', 'Lettuce & Leafy Greens', 'Cucumber Production', 'Bean Production',
+                'Okra Production', 'Garlic & Ginger Production'
+            ];
+
+            categoryData['Fruit & Orchard Management'] = [
+                'Citrus Production', 'Banana Production', 'Mango Production', 'Avocado Production',
+                'Apple & Pear Production', 'Grape & Vine Production', 'Pineapple Production',
+                'Peach & Stone Fruit', 'Berry Production', 'Tropical Fruit Production'
+            ];
+
+            categoryData['Poultry Production'] = [
+                'Broiler Production', 'Layer Production', 'Breeder Flock Management', 'Hatchery Operations',
+                'Poultry Feed Milling', 'Free-Range & Organic Poultry', 'Duck Production', 'Turkey Production',
+                'Quail Production', 'Poultry Health & Processing',
+                'Poultry Production (Layers & Broilers)'
+            ];
+
+            categoryData['Cattle & Dairy'] = [
+                'Dairy Milk Production', 'Calf Rearing', 'Beef Feedlot Management', 'Beef Ranch & Pastoral Systems',
+                'Cattle Breeding & AI', 'Cattle Herd Health', 'Cattle Feed & Nutrition',
+                'Pasture Management for Grazing', 'Milk Processing & Quality', 'Cheese & Yoghurt Making',
+                'Cattle & Dairy Farming', 'Dairy Value Addition (Yoghurt & Cheese Making)'
+            ];
+
+            categoryData['Sheep & Goat Production'] = [
+                'Wool Sheep Production', 'Meat Sheep Management', 'Dairy Goat Farming',
+                'Meat Goat (Boer) Production', 'Sheep & Goat Breeding', 'Small Ruminant Health',
+                'Goat & Sheep Rearing'
+            ];
+
+            categoryData['Pig Production'] = [
+                'Pig Production', 'Breeder & Boar Management', 'Farrowing & Weaner Production',
+                'Pig Health & Nutrition',
+                'Pig Production & Management'
+            ];
+
+            categoryData['Aquaculture & Fisheries'] = [
+                'Tilapia Production', 'Catfish Production', 'Aquaponics Systems', 'Fish Pond Construction',
+                'Fish Processing & Preservation',
+                'Fish Farming (Aquaculture)'
+            ];
+
+            categoryData['Beekeeping & Apiculture'] = [
+                'Beekeeping Fundamentals', 'Hive Management', 'Honey Processing', 'Bee Health & Diseases',
+                'Beekeeping & Honey Production'
+            ];
+
+            categoryData['Soil & Water Management'] = [
+                'Soil Science & Fertility', 'Drip Irrigation', 'Water Harvesting', 'Soil Conservation'
+            ];
+
+            categoryData['Agricultural Engineering'] = [
+                'Tractor Operation & Maintenance', 'Farm Machinery', 'Irrigation Systems Design',
+                'Agricultural Machinery Maintenance'
+            ];
+
+            categoryData['Agribusiness & Marketing'] = [
+                'Agribusiness Marketing', 'Farm Accounting', 'Agricultural Finance', 'Value Addition',
+                'Agricultural Export & Trade',
+                'Animal Feed Formulation', 'Pig Value Addition (Pork Processing)',
+                'Hides, Skins & Leather Basics', 'Animal Health & Veterinary Basics',
+                'Added Value in Agriculture'
+            ];
+
+            categoryData['Plant Protection'] = [
+                'Integrated Pest Management', 'Plant Disease Control', 'Weed Management', 'Crop Protection Chemicals'
+            ];
+
+            categoryData['Floriculture & Landscaping'] = [
+                'Floriculture Production', 'Landscape Design', 'Ornamental Plants', 'Nursery Management'
+            ];
+
+            categoryData['Organic Farming'] = [
+                'Organic Crop Production', 'Organic Livestock', 'Organic Certification', 'Organic Soil Management'
+            ];
+
+            categoryData['Agricultural Extension'] = [
+                'Extension Methods', 'Farmer Training', 'Community Development', 'Agricultural Advisory'
+            ];
+
+            categoryData['Post-Harvest Technology'] = [
+                'Post-Harvest Handling', 'Storage & Preservation', 'Processing', 'Packaging & Logistics'
+            ];
+
+            categoryData['Agricultural Finance'] = [
+                'Farm Budgeting', 'Agricultural Loans', 'Insurance', 'Risk Management'
+            ];
+
+            categoryData['Greenhouse & Controlled Env.'] = [
+                'Greenhouse Design', 'Climate Control', 'Hydroponics', 'Controlled Environment Production'
+            ];
+
+            categoryData['Sustainable Agriculture'] = [
+                'Sustainable Farming', 'Conservation Agriculture', 'Agroecology', 'Climate Smart Agriculture'
+            ];
+
+            // 2. Construction & Building Trades
+            categoryData['Construction & Building Trades'] = [
+                'Bricklaying & Block Laying', 'Concrete Works & Foundations', 'Formwork & Scaffolding',
+                'Roofing & Ceiling Installation', 'Tiling & Floor Finishing', 'Painting & Decorating',
+                'Plastering & Rendering', 'Building Plan Reading & Cost Estimation', 'Construction Site Safety (SHEQ)',
+                'Aluminium Windows & Doors Fabrication', 'Glass & Glazing Installation', 'Landscaping & Gardening Services',
+                'Construction Business Management'
+            ];
+
+            // 3. Electrical & Solar Energy
+            categoryData['Electrical & Solar Energy'] = [
+                'Domestic Electrical Installation', 'Industrial Electrical Maintenance', 'Solar Panel Installation & Maintenance',
+                'Solar Water Heater Installation', 'Inverter & Battery Backup Systems', 'Electrical Safety & Wiring Regulations',
+                'Generator Installation & Repair', 'Electronics Repair Basics', 'CCTV & Security Systems Installation',
+                'Electric Motor Rewinding'
+            ];
+
+            // 4. Plumbing & Water Systems
+            categoryData['Plumbing & Water Systems'] = [
+                'Domestic Plumbing Installation', 'Pipe Fitting & Drainage Systems', 'Borehole Drilling & Maintenance',
+                'Water Pump Installation & Repair', 'Sanitation & Toilet Construction', 'Rainwater Harvesting Systems',
+                'Swimming Pool Maintenance'
+            ];
+
+            // 5. Welding & Metal Fabrication
+            categoryData['Welding & Metal Fabrication'] = [
+                'Arc Welding (SMAW)', 'MIG & TIG Welding', 'Sheet Metal Fabrication', 'Gates, Burglar Bars & Security Doors',
+                'Structural Steelwork', 'Blacksmithing & Tool Making', 'Aluminium Fabrication', 'Welding Business & Job Costing'
+            ];
+
+            // 6. Automotive & Mechanics
+            categoryData['Automotive & Mechanics'] = [
+                'Motor Vehicle Mechanics (Petrol & Diesel)', 'Motorcycle Repair & Maintenance', 'Auto Electrical Systems',
+                'Panel Beating & Spray Painting', 'Tyre Fitting & Wheel Alignment', 'Vehicle Diagnostics (OBD Scanning)',
+                'Tractor & Farm Machinery Repair', 'Auto Air Conditioning', 'Small Engine Repair (Pumps & Generators)',
+                'Car Wash & Detailing Business', 'Fleet Maintenance Management'
+            ];
+
+            // 7. ICT & Digital Skills
+            categoryData['ICT & Digital Skills'] = [
+                'Computer Basics & Office Applications', 'Smartphone Repair & Maintenance', 'Computer Hardware Repair & Maintenance',
+                'Web Design & Development', 'Graphic Design (Canva & CorelDRAW)', 'Digital Marketing & Social Media',
+                'Data Entry & Virtual Assistant Skills', 'Cybersecurity Basics', 'Networking & Structured Cabling',
+                'Mobile App Development Basics', 'E-Commerce & Online Selling', 'Video Editing & Content Creation',
+                'AI Tools for Work & Business', 'Excel & Data Analysis', 'Computerized Accounting (QuickBooks & Sage)',
+                'Database Management Basics', 'POS & Retail Management Systems'
+            ];
+
+            // 8. Fashion, Tailoring & Textiles
+            categoryData['Fashion, Tailoring & Textiles'] = [
+                'Tailoring & Dressmaking', 'Pattern Drafting & Cutting', 'African Print & Ankara Fashion Design',
+                'Embroidery & Beadwork', 'Boutique & Fashion Business Management', 'Shoe Making & Repair',
+                'Bag & Leather Goods Making', 'Knitting & Crochet', 'Screen Printing & T-Shirt Branding',
+                'Uniform & Corporate Wear Production'
+            ];
+
+            // 9. Beauty, Hair & Cosmetology
+            categoryData['Beauty, Hair & Cosmetology'] = [
+                'Hairdressing & Barbering', 'Braiding & Natural Hair Care', 'Nail Technology & Manicure',
+                'Makeup Artistry', 'Skin Care & Facials', 'Massage & Spa Therapy', 'Wig Making & Hair Extensions',
+                'Salon & Barbershop Management', 'Henna & Body Art', 'Soap & Cosmetics Production',
+                'Dreadlocks & Loc Styling'
+            ];
+
+            // 10. Hospitality, Catering & Tourism
+            categoryData['Hospitality, Catering & Tourism'] = [
+                'Professional Cookery & Local Cuisine', 'Baking & Pastry', 'Cake Decorating & Confectionery',
+                'Catering & Events Management', 'Barista & Beverage Service', 'Housekeeping & Laundry Services',
+                'Hotel Front Office Operations', 'Tour Guiding & Ecotourism', 'Food Safety & Hygiene (HACCP)',
+                'Restaurant & Fast Food Business', 'Juice & Smoothie Bar Business', 'Ice Cream & Frozen Desserts',
+                'Street Food Vending Business'
+            ];
+
+            // 11. Business & Entrepreneurship
+            categoryData['Business & Entrepreneurship'] = [
+                'Starting & Running a Small Business', 'Business Plan Writing', 'Marketing & Customer Care',
+                'Bookkeeping & Basic Accounting', 'Cooperative & SACCO Management', 'Agribusiness Entrepreneurship',
+                'Tendering & Winning Contracts', 'Import & Export Basics', 'Business Registration & Compliance',
+                'Leadership & Team Management', 'Project Management Basics', 'Negotiation & Sales Skills',
+                'Procurement & Supply Basics'
+            ];
+
+            // 12. Financial & Digital Finance
+            categoryData['Financial & Digital Finance'] = [
+                'Personal Financial Literacy', 'Mobile Money Agent Business', 'Village Savings & Loans (VSLA)',
+                'Microfinance Operations', 'Digital Banking & Fintech', 'Insurance Agent Basics',
+                'Taxation for Small Business', 'Investment & Savings Clubs'
+            ];
+
+            // 13. Health & Social Care
+            categoryData['Health & Social Care'] = [
+                'Community Health Work', 'First Aid & Emergency Response', 'Elderly & Home-Based Care',
+                'Childcare & Early Childhood Development', 'Pharmacy Assistant Basics', 'HIV/AIDS Counselling & Testing',
+                'Nutrition & Dietetics Basics', 'Mental Health First Aid', 'Dental Assistant Basics',
+                'Physiotherapy Assistant', 'Medical Laboratory Assistant Basics'
+            ];
+
+            // 14. Woodwork & Furniture Making
+            categoryData['Woodwork & Furniture Making'] = [
+                'Furniture Making & Joinery', 'Cabinet Making & Kitchen Fitting', 'Wood Turning & Carving',
+                'Upholstery & Furniture Restoration', 'Wood Finishing & Varnishing', 'Timber Seasoning & Preservation',
+                'Pallet & Crate Production', 'Workshop Machine Operations'
+            ];
+
+            // 15. Renewable Energy & Green Skills
+            categoryData['Renewable Energy & Green Skills'] = [
+                'Biogas Digester Construction', 'Briquette & Eco-Charcoal Production', 'Solar Dryer Construction',
+                'Energy-Efficient Cookstoves', 'Waste Management & Recycling', 'Plastic Recycling & Upcycling',
+                'Green Building Basics'
+            ];
+
+            // 16. Creative Arts & Media
+            categoryData['Creative Arts & Media'] = [
+                'Photography & Photo Editing', 'Videography & Documentary Production', 'Music Production & Sound Engineering',
+                'Radio & Podcast Production', 'Event DJ & Sound Hire', 'Sign Writing & Banner Printing',
+                'Interior Design Basics', 'Arts & Crafts for Business', 'Public Address & MC Skills',
+                'Drone Operation & Aerial Photography'
+            ];
+
+            // 17. Transport & Logistics
+            categoryData['Transport & Logistics'] = [
+                'Professional Driving & Road Safety', 'Motorcycle Delivery (Boda) Business', 'Logistics & Supply Chain Basics',
+                'Clearing & Forwarding', 'Warehouse & Inventory Management', 'Courier & Last-Mile Delivery Business',
+                'Defensive Driving', 'Transport Business Management'
+            ];
+
+            // 18. Mining & Natural Resources
+            categoryData['Mining & Natural Resources'] = [
+                'Artisanal Mining Safety', 'Gemstone Identification & Trading', 'Quarry Operations Basics',
+                'Sand & Aggregate Business', 'Forestry & Tree Nursery Management', 'Sustainable Charcoal Production'
+            ];
+
+            // 19. Education & Professional Skills
+            categoryData['Education & Professional Skills'] = [
+                'Early Childhood Teaching', 'Adult Literacy Instruction', 'Community-Based Training Skills',
+                'English Language Proficiency', 'French Language for Business', 'Sign Language Basics',
+                'CV Writing & Interview Skills', 'Workplace Etiquette & Professionalism'
+            ];
+
+            // 20. Butchery & Meat Processing (New)
+            categoryData['Butchery & Meat Processing'] = [
+                'Butchery', 'Beef & Small Stock Butchery', 'Sausage & Cold Meat Production'
+            ];
+
+            // Build allCourses
+            let allCourses = [];
+            let courseCategory = {};
+            let courseIds = {};
+            let idCounter = 1;
+
+            function addCourse(name, category) {
+                const cleanName = name.trim();
+                const exists = allCourses.some(c => c.toLowerCase() === cleanName.toLowerCase());
+                if (!exists) {
+                    allCourses.push(cleanName);
+                    courseCategory[cleanName] = category;
+                    const idNum = String(idCounter).padStart(3, '0');
+                    courseIds[cleanName] = 'SB.' + idNum;
+                    idCounter++;
+                }
+            }
+
+            // Add all courses from categories
+            Object.entries(categoryData).forEach(([cat, courses]) => {
+                courses.forEach(course => {
+                    addCourse(course, cat);
+                });
+            });
+
+            // --- FORCE ADD THE 5 SPECIFIC COURSES WITH EXACT IDS SB.320 to SB.324 ---
+            // First, ensure they don't already exist as exact matches (case-insensitive)
+            const specificCourses = [
+                { name: 'Bakery', id: 'SB.320' },
+                { name: 'Cake Making', id: 'SB.321' },
+                { name: 'Butchery', id: 'SB.322' },
+                { name: 'Takeaway', id: 'SB.323' },
+                { name: 'Street Food', id: 'SB.324' }
+            ];
+
+            specificCourses.forEach(item => {
+                // Check if a course with this exact name (case-insensitive) exists
+                const existingIndex = allCourses.findIndex(c => c.toLowerCase() === item.name.toLowerCase());
+                if (existingIndex !== -1) {
+                    // If it exists, just overwrite the ID to the requested one
+                    const existingName = allCourses[existingIndex];
+                    courseIds[existingName] = item.id;
+                    // Also ensure category is correct (optional)
+                    if (!courseCategory[existingName].includes('Hospitality') && !courseCategory[existingName].includes(
+                            'Butchery')) {
+                        // Keep existing category, but we can log a note
+                    }
+                } else {
+                    // If it doesn't exist, add it to the end with the specific ID
+                    // We need to make sure the ID counter doesn't conflict. We'll just push and assign.
+                    // But to guarantee the ID, we'll add it and set the ID directly.
+                    // However, we might need to ensure no other course has this ID.
+                    // We'll just add it to the array and force the ID.
+                    allCourses.push(item.name);
+                    // Determine category
+                    let cat = 'Hospitality, Catering & Tourism';
+                    if (item.name === 'Butchery') {
+                        cat = 'Butchery & Meat Processing';
+                    }
+                    courseCategory[item.name] = cat;
+                    courseIds[item.name] = item.id;
+                }
+            });
+
+            // Final verification log
+            console.log('✅ TOTAL COURSES:', allCourses.length);
+            console.log('✅ SPECIFIC COURSE IDS:');
+            specificCourses.forEach(c => {
+                console.log(`  ${c.name}: ${courseIds[c.name] || 'Not found'}`);
+            });
+
+            // Update UI
+            document.querySelector('#sidebarNav a[data-page="courses"] span').textContent = 'Courses (' + allCourses.length +
+            ')';
+            document.getElementById('courseCountDisplay').textContent = allCourses.length + ' vocational courses across ' +
+                Object.keys(categoryData).length + ' categories';
+            document.getElementById('totalCoursesStat').textContent = allCourses.length;
+            document.getElementById('countryModalCourses').textContent = allCourses.length;
+
+            // ---------- SHOWCASE STUDENTS ----------
+            const showcaseStudents = [
+                { name: 'Thandive Mokoena', course: 'Broiler Production', stage: 'Stage 2 – On Placement', badge: 'Gold',
+                    quote: '"Hardworking and detail-oriented. I want to master commercial broiler production from chick to slaughter."',
+                    onTime: 94, applications: 12, placement: 'Sunrise Poultry Farm — Johannesburg, SA', avatar: '👩‍🌾' },
+                { name: 'Kwame Asante', course: 'Dairy Milk Production', stage: 'Stage 2 – On Placement', badge: 'Gold',
+                    quote: '"Passionate about dairy cattle management and milk quality improvement."', onTime: 88,
+                    applications: 8, placement: 'Green Pastures Dairy — Kumasi, Ghana', avatar: '👨‍🌾' },
+                { name: 'Fatima Al-Hassan', course: 'Tomato Production', stage: 'Stage 3 – Certification', badge: 'Gold',
+                    quote: '"Specialising in greenhouse tomato production. My capstone focuses on integrated pest management."',
+                    onTime: 97, applications: 15, placement: 'Oasis Greenhouses — Nairobi, Kenya', avatar: '👩‍🌾' },
+                { name: 'James Okafor', course: 'Tilapia Production', stage: 'Stage 1 – Theory', badge: 'Bronze',
+                    quote: '"Interested in aquaculture and sustainable fish farming for local markets."', onTime: 78,
+                    applications: 0, placement: 'Lagos, Nigeria — Seeking placement', avatar: '👨‍🌾' },
+                { name: 'Maria Santos', course: 'Organic Crop Production', stage: 'Stage 2 – On Placement', badge: 'Silver',
+                    quote: '"Committed to sustainable farming practices and organic certification."', onTime: 82,
+                    applications: 6, placement: 'Green Valley Organics — Cape Town, SA', avatar: '👩‍🌾' },
+                { name: 'David Mwangi', course: 'Tractor Operation', stage: 'Stage 2 – On Placement', badge: 'Silver',
+                    quote: '"Skilled in agricultural machinery maintenance and tractor operation."', onTime: 79,
+                    applications: 4, placement: 'AgriTech Solutions — Nairobi, KE', avatar: '👨‍🌾' },
+                { name: 'Aisha Ibrahim', course: 'Poultry Health & Processing', stage: 'Stage 3 – Certification',
+                    badge: 'Gold', quote: '"Dedicated to poultry health management and processing quality standards."',
+                    onTime: 91, applications: 10, placement: 'AfroChick Poultry — Accra, GH', avatar: '👩‍🌾' },
+                { name: 'Peter Ncube', course: 'Drip & Micro-Irrigation', stage: 'Stage 1 – Theory', badge: 'Bronze',
+                    quote: '"Passionate about water conservation and efficient irrigation systems."', onTime: 65,
+                    applications: 2, placement: 'Bulawayo, ZW — Seeking placement', avatar: '👨‍🌾' }
+            ];
+
+            function renderShowcase() {
+                const grid = document.getElementById('showcaseGrid');
+                grid.innerHTML = '';
+                showcaseStudents.forEach(s => {
+                    const card = document.createElement('div');
+                    card.className = 'showcase-card';
+                    const badgeClass = s.badge.toLowerCase() + '-badge';
+                    card.innerHTML = `
+                        <div class="card-header">
+                            <div>
+                                <div class="student-name">${s.avatar} ${s.name}</div>
+                                <div class="student-course">${s.course}</div>
+                            </div>
+                            <div class="badge-container">
+                                <span class="stage-badge">${s.stage}</span>
+                                <span class="${badgeClass}">${s.badge}</span>
+                            </div>
+                        </div>
+                        <div class="student-quote">${s.quote}</div>
+                        <div class="stats-row">
+                            <div class="stat-item">
+                                <span class="stat-number">${s.onTime}%</span>
+                                <span class="stat-label">On Time</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">${s.applications}</span>
+                                <span class="stat-label">Applications</span>
+                            </div>
+                        </div>
+                        <div class="placement-info">
+                            <i class="fas fa-map-marker-alt"></i> ${s.placement}
+                        </div>
+                        <div class="card-actions">
+                            <button onclick="viewProfile('${s.name}')"><i class="fas fa-eye"></i> View</button>
+                            <button onclick="contactStudent('${s.name}')"><i class="fas fa-envelope"></i> Contact</button>
+                            <button onclick="showTimeline('${s.name}')"><i class="fas fa-clock"></i> Progress</button>
+                            <button onclick="shareStudentViaWhatsApp('${s.name}')" style="background:#25D366; color:white; border:none; padding:4px 12px; border-radius:20px; cursor:pointer;"><i class="fab fa-whatsapp"></i></button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+
+            window.viewProfile = function(name) {
+                const student = showcaseStudents.find(s => s.name === name);
+                if (!student) return;
+                alert(`👤 ${student.name}\n\nCourse: ${student.course}\nStage: ${student.stage}\nBadge: ${student.badge}\nOn Time: ${student.onTime}%\nApplications: ${student.applications}\nPlacement: ${student.placement}\n\n"${student.quote}"`);
+            };
+            window.contactStudent = function(name) {
+                alert(`📧 Contact ${name}\n\nEmail: ${name.toLowerCase().replace(/ /g, '.')}@skillbridge.africa`);
+            };
+            window.showTimeline = function(name) {
+                const student = showcaseStudents.find(s => s.name === name);
+                if (!student) return;
+                alert(`📊 ${name}'s Progress Timeline\n\nProgress: ${student.onTime}%\nStage: ${student.stage}\nApplications: ${student.applications}\n\nWeekly check-ins: 2/2`);
+            };
+            window.shareStudentViaWhatsApp = function(name) {
+                const student = showcaseStudents.find(s => s.name === name);
+                if (!student) return;
+                const msg =
+                    `👤 *${student.name}*\n📚 Course: ${student.course}\n🏅 Badge: ${student.badge}\n📊 On Time: ${student.onTime}%\n📝 Applications: ${student.applications}\n📍 ${student.placement}\n\n"${student.quote}"\n\n🔗 View full profile: https://skillbridge.africa/showcase`;
+                const url = 'https://wa.me/?text=' + encodeURIComponent(msg);
+                window.open(url, '_blank');
+            };
+
+            // ---------- BLUEPRINT ----------
+            function getBlueprint(courseName) {
+                return {
+                    title: `${courseName} Business Blueprint`,
+                    description: `Start your own ${courseName} business. This blueprint provides a step-by-step guide.`,
+                    startupCost: '$1,000 - $4,000',
+                    monthlyRevenue: '$500 - $2,000',
+                    profitMargin: '30-60%',
+                    breakEven: '4-8 months',
+                    equipment: [
+                        { item: 'Essential tools & equipment', cost: '$200 - $800' },
+                        { item: 'Workspace setup', cost: '$200 - $500' },
+                        { item: 'Storage facilities', cost: '$100 - $400' },
+                        { item: 'Transportation', cost: '$200 - $600' },
+                        { item: 'Initial inventory', cost: '$300 - $700' }
+                    ],
+                    monthlyCosts: [
+                        { item: 'Raw materials/supplies', cost: '$200 - $500' },
+                        { item: 'Utilities', cost: '$100 - $250' },
+                        { item: 'Labour', cost: '$200 - $500' },
+                        { item: 'Marketing', cost: '$50 - $200' },
+                        { item: 'Rent', cost: '$100 - $400' }
+                    ],
+                    pricing: [
+                        { item: 'Product/Service 1', price: '$5 - $15' },
+                        { item: 'Product/Service 2', price: '$10 - $25' },
+                        { item: 'Product/Service 3', price: '$20 - $50' }
+                    ],
+                    steps: [
+                        `Complete the ${courseName} course`,
+                        'Research your local market and competition',
+                        'Create a business plan and budget',
+                        'Secure funding or start small',
+                        'Register your business',
+                        'Set up your workspace',
+                        'Source materials and supplies',
+                        'Develop your product/service quality',
+                        'Market to your target customers',
+                        'Scale based on demand and feedback'
+                    ],
+                    cashflow: {
+                        month1: { revenue: 200, expenses: 400, profit: -200 },
+                        month2: { revenue: 300, expenses: 450, profit: -150 },
+                        month3: { revenue: 500, expenses: 500, profit: 0 },
+                        month4: { revenue: 700, expenses: 550, profit: 150 },
+                        month5: { revenue: 900, expenses: 600, profit: 300 },
+                        month6: { revenue: 1200, expenses: 650, profit: 550 }
+                    }
+                };
+            }
+
+            function downloadBlueprint(courseName) {
+                const blueprint = getBlueprint(courseName);
+                const content = `
+                    🚀 ${blueprint.title}
+                    ========================
+                    ${blueprint.description}
+                    💰 STARTUP COSTS: ${blueprint.startupCost}
+                    📊 MONTHLY REVENUE: ${blueprint.monthlyRevenue}
+                    📈 PROFIT MARGIN: ${blueprint.profitMargin}
+                    ⏱️ BREAK-EVEN: ${blueprint.breakEven}
+                    EQUIPMENT: ${blueprint.equipment.map(e => `\n  • ${e.item}: ${e.cost}`).join('')}
+                    MONTHLY COSTS: ${blueprint.monthlyCosts.map(c => `\n  • ${c.item}: ${c.cost}`).join('')}
+                    PRICING: ${blueprint.pricing.map(p => `\n  • ${p.item}: ${p.price}`).join('')}
+                    ACTION PLAN: ${blueprint.steps.map((s, i) => `\n  ${i+1}. ${s}`).join('')}
+                    CASHFLOW: ${Object.entries(blueprint.cashflow).map(([month, data]) => `\n  ${month}     $${data.revenue}     $${data.expenses}     $${data.profit}`).join('')}
+                    © SkillBridge Africa
+                `;
+                const blob = new Blob([content], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${courseName.replace(/[^a-zA-Z0-9]/g, '_')}_Blueprint.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                alert('📄 Blueprint downloaded!');
+            }
+
+            // ---------- WHATSAPP SHARE FUNCTIONS ----------
+            window.shareViaWhatsApp = function() {
+                const msg =
+                    `🌱 *SkillBridge Africa* - Vocational Training\n\n📚 ${allCourses.length} courses available\n💰 Only $15 per course\n🎓 Certificate included\n🤖 AI Tutor 24/7\n📋 Placement Board\n\n🔗 Enrol now: https://skillbridge.africa\n\nShare with someone who needs skills!`;
+                const url = 'https://wa.me/?text=' + encodeURIComponent(msg);
+                window.open(url, '_blank');
+            };
+
+            window.shareQRViaWhatsApp = function() {
+                const msg =
+                    `📱 *SkillBridge QR Code*\n\nScan this QR code to enrol in any course for $15.\n\n🔗 https://skillbridge.africa\n\nShare with friends and family!`;
+                const url = 'https://wa.me/?text=' + encodeURIComponent(msg);
+                window.open(url, '_blank');
+            };
+
+            window.shareCourseViaWhatsApp = function() {
+                const courseName = document.getElementById('detailTitle').textContent;
+                const courseId = document.getElementById('detailCourseId').textContent;
+                const msg =
+                    `📚 *${courseName}*\n🆔 ${courseId}\n💰 $15\n📖 10 modules · 9 months\n🎓 Certificate included\n🤖 AI Tutor 24/7\n\n🔗 Enrol now: https://skillbridge.africa/course/${courseId}\n\nShare with someone who needs this skill!`;
+                const url = 'https://wa.me/?text=' + encodeURIComponent(msg);
+                window.open(url, '_blank');
+            };
+
+            window.shareBlueprintViaWhatsApp = function() {
+                const courseName = document.getElementById('detailTitle').textContent;
+                const msg =
+                    `📊 *Business Blueprint*\n\nCourse: ${courseName}\n\nThis blueprint includes:\n💰 Startup costs\n📊 Monthly revenue projections\n📈 Profit margin & break-even\n📋 Step-by-step action plan\n📈 6-month cashflow forecast\n\n🔗 Get it here: https://skillbridge.africa\n\nShare with aspiring entrepreneurs!`;
+                const url = 'https://wa.me/?text=' + encodeURIComponent(msg);
+                window.open(url, '_blank');
+            };
+
+            // ---------- RENDER COURSE DETAIL ----------
+            function renderCourseDetail(courseName) {
+                const detail = document.getElementById('courseDetail');
+                const detailTitle = document.getElementById('detailTitle');
+                const detailSubtitle = document.getElementById('detailSubtitle');
+                const detailCourseId = document.getElementById('detailCourseId');
+                const moduleContainer = document.getElementById('moduleContainer');
+
+                const courseId = courseIds[courseName] || 'SB.000';
+                detailCourseId.textContent = courseId;
+                detailTitle.textContent = courseName;
+                const cat = courseCategory[courseName] || 'Vocational';
+                detailSubtitle.textContent = `9 months · 10 modules · 3 stages · $15 · ${cat}`;
+
+                const moduleTitles = [
+                    'Introduction & Overview', 'Core Principles & Equipment', 'Practical Application',
+                    'Advanced Techniques', 'Health & Safety Protocols', 'Quality Control & Standards',
+                    'Business & Marketing Strategy', 'Case Studies & Analysis', 'Capstone Planning',
+                    'Final Review & Assessment'
+                ];
+                const icons = ['📖', '🔧', '🔬', '⚡', '🛡️', '📊', '💰', '📋', '🎯', '✅'];
+
+                moduleContainer.innerHTML = '';
+                moduleTitles.forEach((title, i) => {
+                    const weeks = `${i*2+1}-${i*2+2}`;
+                    const block = document.createElement('div');
+                    block.className = 'module-block';
+                    block.innerHTML = `
+                        <h4><span>${icons[i]} Module ${i+1}: ${title}</span> <span class="weeks">Weeks ${weeks}</span></h4>
+                        <div style="margin-top:6px;">
+                            <div style="background:#e8f0fe; padding:6px 10px; border-radius:6px; margin-bottom:4px; font-size:12px;">
+                                <strong>📚 Theory:</strong> Understand fundamental concepts of ${title}
+                            </div>
+                            <div style="background:#e8f5e9; padding:6px 10px; border-radius:6px; margin-bottom:4px; font-size:12px;">
+                                <strong>🔧 Practical:</strong> Hands-on exercises; Case studies; Group projects
+                            </div>
+                            <div style="background:#fff3e0; padding:6px 10px; border-radius:6px; font-size:12px;">
+                                <strong>📝 Quiz:</strong> 10 questions · Auto-graded · 60% pass
+                            </div>
+                        </div>
+                        <div class="lesson-item" style="margin-top:4px;">
+                            <span>• Lesson ${i*3+1}: ${title} — Theory & Concepts</span>
+                            <span class="type">Theory</span>
+                        </div>
+                        <div class="lesson-item">
+                            <span>• Lesson ${i*3+2}: ${title} — Practical Application</span>
+                            <span class="type">Practical</span>
+                        </div>
+                        <div class="lesson-item">
+                            <span>• Quiz: ${title} — 10 questions (auto-graded)</span>
+                            <span class="type">Quiz</span>
+                        </div>
+                        <div class="lesson-item">
+                            <span>• Review: ${title} — Key Takeaways</span>
+                            <span class="type">Review</span>
+                        </div>
+                    `;
+                    moduleContainer.appendChild(block);
+                });
+
+                document.getElementById('progressFill').style.width = '100%';
+                document.getElementById('progressText').textContent = '100%';
+                document.getElementById('blueprintSection').classList.remove('visible');
+                document.getElementById('showBlueprintBtn').textContent = '📊 View Business Blueprint ($5)';
+                window.currentCourse = courseName;
+            }
+
+            function renderBlueprint(courseName) {
+                const blueprint = getBlueprint(courseName);
+                const container = document.getElementById('blueprintContent');
+                const section = document.getElementById('blueprintSection');
+                container.innerHTML = `
+                    <div style="margin-bottom:10px;">
+                        <h4 style="font-size:15px;">${blueprint.title}</h4>
+                        <p style="color:#4d6682; font-size:13px;">${blueprint.description}</p>
+                    </div>
+                    <div class="blueprint-grid">
+                        <div class="blueprint-card">
+                            <h4>💰 Startup Costs</h4>
+                            <div class="amount">${blueprint.startupCost}</div>
+                            <ul>${blueprint.equipment.map(e => `<li><span>${e.item}</span><span>${e.cost}</span></li>`).join('')}
+                                <li class="total-row"><span>Total</span><span>${blueprint.startupCost}</span></li>
+                            </ul>
+                        </div>
+                        <div class="blueprint-card">
+                            <h4>📊 Monthly Revenue & Costs</h4>
+                            <div class="amount">${blueprint.monthlyRevenue}</div>
+                            <ul>${blueprint.monthlyCosts.map(c => `<li><span>${c.item}</span><span>${c.cost}</span></li>`).join('')}
+                                <li class="total-row"><span>Total Monthly</span><span>~${blueprint.monthlyCosts.reduce((sum, c) => sum + parseInt(c.cost.replace(/[^0-9]/g,'') || 0), 0)}</span></li>
+                            </ul>
+                        </div>
+                        <div class="blueprint-card">
+                            <h4>📈 Profit & Break-Even</h4>
+                            <div class="amount">${blueprint.profitMargin}</div>
+                            <p style="font-size:11px; color:#4d6682;">Profit margin</p>
+                            <div class="amount" style="font-size:15px;">${blueprint.breakEven}</div>
+                            <p style="font-size:11px; color:#4d6682;">Break-even period</p>
+                        </div>
+                        <div class="blueprint-card">
+                            <h4>🏷️ Pricing Guide</h4>
+                            <ul>${blueprint.pricing.map(p => `<li><span>${p.item}</span><span>${p.price}</span></li>`).join('')}</ul>
+                        </div>
+                    </div>
+                    <div style="margin-top:12px;">
+                        <h4>📋 Step-by-Step Action Plan</h4>
+                        <div class="blueprint-steps">
+                            ${blueprint.steps.map((s, i) => `<div class="step"><span class="num">${i+1}</span><span>${s}</span></div>`).join('')}
+                        </div>
+                    </div>
+                    <div style="margin-top:12px; background:white; border-radius:10px; padding:12px; border:1px solid #e6edf5;">
+                        <h4>📊 6-Month Cashflow Projection</h4>
+                        <table style="width:100%; font-size:11px;">
+                            <thead><tr><th>Month</th><th>Revenue</th><th>Expenses</th><th>Profit/Loss</th></tr></thead>
+                            <tbody>
+                                ${Object.entries(blueprint.cashflow).map(([month, data]) => `
+                                    <tr><td>${month}</td><td>$${data.revenue}</td><td>$${data.expenses}</td><td style="color:${data.profit >= 0 ? '#2d7a3e' : '#c0392b'}">$${data.profit}</td></tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="margin-top:10px; background:#fef9e7; padding:10px; border-radius:10px; border:1px solid #ffd700; font-size:13px;">
+                        <strong>💡 Pro Tip:</strong> Start small and scale gradually. Focus on quality first.
+                    </div>
+                `;
+                section.classList.add('visible');
+            }
+
+            // ---------- RENDER COURSES ----------
+            const grid = document.getElementById('courseGrid');
+
+            function renderCourses(category = 'all') {
+                let filtered = category === 'all' ? allCourses : allCourses.filter(c => courseCategory[c] === category);
+                grid.innerHTML = '';
+                filtered.forEach(c => {
+                    const card = document.createElement('div');
+                    card.className = 'course-card';
+                    const cat = courseCategory[c] || 'Vocational';
+                    const courseId = courseIds[c] || 'SB.000';
+                    card.innerHTML = `
+                        <h4>${c}</h4>
+                        <div class="meta"><span>${cat}</span><span>$15</span></div>
+                        <div style="font-size:10px; color:#4d6682; margin-top:3px;">10 modules · 9 mo</div>
+                        <div class="course-id">${courseId}</div>
+                        <button onclick="event.stopPropagation(); shareCourseById('${courseId}')" class="whatsapp-share-btn"><i class="fab fa-whatsapp"></i> Share</button>
+                    `;
+                    card.addEventListener('click', function() {
+                        renderCourseDetail(c);
+                        const detail = document.getElementById('courseDetail');
+                        detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    });
+                    grid.appendChild(card);
+                });
+                document.querySelectorAll('.category-filter button').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.category === category);
+                });
+                document.getElementById('courseCategoryHeader').textContent = category === 'all' ? 'All Courses' : category;
+            }
+
+            window.shareCourseById = function(courseId) {
+                let courseName = '';
+                for (const [name, id] of Object.entries(courseIds)) {
+                    if (id === courseId) { courseName = name; break; }
+                }
+                const msg =
+                    `📚 *${courseName}*\n🆔 ${courseId}\n💰 $15\n📖 10 modules · 9 months\n🎓 Certificate included\n🤖 AI Tutor 24/7\n\n🔗 Enrol now: https://skillbridge.africa/course/${courseId}\n\nShare with someone who needs this skill!`;
+                const url = 'https://wa.me/?text=' + encodeURIComponent(msg);
+                window.open(url, '_blank');
+            };
+
+            // Build category filter
+            const filterContainer = document.getElementById('categoryFilter');
+            filterContainer.innerHTML = '';
+            const allBtn = document.createElement('button');
+            allBtn.className = 'active';
+            allBtn.dataset.category = 'all';
+            allBtn.textContent = `All (${allCourses.length})`;
+            allBtn.addEventListener('click', () => renderCourses('all'));
+            filterContainer.appendChild(allBtn);
+
+            const catKeys = Object.keys(categoryData);
+            catKeys.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.dataset.category = cat;
+                const count = allCourses.filter(c => courseCategory[c] === cat).length;
+                btn.textContent = `${cat} (${count})`;
+                btn.addEventListener('click', () => renderCourses(cat));
+                filterContainer.appendChild(btn);
+            });
+
+            renderCourses('all');
+            if (allCourses.length) renderCourseDetail(allCourses[0]);
+
+            // ---------- SHOW BLUEPRINT ----------
+            document.getElementById('showBlueprintBtn').addEventListener('click', function() {
+                const courseName = window.currentCourse || document.getElementById('detailTitle').textContent;
+                if (document.getElementById('blueprintSection').classList.contains('visible')) {
+                    document.getElementById('blueprintSection').classList.remove('visible');
+                    this.textContent = '📊 View Business Blueprint ($5)';
+                } else {
+                    renderBlueprint(courseName);
+                    this.textContent = '❌ Close Blueprint';
+                    document.getElementById('blueprintSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+
+            document.getElementById('downloadBlueprintBtn').addEventListener('click', function() {
+                const courseName = window.currentCourse || document.getElementById('detailTitle').textContent;
+                downloadBlueprint(courseName);
+            });
+
+            // ---------- SEARCH ----------
+            const searchInput = document.getElementById('searchInput');
+            const searchBtn = document.getElementById('searchBtn');
+
+            function performSearch() {
+                const query = searchInput.value.trim().toLowerCase();
+                if (!query) {
+                    alert('Enter a search term. Try "bakery", "butchery", "takeaway", or "street food"');
+                    renderCourses('all');
+                    return;
+                }
+                const results = allCourses.filter(c => {
+                    const nameMatch = c.toLowerCase().includes(query);
+                    const idMatch = courseIds[c] && courseIds[c].toLowerCase().includes(query);
+                    return nameMatch || idMatch;
+                });
+                if (results.length === 0) {
+                    alert(`No results found for "${query}". Try "bakery", "butchery", "takeaway", or "street food".`);
+                    renderCourses('all');
+                } else {
+                    grid.innerHTML = '';
+                    results.forEach(c => {
+                        const card = document.createElement('div');
+                        card.className = 'course-card';
+                        const cat = courseCategory[c] || 'Vocational';
+                        const courseId = courseIds[c] || 'SB.000';
+                        card.innerHTML = `
+                            <h4>${c}</h4>
+                            <div class="meta"><span>${cat}</span><span>$15</span></div>
+                            <div style="font-size:10px; color:#4d6682; margin-top:3px;">10 modules · 9 mo</div>
+                            <div class="course-id">${courseId}</div>
+                            <button onclick="event.stopPropagation(); shareCourseById('${courseId}')" class="whatsapp-share-btn"><i class="fab fa-whatsapp"></i> Share</button>
+                        `;
+                        card.addEventListener('click', function() {
+                            renderCourseDetail(c);
+                            const detail = document.getElementById('courseDetail');
+                            detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        });
+                        grid.appendChild(card);
+                    });
+                    document.querySelectorAll('.category-filter button').forEach(btn => btn.classList.remove('active'));
+                    const resultMsg = document.createElement('div');
+                    resultMsg.style.cssText = 'width:100%; text-align:center; padding:8px; color:#4d6682; font-size:13px;';
+                    resultMsg.textContent = `✅ Found ${results.length} result(s) for "${query}"`;
+                    grid.prepend(resultMsg);
+                }
+            }
+
+            searchBtn.addEventListener('click', performSearch);
+            searchInput.addEventListener('keypress', function(e) { if (e.key === 'Enter') performSearch(); });
+
+            // ---------- QR CODE ----------
+            document.getElementById('qrCheckBtn').addEventListener('click', function() {
+                const input = document.getElementById('qrCheckInput').value.trim().toUpperCase();
+                if (!input) { alert('Please enter a course ID (e.g. SB.320)'); return; }
+                let found = null;
+                let foundName = '';
+                for (const [name, id] of Object.entries(courseIds)) {
+                    if (id === input) { found = id;
+                        foundName = name; break; }
+                }
+                if (found) {
+                    alert(`✅ Course Found!\n\nID: ${found}\nCourse: ${foundName}\nCategory: ${courseCategory[foundName] || 'Unknown'}\nPrice: $15`);
+                    renderCourses('all');
+                    document.querySelectorAll('.course-card .course-id').forEach(el => {
+                        if (el.textContent === found) {
+                            el.closest('.course-card').style.border = '3px solid #2d7a3e';
+                            el.closest('.course-card').style.boxShadow = '0 0 20px rgba(45,122,62,0.3)';
+                            el.closest('.course-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    });
+                } else {
+                    alert(`❌ No course found with ID: ${input}. Try SB.320 to SB.324 for Bakery, Cake Making, Butchery, Takeaway, Street Food.`);
+                }
+            });
+
+            document.getElementById('qrCodeContainer').addEventListener('click', function() {
+                alert('📱 QR Code\n\n' + allCourses.length +
+                    ' Courses Available!\n\n🔍 Specific IDs:\nSB.320 - Bakery\nSB.321 - Cake Making\nSB.322 - Butchery\nSB.323 - Takeaway\nSB.324 - Street Food');
+            });
+
+            // ---------- SIDEBAR NAV ----------
+            const navLinks = document.querySelectorAll('#sidebarNav a');
+            const pages = {
+                dashboard: document.getElementById('page-dashboard'),
+                showcase: document.getElementById('page-showcase'),
+                courses: document.getElementById('page-courses'),
+                placements: document.getElementById('page-placements'),
+                graduates: document.getElementById('page-graduates'),
+                jobboard: document.getElementById('page-jobboard'),
+                countries: document.getElementById('page-countries'),
+                qa: document.getElementById('page-qa'),
+                enrol: document.getElementById('page-enrol')
+            };
+            const pageTitle = document.getElementById('pageTitle');
+
+            function showPage(pageId) {
+                Object.keys(pages).forEach(id => pages[id].classList.add('hidden'));
+                if (pages[pageId]) pages[pageId].classList.remove('hidden');
+                navLinks.forEach(a => a.classList.remove('active'));
+                const activeLink = document.querySelector(`#sidebarNav a[data-page="${pageId}"]`);
+                if (activeLink) activeLink.classList.add('active');
+                const titles = {
+                    dashboard: 'Dashboard',
+                    showcase: 'Student Showcase',
+                    courses: 'Courses (' + allCourses.length + ')',
+                    placements: 'Placements',
+                    graduates: 'Graduates',
+                    jobboard: 'Job Board',
+                    countries: 'Countries (54)',
+                    qa: 'AI Q&A',
+                    enrol: 'Enrol Now — $15'
+                };
+                pageTitle.innerHTML = `<i class="fas fa-${pageId === 'showcase' ? 'users' : pageId === 'dashboard' ? 'gauge-high' : 'circle'}" style="color:#2d7a3e;"></i> ${titles[pageId] || 'Dashboard'}`;
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.dataset.page;
+                    if (page) showPage(page);
+                });
+            });
+
+            // ---------- PLACEMENTS, GRADUATES ----------
+            const placements = [
+                { student: 'Thandive Mokoena', employer: 'Sunrise Poultry', location: 'Johannesburg, SA', wage: '$450/mo',
+                    report: 'Satisfactory' },
+                { student: 'Kwame Asante', employer: 'Green Pastures Dairy', location: 'Kumasi, GH', wage: '$400/mo',
+                    report: 'Pending' }
+            ];
+            const pt = document.getElementById('placementTableBody');
+            placements.forEach(p => {
+                pt.innerHTML += `<tr><td><b>${p.student}</b></td><td>${p.employer}</td><td>${p.location}</td><td>${p.wage}</td><td><span class="tag">${p.report}</span></td></tr>`;
+            });
+
+            const graduates = [
+                { name: 'Fatima Al-Hassan', course: 'Tomato Production', score: 97, badge: 'Gold', status: 'Employed' },
+                { name: 'Aisha Ibrahim', course: 'Poultry Health', score: 91, badge: 'Gold', status: 'Employed' }
+            ];
+            const gt = document.getElementById('graduateTableBody');
+            graduates.forEach(g => {
+                gt.innerHTML += `<tr><td><b>${g.name}</b></td><td>${g.course}</td><td>${g.score}</td><td><span class="tag">${g.badge}</span></td><td>${g.status}</td></tr>`;
+            });
+
+            // ---------- COUNTRIES ----------
+            const countries = [
+                { code: 'ZW', name: 'Zimbabwe', flag: '🇿🇼', greeting: '👋 Welcome to SkillBridge Zimbabwe!',
+                    region: 'Southern Africa', students: 134, payment: 'EcoCash, Bank Transfer, Visa',
+                    fact: 'Zimbabwe has a rich agricultural heritage.' },
+                { code: 'KE', name: 'Kenya', flag: '🇰🇪', greeting: '👋 Karibu! Welcome to SkillBridge Kenya!',
+                    region: 'East Africa', students: 456, payment: 'M-Pesa, Bank Transfer, Visa',
+                    fact: 'Kenya is a major agricultural exporter.' },
+                { code: 'NG', name: 'Nigeria', flag: '🇳🇬', greeting: '👋 Welcome to SkillBridge Nigeria!',
+                    region: 'West Africa', students: 567, payment: 'Bank Transfer, Visa, MoMo',
+                    fact: 'Nigeria is Africa\'s largest economy.' }
+            ];
+
+            function renderCountryMap() {
+                const grid = document.getElementById('countryMapGrid');
+                grid.innerHTML = '';
+                countries.forEach(country => {
+                    const item = document.createElement('div');
+                    item.className = 'country-map-item';
+                    item.innerHTML = `
+                        <span class="flag">${country.flag}</span>
+                        <div class="country-name">${country.name}</div>
+                        <div class="country-greeting">${country.greeting.substring(0, 25)}...</div>
+                        <span class="country-code">${country.code}</span>
+                    `;
+                    item.addEventListener('click', function() { openCountryDetail(country); });
+                    grid.appendChild(item);
+                });
+            }
+
+            function openCountryDetail(country) {
+                document.getElementById('countryModalFlag').textContent = country.flag;
+                document.getElementById('countryModalName').textContent = country.name;
+                document.getElementById('countryModalGreeting').textContent = country.greeting;
+                document.getElementById('countryModalRegion').textContent = country.region;
+                document.getElementById('countryModalStudents').textContent = country.students;
+                document.getElementById('countryModalCourses').textContent = allCourses.length;
+                document.getElementById('countryModalPayment').textContent = country.payment;
+                document.getElementById('countryModalFact').textContent = country.fact;
+                document.getElementById('countryDetailModal').classList.add('active');
+                document.body.style.overflow = 'hidden';
+                document.getElementById('countryEnrolBtn').onclick = function() {
+                    document.getElementById('countryDetailModal').classList.remove('active');
+                    document.body.style.overflow = '';
+                    document.getElementById('enrollModal').classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                };
+            }
+
+            document.getElementById('countryModalClose').addEventListener('click', function() {
+                document.getElementById('countryDetailModal').classList.remove('active');
+                document.body.style.overflow = '';
+            });
+            document.getElementById('countryDetailModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            // ---------- ENROLMENT ----------
+            const enrollBtn = document.getElementById('enrolBannerBtn');
+            const enrollPageBtn = document.getElementById('enrolPageBtn');
+            const enrollModal = document.getElementById('enrollModal');
+            const enrollModalClose = document.getElementById('enrollModalClose');
+            const enrollForm = document.getElementById('enrollForm');
+
+            function openEnrolModal() {
+                enrollModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                const select = document.getElementById('enrollCourse');
+                select.innerHTML = '<option value="">Select a course</option>';
+                allCourses.slice(0, 50).forEach(c => {
+                    const opt = document.createElement('option');
+                    opt.value = c;
+                    opt.textContent = c;
+                    select.appendChild(opt);
+                });
+                if (allCourses.length > 50) {
+                    const opt = document.createElement('option');
+                    opt.value = '';
+                    opt.textContent = '... and more (use search)';
+                    select.appendChild(opt);
+                }
+            }
+            enrollBtn.addEventListener('click', openEnrolModal);
+            enrollPageBtn.addEventListener('click', openEnrolModal);
+
+            enrollModalClose.addEventListener('click', () => {
+                enrollModal.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+            enrollModal.addEventListener('click', (e) => { if (e.target === e.currentTarget) { enrollModal.classList.remove(
+                        'active');
+                    document.body.style.overflow = ''; } });
+
+            enrollForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('enrollName').value.trim();
+                const email = document.getElementById('enrollEmail').value.trim();
+                const country = document.getElementById('enrollCountry').value;
+                const course = document.getElementById('enrollCourse').value;
+                const payment = document.getElementById('enrollPayment').value;
+                if (!name || !email || !country || !course || !payment) {
+                    alert('Please fill in all fields.');
+                    return;
+                }
+                alert(`🎉 Thank you ${name}! Enrolled in ${course} for $15.\n📧 ${email}\n📍 ${country}\n💳 ${payment}`);
+                enrollForm.reset();
+                enrollModal.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+
+            // ---------- HELP MODAL ----------
+            const helpBtn = document.getElementById('helpBtn');
+            const helpModal = document.getElementById('helpModal');
+            const modalClose = document.getElementById('modalClose');
+            const helpForm = document.getElementById('helpForm');
+
+            helpBtn.addEventListener('click', () => {
+                helpModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+            modalClose.addEventListener('click', () => {
+                helpModal.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+            helpModal.addEventListener('click', (e) => { if (e.target === e.currentTarget) { helpModal.classList.remove(
+                        'active');
+                    document.body.style.overflow = ''; } });
+
+            helpForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('nomineeName').value.trim();
+                if (!name) { alert('Fill all fields.'); return; }
+                alert(`✅ ${name} nominated for the Help program.`);
+                helpForm.reset();
+                helpModal.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+
+            // ---------- HELP CHAT ----------
+            const helpTabBtn = document.getElementById('helpTabBtn');
+            const helpChat = document.getElementById('helpChat');
+            const closeHelpChat = document.getElementById('closeHelpChat');
+            const helpChatInput = document.getElementById('helpChatInput');
+            const helpChatSend = document.getElementById('helpChatSend');
+            const helpMessages = document.getElementById('helpMessages');
+
+            helpTabBtn.addEventListener('click', function() {
+                helpChat.classList.toggle('active');
+                if (helpChat.classList.contains('active')) helpChatInput.focus();
+            });
+            closeHelpChat.addEventListener('click', function() { helpChat.classList.remove('active'); });
+
+            function sendHelpMessage() {
+                const msg = helpChatInput.value.trim();
+                if (!msg) return;
+                const userDiv = document.createElement('div');
+                userDiv.className = 'msg user';
+                userDiv.textContent = msg;
+                helpMessages.appendChild(userDiv);
+                helpChatInput.value = '';
+                helpMessages.scrollTop = helpMessages.scrollHeight;
+                setTimeout(() => {
+                    const botDiv = document.createElement('div');
+                    botDiv.className = 'msg bot';
+                    const lower = msg.toLowerCase();
+                    let response = '';
+                    if (lower.includes('bakery')) {
+                        response = '🍞 SB.320 Bakery course: Learn bread, pastry, and bakery management.';
+                    } else if (lower.includes('cake making')) {
+                        response = '🎂 SB.321 Cake Making course: Learn cake decoration, icing, and confectionery.';
+                    } else if (lower.includes('butchery')) {
+                        response = '🔪 SB.322 Butchery course: Learn meat cutting, preservation, and butchery management.';
+                    } else if (lower.includes('takeaway')) {
+                        response = '🍔 SB.323 Takeaway course: Learn fast food preparation and takeaway business management.';
+                    } else if (lower.includes('street food')) {
+                        response = '🌮 SB.324 Street Food course: Learn street food vending, safety, and business skills.';
+                    } else if (lower.includes('whatsapp') || lower.includes('share')) {
+                        response =
+                            '📱 Share courses on WhatsApp using the share buttons on each course card or the floating WhatsApp icon.';
+                    } else {
+                        response = '💡 Try: "bakery", "butchery", "takeaway", "street food", or "cake making". We have ' +
+                            allCourses.length + ' courses!';
+                    }
+                    botDiv.textContent = response;
+                    helpMessages.appendChild(botDiv);
+                    helpMessages.scrollTop = helpMessages.scrollHeight;
+                }, 400);
+            }
+            helpChatSend.addEventListener('click', sendHelpMessage);
+            helpChatInput.addEventListener('keypress', function(e) { if (e.key === 'Enter') sendHelpMessage(); });
+
+            // ---------- AI Q&A ----------
+            const qaInput = document.getElementById('qaInput');
+            const qaSubmit = document.getElementById('qaSubmit');
+            const qaResponse = document.getElementById('qaResponse');
+
+            function answerQ(q) {
+                const lower = q.toLowerCase();
+                if (lower.includes('bakery')) {
+                    return '🍞 SB.320 Bakery: Learn bread, pastry, and bakery management. Enrol for $15!';
+                }
+                if (lower.includes('cake making')) {
+                    return '🎂 SB.321 Cake Making: Learn cake decoration, icing, and confectionery. Enrol for $15!';
+                }
+                if (lower.includes('butchery')) {
+                    return '🔪 SB.322 Butchery: Learn meat cutting, preservation, and butchery management. Enrol for $15!';
+                }
+                if (lower.includes('takeaway')) {
+                    return '🍔 SB.323 Takeaway: Learn fast food preparation and takeaway business. Enrol for $15!';
+                }
+                if (lower.includes('street food')) {
+                    return '🌮 SB.324 Street Food: Learn street food vending, safety, and business skills. Enrol for $15!';
+                }
+                if (lower.includes('whatsapp')) {
+                    return '📱 Share any course on WhatsApp using the share buttons on the course cards or the floating WhatsApp icon on the left.';
+                }
+                if (lower.includes('enrol')) {
+                    return '🎓 Enrol for $15! Includes 10 modules, AI tutor, placement board, and certificate.';
+                }
+                return "I know all " + allCourses.length +
+                    " courses. Try 'bakery', 'butchery', 'takeaway', 'street food', or 'cake making'.";
+            }
+
+            qaSubmit.addEventListener('click', function() {
+                const q = qaInput.value.trim();
+                if (!q) { qaResponse.textContent = 'Please type a question.'; return; }
+                qaResponse.textContent = 'Thinking...';
+                setTimeout(() => { qaResponse.textContent = answerQ(q); }, 300);
+            });
+            qaInput.addEventListener('keypress', function(e) { if (e.key === 'Enter') qaSubmit.click(); });
+
+            // ---------- DARK MODE ----------
+            document.getElementById('darkModeToggle').addEventListener('click', () => {
+                document.body.classList.toggle('dark');
+            });
+
+            // ---------- NEWSLETTER ----------
+            document.getElementById('newsletterBtn').addEventListener('click', function() {
+                const email = document.getElementById('newsletterEmail').value.trim();
+                if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
+                alert(`✅ Subscribed: ${email}`);
+                document.getElementById('newsletterEmail').value = '';
+            });
+
+            // ---------- LANGUAGE ----------
+            document.getElementById('langSelect').addEventListener('change', function(e) {
+                alert(`🌍 Language: ${e.target.value.toUpperCase()}`);
+            });
+            document.getElementById('countrySelect').addEventListener('change', function(e) {
+                alert(`📍 Region set to ${e.target.options[e.target.selectedIndex].text}`);
+            });
+
+            // ---------- OFFLINE ----------
+            const offlineBadge = document.getElementById('offlineBadge');
+
+            function updateOnlineStatus() {
+                if (navigator.onLine) {
+                    offlineBadge.classList.remove('show');
+                } else {
+                    offlineBadge.classList.add('show');
+                }
+            }
+            window.addEventListener('online', updateOnlineStatus);
+            window.addEventListener('offline', updateOnlineStatus);
+            updateOnlineStatus();
+
+            // ---------- INIT ----------
+            renderShowcase();
+            renderCountryMap();
+
+            console.log('✅ SkillBridge v20.0 - ' + allCourses.length + ' courses');
+            console.log('✅ Specific IDs: SB.320 (Bakery), SB.321 (Cake Making), SB.322 (Butchery), SB.323 (Takeaway), SB.324 (Street Food)');
+        })();
+    </script>
+</body>
+</html>
